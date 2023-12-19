@@ -1,5 +1,6 @@
-import './layout.css'
+import './layout.scss'
 import Header from '@/components/base/Header/Header'
+import Footer from '@/components/base/Footer/Footer'
 
 export const metadata = {
   title: 'Next.js',
@@ -15,7 +16,10 @@ export default function Layout({
     <html lang="ja">
       <body>
         <Header />
-        {children}
+        <main>
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   )
