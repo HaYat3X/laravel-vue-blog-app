@@ -1,0 +1,25 @@
+.contact-area {
+    h2 {
+        font-size: 38px;
+        font-weight: bold;
+        margin-bottom: 30px;
+    }
+    .contact-container {
+        padding: 40px;
+        background-color: #FFFFFF;
+        input {
+            height: 45px;
+        }
+        select {
+            height: 45px;
+        }
+        button {
+            background-color: #3ea8ff;
+            color: #FFFFFF;
+        }
+        button:hover {
+            background-color: #0f83fd;
+            color: #FFFFFF;
+        }
+    }
+}
