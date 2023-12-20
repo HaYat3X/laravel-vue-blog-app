@@ -10,19 +10,26 @@ use Illuminate\Mail\Markdown;
 class postsController extends Controller
 {
     /**
-     * 公開されているブログ記事と登録されているタグ一覧を取得して表示する
+     * 公開されているブログ記事を取得してJSON形式でデータを返却する
      * @access public
-     * @return Illuminate\Contracts\View\View
+     * @return JSON
      * @throws Exception データベースクエリの実行中にエラーが発生した場合
      */
     public function index()
     {
         try {
-            $blogs = Blog::where('public_status', 1)->latest('created_at')->paginate(20);
-            $tags = Tag::all();
-            return view('blog/posts.list', compact('blogs', 'tags'));
+            // $blogs = Blog::where('public_status', 1)->latest('created_at')->paginate(20);
+            $blogs = Blog::where('public_status', 1)->latest('created_at')->get();
+            // $tags = Tag::all();
+            // // return view('blog/posts.list', compact('blogs', 'tags'));
+            // //loginが成功するとtokenと共に情報をjson形式で返却。
+            return response()->json([
+                'blogs' => $blogs,
+            ], 200);
         } catch (Exception) {
-            abort(500, 'エラーが発生しました。');
+            return response()->json([
+                'message', 'エラーが発生しました。'
+            ], 500);
         }
     }
 

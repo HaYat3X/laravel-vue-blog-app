@@ -1,6 +1,12 @@
 import './layout.scss'
 import Header from '@/components/base/Header/Header'
 import Footer from '@/components/base/Footer/Footer'
+import { Roboto } from "next/font/google";
+
+const RobotoFont = Roboto({
+  weight: "500",
+  subsets: ["latin"],
+});
 
 export const metadata = {
   title: 'Next.js',
@@ -14,7 +20,7 @@ export default function Layout({
 }) {
   return (
     <html lang="ja">
-      <body>
+      <body className={RobotoFont.className}>
         <Header />
         <main>
           {children}

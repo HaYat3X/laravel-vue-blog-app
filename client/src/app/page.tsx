@@ -1,5 +1,9 @@
-export default function Home() {
+import BlogIndex from "@/components/page/BlogIndex/BlogIndex"
+
+export default async function Home() {
   return (
-    <h1>test</h1>
+    <>
+      <BlogIndex />
+    </>
   )
 }
