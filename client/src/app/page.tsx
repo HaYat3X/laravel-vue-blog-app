@@ -1,9 +1,9 @@
-import BlogIndex from "@/components/page/BlogIndex/BlogIndex"
+import Index from "@/features/blogs/components/Index"
 
-export default async function Home() {
+export default function Home() {
   return (
     <>
-      <BlogIndex />
+      <Index />
     </>
   )
 }

@@ -1,0 +1,27 @@
+main {
+    width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    gap: 50px;
+    h2 {
+        font-size: 36px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+    .blog-area {
+        width: 70%;
+        .blog-container {
+            .flex {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 40px 50px;
+                .blogCard {
+                    width: 46.59%;
+                }
+            }
+        }
+    }
+    .side-area {
+        width: 30%;
+    }
+}
