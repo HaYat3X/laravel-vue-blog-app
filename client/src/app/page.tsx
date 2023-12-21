@@ -1,9 +1,13 @@
 import Index from "@/features/blogs/components/Index"
+import { index } from "./apis/blogs";
+import { Response } from "@/features/blogs/types/type";
 
-export default function Home() {
+export default async function Home() {
+  const data: Response = await index()
+
   return (
     <>
-      <Index />
+      <Index blogs={data.blogs} />
     </>
   )
 }

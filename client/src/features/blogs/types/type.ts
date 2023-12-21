@@ -14,4 +14,5 @@ export type Blog = {
 
 export type Response = {
   blogs: Blog[]
+  blog: Blog
 }
