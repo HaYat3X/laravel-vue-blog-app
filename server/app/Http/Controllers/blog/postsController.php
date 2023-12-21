@@ -65,18 +65,27 @@ class postsController extends Controller
 
             // 記事が見つからない場合は404エラーを返す
             if (!$blog) {
-                abort(404, '記事が見つかりません。');
+                return response()->json([
+                    'message' => '記事が見つかりません。',
+                ], 404);
             }
 
             // 記事が非公開の場合は403エラーを返す
             if ($blog->public_status === 0) {
-                abort(403, 'この記事は非公開です。');
+                // abort(403, 'この記事は非公開です。');
+                return response()->json([
+                    'message' => 'この記事は非公開です。',
+                ], 403);
             }
 
-            // MarkdownをHTMLに変換
-            $htmlContent = Markdown::parse(e($blog->content));
+            return response()->json([
+                'blog' => $blog,
+            ], 200);
 
-            return view('blog.posts.show', compact('blog', 'htmlContent', 'tags'));
+            // // MarkdownをHTMLに変換
+            // $htmlContent = Markdown::parse(e($blog->content));
+
+            // return view('blog.posts.show', compact('blog', 'htmlContent', 'tags'));
         } catch (Exception) {
             abort(500, 'エラーが発生しました。');
         }
