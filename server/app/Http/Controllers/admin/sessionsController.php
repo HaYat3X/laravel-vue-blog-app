@@ -16,12 +16,15 @@ class sessionsController extends Controller
      */
     public function create()
     {
-        // 既にログインしている場合はダッシュボードにリダイレクト
-        if (session('user')) {
-            return redirect()->route('adminSessionCreate')->with('notice', '既にログインしています。');
-        }
+        // // 既にログインしている場合はダッシュボードにリダイレクト
+        // if (session('user')) {
+        //     return redirect()->route('adminSessionCreate')->with('notice', '既にログインしています。');
+        // }
 
-        return view('admin.sessions.create');
+        // return view('admin.sessions.create');
+        return response()->json([
+            'status' => "ここはログイン画面"
+        ]);
     }
 
     /**
@@ -40,14 +43,28 @@ class sessionsController extends Controller
 
             // ユーザーが存在し、パスワードが一致する場合
             if ($user && Hash::check($password, $user->password)) {
-                session(['user' => $user]);
-                return redirect()->route('adminBlogIndex');
+                // session(['user' => $user]);
+                // トークン生成
+                $token = $user->createToken('AccessToken')->plainTextToken;
+
+                return response()->json([
+                    'token' => $token
+                ], 200);
             } else {
-                return redirect()->back()->with('alert', 'ログインに失敗しました。');
+                return response()->json([
+                    'message' => 'error発生'
+                ], 401);
             }
         } catch (Exception) {
             return redirect()->back()->with('alert', 'ログインに失敗しました。もう一度お試しください。');
         }
+    }
+
+    public function user()
+    {
+        return response()->json([
+            'status' => "OK"
+        ]);
     }
 
     /**

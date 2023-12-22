@@ -39,8 +39,8 @@ Route::group(['prefix' => 'contact'], function () {
 
 // ログイン関連のルート
 Route::prefix('session')->group(function () {
-    Route::get('/create', [adminSessionsController::class, 'create'])->middleware(CheckIP::class)->name('adminSessionCreate');
-    Route::post('/', [adminSessionsController::class, 'store'])->middleware(CheckIP::class)->name('adminSessionStore');
+    // Route::get('/create', [adminSessionsController::class, 'create'])->middleware(CheckIP::class)->name('adminSessionCreate');
+    // Route::post('/', [adminSessionsController::class, 'store'])->middleware(CheckIP::class)->name('adminSessionStore');
     Route::delete('/delete', [adminSessionsController::class, 'destroy'])->middleware(CheckIP::class)->name('adminSessionDestroy');
 });
 
