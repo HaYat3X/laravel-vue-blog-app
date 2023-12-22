@@ -1,12 +1,12 @@
 import './layout.scss'
 import Header from '@/components/base/Header/Header'
 import Footer from '@/components/base/Footer/Footer'
-import { Roboto } from "next/font/google";
+import { Noto_Sans_JP } from "next/font/google";
 
-const RobotoFont = Roboto({
-  weight: "500",
-  subsets: ["latin"],
-});
+const notoSansJP = Noto_Sans_JP({
+  weight: ['200', '400', '700'],
+  subsets: ['latin']
+})
 
 export const metadata = {
   title: 'Next.js',
@@ -20,12 +20,12 @@ export default function Layout({
 }) {
   return (
     <html lang="ja">
-      <body className={RobotoFont.className}>
-        <Header />
+      <body className={notoSansJP.className}>
+        {/* <Header /> */}
         <main>
           {children}
         </main>
-        <Footer />
+        {/* <Footer /> */}
       </body>
     </html>
   )
