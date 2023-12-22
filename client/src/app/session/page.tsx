@@ -1,5 +1,5 @@
 import AdminLayout from "@/components/layout/admin/AdminLayout"
-import AuthCreate from "@/features/auth/components/Create"
+import AuthCreate from "@/features/auth/components/sessions/Create"
 
 export default function Home() {
     return (

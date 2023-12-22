@@ -1,9 +1,9 @@
-import '../styles/Create.scss'
+import '../../styles/sessions/Create.scss'
 
 /** 
  * @description 管理者のログインを行うコンポーネント
  */
-export default function AuthCreate() {
+export default function AuthSessionsCreate() {
   return (
     <>
       <div className='login-area'>
