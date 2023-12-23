@@ -2,7 +2,7 @@
 import { onMounted } from 'vue';
 import { Field, Form, ErrorMessage } from 'vee-validate';
 import * as yup from 'yup';
-import { RouterLink, RouterView, useRouter } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
 
 const router = useRouter();
 
