@@ -16,7 +16,7 @@ const router = createRouter({
     {
       path: '/admin/blog',
       name: 'admin/blog',
-      component: () => import('../views/PostedArticlesView.vue')
+      component: () => import('../views/PostArticleManagementView.vue')
     },
   ]
 })
