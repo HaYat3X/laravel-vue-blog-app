@@ -55,4 +55,20 @@ class sessionsController extends Controller
             'admin' => $request->user()
         ]);
     }
+
+    /**
+     * ログイン時に発行したトークンを削除する
+     * @access public
+     * @param Illuminate\Http\Request $request
+     * @return JSON
+     * @throws Exception データベースクエリの実行中にエラーが発生した場合
+     */
+    public function destroy(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json([
+            'notice' => 'ログアウトしました。'
+        ], 200);
+    }
 }

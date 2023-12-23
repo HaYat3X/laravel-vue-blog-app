@@ -21,7 +21,6 @@ onMounted(async () => {
     router.push('/session/create');
   }
 });
-
 </script>
 
 <template>
