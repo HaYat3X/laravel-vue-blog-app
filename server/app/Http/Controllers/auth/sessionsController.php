@@ -13,7 +13,7 @@ class sessionsController extends Controller
      * ユーザ認証する
      * @access public
      * @param Illuminate\Http\Request $request
-     * @return Illuminate\Contracts\View\View
+     * @return JSON
      * @throws Exception データベースクエリの実行中にエラーが発生した場合
      */
     public function store(Request $request)
@@ -40,5 +40,19 @@ class sessionsController extends Controller
                 'alert' => 'サーバー内でエラーが発生しました。'
             ], 500);
         }
+    }
+
+    /**
+     * ログインした管理者情報を取得する
+     * @access public
+     * @param Illuminate\Http\Request $request
+     * @return JSON
+     * @throws Exception データベースクエリの実行中にエラーが発生した場合
+     */
+    public function show(Request $request)
+    {
+        return response()->json([
+            'admin' => $request->user()
+        ]);
     }
 }

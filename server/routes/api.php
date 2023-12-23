@@ -17,13 +17,13 @@ use App\Http\Controllers\auth\sessionsController;
 */
 
 Route::prefix('session')->group(function () {
-    route::post('/', [sessionsController::class, 'store']);
+    Route::post('/', [sessionsController::class, 'store']);
+    Route::get('/', [sessionsController::class, 'show'])->middleware('auth:sanctum');
 });
 
 // Route::get('session', [adminSessionsController::class, 'create'])->name('login');
 
 
-Route::get('user', [adminSessionsController::class, 'user'])->middleware('auth:sanctum')->name('user');
 
 
 // Route::middleware('auth:sanctum')->get('/user', function () {

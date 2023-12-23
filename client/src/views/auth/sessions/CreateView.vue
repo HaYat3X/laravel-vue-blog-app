@@ -46,7 +46,7 @@ const handleSubmit = async (values: any) => {
     <div className="header-container">
       <div className="header-logo">
         <router-link to="/session/create">
-          <img src="../../assets//img/logoB.png" alt="">
+          <img src="../../../assets/img/logoB.png" alt="">
         </router-link>
       </div>
     </div>
