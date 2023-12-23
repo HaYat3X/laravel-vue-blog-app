@@ -1,10 +1,30 @@
 <script setup lang="ts">
+import { onMounted } from 'vue';
 import { Field, Form, ErrorMessage } from 'vee-validate';
 import * as yup from 'yup';
-import { ref } from 'vue';
 import { RouterLink, RouterView, useRouter } from 'vue-router'
 
 const router = useRouter();
+
+onMounted(async () => {
+  try {
+    const response = await fetch('http://127.0.0.1:8000/api/session', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`, 
+      },
+    });
+
+    if (response.ok) {
+      const responseData = await response.json();
+      console.log('すでログインしている。', responseData.admin.name);
+      // ログインしている場合、ダッシュボードなどへリダイレクト
+      router.push('/dashboard');
+    }
+  } catch (error) {
+    console.error('ログイン状態の判定エラー:', error);
+  }
+});
 
 const schema = yup.object({
   email: yup.string().email('Please enter a valid email address.').required('Please enter your email address.'),
