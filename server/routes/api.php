@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-// use App\Http\Controllers\admin\sessionsController as adminSessionsController;
+use App\Http\Controllers\admin\sessionsController as adminSessionsController;
 use App\Http\Controllers\auth\sessionsController;
 
 /*
@@ -22,8 +22,8 @@ Route::prefix('session')->group(function () {
 
 // Route::get('session', [adminSessionsController::class, 'create'])->name('login');
 
-// Route::post('session', [adminSessionsController::class, 'store']);
-// Route::get('user', [adminSessionsController::class, 'user'])->middleware('auth:sanctum')->name('user');
+
+Route::get('user', [adminSessionsController::class, 'user'])->middleware('auth:sanctum')->name('user');
 
 
 // Route::middleware('auth:sanctum')->get('/user', function () {

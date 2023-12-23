@@ -41,5 +41,4 @@ class sessionsController extends Controller
             ], 500);
         }
     }
-
 }
