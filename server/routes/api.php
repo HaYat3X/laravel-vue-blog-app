@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\auth\sessionsController;
+use App\Http\Controllers\article\posts_controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,10 @@ Route::prefix('session')->group(function () {
     Route::post('/', [sessionsController::class, 'store']);
     Route::get('/', [sessionsController::class, 'show'])->middleware('auth:sanctum');
     Route::delete('/', [sessionsController::class, 'destroy'])->middleware('auth:sanctum');
+});
+
+Route::prefix('article')->group(function () {
+    Route::get('/index_all', [posts_controller::class, 'index_all'])->middleware('auth:sanctum');
 });
 
 // Route::get('session', [adminSessionsController::class, 'create'])->name('login');
