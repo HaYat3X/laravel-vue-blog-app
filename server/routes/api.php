@@ -24,15 +24,5 @@ Route::prefix('session')->group(function () {
 
 Route::prefix('article')->group(function () {
     Route::get('/index_all', [posts_controller::class, 'index_all'])->middleware('auth:sanctum');
+    Route::delete('/', [posts_controller::class, 'destroy'])->middleware('auth:sanctum');
 });
-
-// Route::get('session', [adminSessionsController::class, 'create'])->name('login');
-
-
-
-
-// Route::middleware('auth:sanctum')->get('/user', function () {
-//     return response()->json([
-//         'status' => "OK"
-//     ]);
-// });
