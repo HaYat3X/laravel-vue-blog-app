@@ -177,6 +177,7 @@ const articleDelete = async (articleId: number) => {
         <div class="box">
           <h2>ArticlesTable</h2>
           <p>Manage submitted articles.</p>
+          <a href="#">New Article</a>
         </div>
 
         <table class="table">
@@ -351,7 +352,22 @@ main {
         p {
           color: #E4E7EDBF;
           font-size: 14px;
+          margin-bottom: 20px;
         }
+
+        a {
+          background-color: #0284c7;
+          padding: 6px 12px;
+          border-radius: 5px;
+          color: #FFFFFF;
+          text-decoration: none;
+          font-size: 14px;
+
+          &:hover {
+            background-color: #0f83fd;
+          }
+        }
+
       }
 
       .table {
