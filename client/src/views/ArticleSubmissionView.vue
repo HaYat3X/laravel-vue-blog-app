@@ -3,7 +3,18 @@ import { onMounted } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
 import { ref } from 'vue';
 
-const publicStatus = ref<boolean>(false);
+const title = ref('');
+const content = ref('');
+const featuredImage = ref<File | null>(null);
+const metaDescription = ref('');
+const publicStatus = ref(false);
+const errors = ref({
+  title: '',
+  content: '',
+  featuredImage: '',
+  metaDescription: ''
+});
+
 const router = useRouter();
 
 onMounted(async () => {
@@ -42,6 +53,87 @@ const handleClick = async () => {
     console.log('ログアウトした。');
   } catch (error) {
     console.error('POSTリクエストエラー:', error);
+  }
+};
+
+const handleImageChange = (event: any) => {
+  const selectedFile = event.target.files[0];
+
+  if (selectedFile) {
+    // 選択されたファイルが存在する場合、featuredImageにセット
+    featuredImage.value = selectedFile;
+  }
+};
+
+// フォームのバリデーション関数
+const validateForm = () => {
+  errors.value.title = '';
+  errors.value.content = '';
+  errors.value.featuredImage = '';
+  errors.value.metaDescription = '';
+
+  let validFlag = true
+
+  // タイトルのバリデーション
+  if (!title.value.trim()) {
+    errors.value.title = 'Please enter the title of your article.';
+    validFlag = false;
+  }
+
+  // コンテンツのバリデーション
+  if (!content.value.trim()) {
+    errors.value.content = 'Please enter the text of the article.';
+    validFlag = false;
+  }
+
+  if (!featuredImage.value) {
+    errors.value.featuredImage = 'Please enter a thumbnail image for the article.';
+    validFlag = false;
+  }
+
+  if (!metaDescription.value.trim()) {
+    errors.value.metaDescription = 'Please enter a description of the article.';
+    validFlag = false;
+  }
+
+  // 一つもエラーがない場合は、trueを返したい
+  return validFlag;
+};
+
+const formSubmit = async () => {
+  if (validateForm()) {
+    try {
+      const data = {
+        title: title.value,
+        content: content.value,
+        featuredImage: featuredImage.value,
+        metaDescription: metaDescription.value,
+        publicStatus: publicStatus.value ? 1 : 0
+      };
+
+      // const response = await fetch('http://127.0.0.1:8000/api/session', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify(data),
+      // });
+
+      // if (!response.ok) {
+      //   throw new Error(`HTTP error! Status: ${response.status}`);
+      // }
+
+      // const responseData = await response.json();
+      // localStorage.setItem('authToken', responseData.token);
+      // router.push('/dashboard');
+      // // ローカルストレージにトークンを保存
+      // console.log('POSTが成功しました。レスポンスデータ:', responseData.token);
+    } catch (error) {
+      console.error('POSTリクエストエラー:', error);
+    }
+  } else {
+    // フォームがバリデーションエラーの場合の処理
+    console.log('フォームにエラーがあります。');
   }
 };
 </script>
@@ -127,26 +219,29 @@ const handleClick = async () => {
           <p>You can submit a new article.</p>
         </div>
 
-        <form>
+        <form @submit.prevent="formSubmit">
           <div class="form-group">
             <p>Title</p>
-            <input class="col-6" type="text" />
+            <input class="col-6" type="text" v-model="title" />
+            <p class="error-msg">{{ errors.title }}</p>
           </div>
 
           <div class="form-group">
             <p>Content</p>
-            <Field as="textarea" name="" type="text" />
-            <textarea>Write in Content...</textarea>
+            <textarea v-model="content">Write in Content...</textarea>
+            <p class="error-msg">{{ errors.content }}</p>
           </div>
 
           <div class="form-group">
             <p>FeaturedImage</p>
-            <input type="file" class="col-6" />
+            <input type="file" class="col-6" @change="handleImageChange" />
+            <p class="error-msg">{{ errors.featuredImage }}</p>
           </div>
 
           <div class="form-group">
             <p>MetaDescription</p>
-            <textarea>Write in MetaDescription...</textarea>
+            <textarea v-model="metaDescription">Write in MetaDescription...</textarea>
+            <p class="error-msg">{{ errors.metaDescription }}</p>
           </div>
 
           <div class="submit">
