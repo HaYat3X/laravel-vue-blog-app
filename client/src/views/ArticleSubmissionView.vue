@@ -103,6 +103,11 @@ const formSubmit = async () => {
     try {
       if (featuredImage.value) {
         const formData = new FormData();
+        formData.append('adminId', '1');
+        formData.append('title', title.value);
+        formData.append('content', content.value);
+        formData.append('metaDescription', metaDescription.value);
+        formData.append('publicStatus', publicStatus ? '1' : '0');
         formData.append('featuredImage', featuredImage.value);
 
         const response = await fetch('http://127.0.0.1:8000/api/article', {
@@ -112,15 +117,13 @@ const formSubmit = async () => {
           },
           body: formData,
         });
-      }
 
-      // const formData = new FormData();
-      // formData.append('adminId', '1');
-      // formData.append('title', title.value);
-      // formData.append('content', content.value);
-      // formData.append('metaDescription', metaDescription.value);
-      // formData.append('publicStatus', publicStatus.value ? '1' : '0');
-      // formData.append('featuredImage', featuredImage.value);
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        router.push('/admin/article');
+      }
     } catch (error) {
       console.error('POSTリクエストエラー:', error);
     }
