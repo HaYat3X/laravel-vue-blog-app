@@ -23,6 +23,11 @@ const router = createRouter({
       name: 'admin/article/create',
       component: () => import('../views/ArticleSubmissionView.vue')
     },
+    {
+      path: '/admin/article/edit/:article_id',
+      name: 'admin/article/edit',
+      component: () => import('../views/ArticleEditingView.vue')
+    },
   ]
 })
 
