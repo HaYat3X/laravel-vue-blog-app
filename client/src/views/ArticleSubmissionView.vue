@@ -1,16 +1,10 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { RouterLink, useRouter } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router';
 import { ref } from 'vue';
 
-type Article = {
-  id: number
-  title: string
-  public_status: number
-}
-
+const publicStatus = ref<boolean>(false);
 const router = useRouter();
-const articles = ref<Article[]>([]);
 
 onMounted(async () => {
   try {
@@ -24,26 +18,6 @@ onMounted(async () => {
     if (!response.ok) {
       router.push('/session/create');
     }
-  } catch (error) {
-    console.error('ログイン状態の判定エラー:', error);
-    router.push('/session/create');
-  }
-
-  try {
-    const response = await fetch('http://127.0.0.1:8000/api/article/index_all', {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-      },
-    });
-
-    if (!response.ok) {
-      router.push('/session/create');
-    }
-
-    const responseData = await response.json();
-    // console.log(responseData.articles)
-    articles.value = responseData.articles;
   } catch (error) {
     console.error('ログイン状態の判定エラー:', error);
     router.push('/session/create');
@@ -68,32 +42,6 @@ const handleClick = async () => {
     console.log('ログアウトした。');
   } catch (error) {
     console.error('POSTリクエストエラー:', error);
-  }
-};
-
-const articleDelete = async (articleId: number) => {
-  try {
-    const data = {
-      articleId: articleId,
-    };
-
-    const response = await fetch('http://127.0.0.1:8000/api/article', {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    console.log('記事を削除しました。');
-    location.reload();
-  } catch (error) {
-    console.error('DELETEリクエストエラー:', error);
   }
 };
 </script>
@@ -175,47 +123,42 @@ const articleDelete = async (articleId: number) => {
     <div class="content-area">
       <div class="content-container">
         <div class="box">
-          <h2>ArticlesTable</h2>
-          <p>Manage submitted articles.</p>
-          <a href="#">New Article</a>
+          <h2>NewArticle</h2>
+          <p>You can submit a new article.</p>
         </div>
 
-        <table class="table">
-          <thead>
-            <tr>
-              <th></th>
-              <th>TITLE</th>
-              <th>STATUS</th>
-              <th>ACTIONS</th>
-            </tr>
-          </thead>
+        <form>
+          <div class="form-group">
+            <p>Title</p>
+            <input class="col-6" type="text" />
+          </div>
 
-          <tbody v-for="article in articles" :key="article.id">
-            <tr>
-              <th class="number">{{ article.id }}</th>
-              <td>{{ article.title }}</td>
-              <td>
-                <label v-if="article.public_status == 1" class="public">Public</label>
-                <label v-else class="private">Private</label>
-              </td>
-              <td class="action">
-                <button>
-                  <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" viewBox="0 0 512 512">
-                    <path
-                      d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z" />
-                  </svg>
-                </button>
+          <div class="form-group">
+            <p>Content</p>
+            <Field as="textarea" name="" type="text" />
+            <textarea>Write in Content...</textarea>
+          </div>
 
-                <button @click="articleDelete(article.id)">
-                  <svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512">
-                    <path
-                      d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z" />
-                  </svg>
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+          <div class="form-group">
+            <p>FeaturedImage</p>
+            <input type="file" class="col-6" />
+          </div>
+
+          <div class="form-group">
+            <p>MetaDescription</p>
+            <textarea>Write in MetaDescription...</textarea>
+          </div>
+
+          <div class="submit">
+            <div class="iphone-switch">
+              <input type="checkbox" v-model="publicStatus" id="iphoneSwitch">
+              <label class="iphone-slider" for="iphoneSwitch"></label>
+            </div>
+
+            <span>公開する</span>
+            <button type="submit">{{ publicStatus ? '公開する' : '下書き保存' }}</button>
+          </div>
+        </form>
       </div>
     </div>
   </main>
@@ -352,87 +295,152 @@ main {
         p {
           color: #E4E7EDBF;
           font-size: 14px;
+        }
+      }
+
+      .col-6 {
+        width: 50%;
+      }
+
+      .col-12 {
+        width: 100%;
+      }
+
+      form {
+        margin: 50px auto;
+        padding: 50px;
+        background-color: #2B2F32;
+
+        .form-group {
           margin-bottom: 20px;
+
+          p {
+            color: #FFFFFF;
+            font-size: 16px;
+            margin-bottom: 5px;
+          }
+
+          input[type="text"] {
+            padding: 10px;
+            background-color: #212529;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #FFFFFF;
+
+            &:focus {
+              outline: none;
+              border: 1px solid #3ea8ff;
+            }
+          }
+
+          input[type="file"] {
+            padding: 5px 0;
+            background-color: #212529;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #FFFFFF;
+
+            &:focus {
+              outline: none;
+              border: 1px solid #3ea8ff;
+            }
+          }
+
+          textarea {
+            width: 100%;
+            padding: 10px;
+            background-color: #212529;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            color: #FFFFFF;
+            height: 200px;
+
+            &:focus {
+              outline: none;
+              border: 1px solid #3ea8ff;
+            }
+          }
+
+          .error-msg {
+            color: #E76868;
+            font-size: 14px;
+          }
         }
 
-        a {
-          background-color: #0284c7;
+        button {
           padding: 6px 12px;
+          font-size: 16px;
           border-radius: 5px;
+          cursor: pointer;
+          background-color: #3ea8ff;
+          border: none;
           color: #FFFFFF;
-          text-decoration: none;
-          font-size: 14px;
 
           &:hover {
             background-color: #0f83fd;
           }
         }
-      }
 
-      .table {
-        margin-top: 20px;
-        color: #FFFFFF;
-        width: 100%;
-        background-color: #2B2F32;
-        padding: 10px;
-        border-radius: 5px;
+        .submit {
+          display: flex;
+          align-items: center;
 
-        th {
-          font-size: 14px;
-          color: #E4E7EDBF;
-          padding: 10px 0;
-          border-bottom: 1px solid #181b1e;
-        }
-
-        td {
-          font-size: 14px;
-          color: #E4E7EDBF;
-          padding: 13px 0;
-          border-bottom: 1px solid #181b1e;
-        }
-
-        thead {
-          tr {
-            th {
-              border-bottom: 2px solid #181b1e;
-              padding: 10px 0;
-              font-weight: bold;
-              text-align: left;
-            }
+          .iphone-switch {
+            position: relative;
+            display: inline-block;
+            width: 45px;
+            height: 24px;
+            margin-right: 5px;
           }
-        }
 
-        .number {
-          padding: 0 10px;
-        }
+          span {
+            font-size: 14px;
+            font-weight: bold;
+            color: #FFFFFF;
+            margin-right: 15px;
+          }
 
-        .public {
-          background-color: #D97706;
-          padding: 4px 8px;
-          font-size: 12px;
-          border-radius: 5px;
-          font-weight: bold;
-        }
+          .iphone-switch input {
+            display: none;
+          }
 
-        .private {
-          background-color: #65A30D;
-          padding: 4px 8px;
-          font-size: 12px;
-          border-radius: 5px;
-          font-weight: bold;
-        }
-
-        .action {
-          button {
-            background-color: #2B2F32;
-            border: none;
+          .iphone-slider {
+            position: absolute;
             cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 34px;
+          }
 
-            svg {
-              fill: #FFFFFF;
-              width: 14px;
-              height: 14px;
-            }
+          .iphone-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+            border-radius: 50%;
+          }
+
+          input:checked+.iphone-slider {
+            background-color: #2196F3;
+          }
+
+          input:checked+.iphone-slider:before {
+            -webkit-transform: translateX(21px);
+            -ms-transform: translateX(21px);
+            transform: translateX(21px);
           }
         }
       }

@@ -18,6 +18,11 @@ const router = createRouter({
       name: 'admin/article',
       component: () => import('../views/PostArticleManagementView.vue')
     },
+    {
+      path: '/admin/article/create',
+      name: 'admin/article/create',
+      component: () => import('../views/ArticleSubmissionView.vue')
+    },
   ]
 })
 
