@@ -3,6 +3,7 @@ import { onMounted } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
 import { ref } from 'vue';
 
+const articleId = ref<string | null>(null);
 const title = ref('');
 const content = ref('');
 const featuredImage = ref<File | null>(null);
@@ -18,6 +19,8 @@ const errors = ref({
 const router = useRouter();
 
 onMounted(async () => {
+  console.log(router.currentRoute.value.params.article_id);
+
   try {
     const response = await fetch('http://127.0.0.1:8000/api/session', {
       headers: {
