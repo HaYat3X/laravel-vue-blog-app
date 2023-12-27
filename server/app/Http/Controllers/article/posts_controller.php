@@ -5,6 +5,8 @@ namespace App\Http\Controllers\article;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Article;
+use Exception;
+use Illuminate\Support\Str;
 
 class posts_controller extends Controller
 {
@@ -29,7 +31,7 @@ class posts_controller extends Controller
         }
     }
 
-     /**
+    /**
      * 指定された記事(blog_id)を削除する
      * @access public
      * @param 
@@ -60,6 +62,47 @@ class posts_controller extends Controller
         } catch (Exception) {
             return response()->json([
                 'message' => 'サーバ内でエラーでエラーが発生しました。'
+            ], 500);
+        }
+    }
+
+    /**
+     * 記事投稿フォームから送信されたデータをblogsテーブルに保存する
+     * @access public
+     * @param Illuminate\Http\Request $request
+     * @return Illuminate\Contracts\View\View
+     * @throws Exception データベースクエリの実行中にエラーが発生した場合
+     */
+    public function store(Request $request)
+    {
+        try {
+            $image = $request->file('featuredImage');
+            $imageName = time() . '-' . $image->getClientOriginalName();
+            $image->move(storage_path('app/public/featured_image'), $imageName);
+
+            $blog = new Article();
+            $blog->admin_id = $request->input('adminId');
+            $blog->title = $request->input('title');
+            $blog->content = $request->input('content');
+            $blog->featured_image = $imageName;
+            $blog->meta_description = $request->input('metaDescription');
+            $blog->public_status = $request->input('publicStatus');
+
+            $blog->slug = Str::slug($request->input('title'));;
+            $blog->meta_title = $request->input('title');
+
+            if ($blog->save()) {
+                return response()->json([
+                    'message' => '投稿成功'
+                ], 200);
+            } else {
+                return response()->json([
+                    'message' => '投稿失敗'
+                ], 409);
+            }
+        } catch (Exception) {
+            return response()->json([
+                'message' => Exception
             ], 500);
         }
     }

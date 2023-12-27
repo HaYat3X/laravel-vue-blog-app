@@ -25,4 +25,5 @@ Route::prefix('session')->group(function () {
 Route::prefix('article')->group(function () {
     Route::get('/index_all', [posts_controller::class, 'index_all'])->middleware('auth:sanctum');
     Route::delete('/', [posts_controller::class, 'destroy'])->middleware('auth:sanctum');
+    Route::post('/', [posts_controller::class, 'store']);
 });

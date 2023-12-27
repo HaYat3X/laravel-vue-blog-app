@@ -56,12 +56,10 @@ const handleClick = async () => {
   }
 };
 
-const handleImageChange = (event: any) => {
-  const selectedFile = event.target.files[0];
-
-  if (selectedFile) {
-    // 選択されたファイルが存在する場合、featuredImageにセット
-    featuredImage.value = selectedFile;
+const handleImageChange = (event: Event) => {
+  const input = event.target as HTMLInputElement;
+  if (input.files && input.files.length > 0) {
+    featuredImage.value = input.files[0];
   }
 };
 
@@ -103,31 +101,26 @@ const validateForm = () => {
 const formSubmit = async () => {
   if (validateForm()) {
     try {
-      const data = {
-        title: title.value,
-        content: content.value,
-        featuredImage: featuredImage.value,
-        metaDescription: metaDescription.value,
-        publicStatus: publicStatus.value ? 1 : 0
-      };
+      if (featuredImage.value) {
+        const formData = new FormData();
+        formData.append('featuredImage', featuredImage.value);
 
-      // const response = await fetch('http://127.0.0.1:8000/api/session', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json',
-      //   },
-      //   body: JSON.stringify(data),
-      // });
+        const response = await fetch('http://127.0.0.1:8000/api/article', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+          },
+          body: formData,
+        });
+      }
 
-      // if (!response.ok) {
-      //   throw new Error(`HTTP error! Status: ${response.status}`);
-      // }
-
-      // const responseData = await response.json();
-      // localStorage.setItem('authToken', responseData.token);
-      // router.push('/dashboard');
-      // // ローカルストレージにトークンを保存
-      // console.log('POSTが成功しました。レスポンスデータ:', responseData.token);
+      // const formData = new FormData();
+      // formData.append('adminId', '1');
+      // formData.append('title', title.value);
+      // formData.append('content', content.value);
+      // formData.append('metaDescription', metaDescription.value);
+      // formData.append('publicStatus', publicStatus.value ? '1' : '0');
+      // formData.append('featuredImage', featuredImage.value);
     } catch (error) {
       console.error('POSTリクエストエラー:', error);
     }
@@ -234,7 +227,7 @@ const formSubmit = async () => {
 
           <div class="form-group">
             <p>FeaturedImage</p>
-            <input type="file" class="col-6" @change="handleImageChange" />
+            <input type="file" @change="handleImageChange" />
             <p class="error-msg">{{ errors.featuredImage }}</p>
           </div>
 
