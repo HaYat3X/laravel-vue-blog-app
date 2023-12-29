@@ -106,4 +106,32 @@ class posts_controller extends Controller
             ], 500);
         }
     }
+
+    /**
+     * 記事編集フォームを表示する
+     * @access public
+     * @param Illuminate\Http\Request $request
+     * @return Illuminate\Contracts\View\View
+     * @throws Exception データベースクエリの実行中にエラーが発生した場合
+     */
+    public function edit(Request $request)
+    {
+        try {
+            $article = Article::where('id', $request->article_id)->first();
+
+            if (!$article) {
+                return response()->json([
+                    'message' => '記事が見つからない。'
+                ], 404);
+            }
+
+            return response()->json([
+                'article' => $article
+            ], 200);
+        } catch (Exception) {
+            return response()->json([
+                'message' => 'サーバ内でエラーが発生しました。'
+            ], 500);
+        }
+    }
 }
