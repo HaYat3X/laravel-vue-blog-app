@@ -214,8 +214,8 @@ const formSubmit = async () => {
     <div class="content-area">
       <div class="content-container">
         <div class="box">
-          <h2>NewArticle</h2>
-          <p>You can submit a new article.</p>
+          <h2>EditArticle</h2>
+          <p>You can edit the article.</p>
         </div>
 
         <form @submit.prevent="formSubmit">
