@@ -27,4 +27,5 @@ Route::prefix('article')->group(function () {
     Route::delete('/', [posts_controller::class, 'destroy'])->middleware('auth:sanctum');
     Route::post('/', [posts_controller::class, 'store'])->middleware('auth:sanctum');
     Route::get('/{article_id}/edit', [posts_controller::class, 'edit'])->middleware('auth:sanctum');
+    Route::put('/', [posts_controller::class, 'update'])->middleware('auth:sanctum');
 });

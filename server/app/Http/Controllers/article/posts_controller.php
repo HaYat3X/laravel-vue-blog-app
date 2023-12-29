@@ -134,4 +134,45 @@ class posts_controller extends Controller
             ], 500);
         }
     }
+
+    /**
+     * 記事投稿フォームから送信されたデータをblogsテーブルに保存する
+     * @access public
+     * @param Illuminate\Http\Request $request
+     * @return Illuminate\Contracts\View\View
+     * @throws Exception データベースクエリの実行中にエラーが発生した場合
+     */
+    public function update(Request $request)
+    {
+        try {
+            $image = $request->file('featuredImage');
+            $imageName = time() . '-' . $image->getClientOriginalName();
+            $image->move(storage_path('app/public/featured_image'), $imageName);
+
+            $blog = Article::where('id', 7)->first();
+            $blog->admin_id = $request->input('adminId');
+            $blog->title = $request->input('title');
+            $blog->content = $request->input('content');
+            $blog->featured_image = "aaa";
+            $blog->meta_description = $request->input('metaDescription');
+            $blog->public_status = $request->input('publicStatus');
+
+            $blog->slug = Str::slug($request->input('title'));;
+            $blog->meta_title = $request->input('title');
+
+            if ($blog->update()) {
+                return response()->json([
+                    'message' => '投稿成功'
+                ], 200);
+            } else {
+                return response()->json([
+                    'message' => '投稿失敗'
+                ], 409);
+            }
+        } catch (Exception) {
+            return response()->json([
+                'message' => Exception
+            ], 500);
+        }
+    }
 }
