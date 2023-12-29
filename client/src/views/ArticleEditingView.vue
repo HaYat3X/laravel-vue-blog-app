@@ -16,6 +16,7 @@ const errors = ref({
 });
 
 const router = useRouter();
+const articleId = router.currentRoute.value.params.article_id;
 
 onMounted(async () => {
   try {
@@ -35,7 +36,6 @@ onMounted(async () => {
   }
 
   try {
-    const articleId = router.currentRoute.value.params.article_id;
     const response = await fetch(`http://127.0.0.1:8000/api/article/${articleId}/edit`, {
       headers: {
         'Content-Type': 'application/json',
@@ -131,24 +131,30 @@ const formSubmit = async () => {
     try {
       if (featuredImage.value) {
         const formData = new FormData();
+        formData.append('articleId', '1');
         formData.append('adminId', '1');
         formData.append('title', title.value);
         formData.append('content', content.value);
         formData.append('metaDescription', metaDescription.value);
         formData.append('publicStatus', publicStatus ? '1' : '0');
         formData.append('featuredImage', featuredImage.value);
+        console.log(featuredImage.value);
 
-        const response = await fetch('http://127.0.0.1:8000/api/article', {
+        const response = await fetch(`http://127.0.0.1:8000/api/article`, {
           method: 'POST',
           headers: {
+            // PUTリクエストに置き換え
+            'X-HTTP-Method-Override': 'PUT',
             'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
           },
           body: formData,
         });
 
         if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+          throw new Error(`HTTP error! Status: ${response}`);
         }
+
+        console.log(await response.json())
       }
     } catch (error) {
       console.error('POSTリクエストエラー:', error);
