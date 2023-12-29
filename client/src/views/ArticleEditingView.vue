@@ -3,7 +3,6 @@ import { onMounted } from 'vue';
 import { RouterLink, useRouter } from 'vue-router';
 import { ref } from 'vue';
 
-const articleId = ref<string | null>(null);
 const title = ref('');
 const content = ref('');
 const featuredImage = ref<File | null>(null);
@@ -19,8 +18,6 @@ const errors = ref({
 const router = useRouter();
 
 onMounted(async () => {
-  console.log(router.currentRoute.value.params.article_id);
-
   try {
     const response = await fetch('http://127.0.0.1:8000/api/session', {
       headers: {
@@ -35,6 +32,34 @@ onMounted(async () => {
   } catch (error) {
     console.error('ログイン状態の判定エラー:', error);
     router.push('/session/create');
+  }
+
+  try {
+    const articleId = router.currentRoute.value.params.article_id;
+    const response = await fetch(`http://127.0.0.1:8000/api/article/${articleId}/edit`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const responseData = await response.json();
+    title.value = responseData.article.title
+    content.value = responseData.article.content
+    metaDescription.value = responseData.article.meta_description
+    if (responseData.article.public_status === 0) {
+      publicStatus.value = false
+    } else {
+      publicStatus.value = true
+    }
+
+    console.log(responseData);
+  } catch (error) {
+    console.error('エラー:', error);
   }
 });
 
@@ -124,8 +149,6 @@ const formSubmit = async () => {
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
-
-        router.push('/admin/article');
       }
     } catch (error) {
       console.error('POSTリクエストエラー:', error);
