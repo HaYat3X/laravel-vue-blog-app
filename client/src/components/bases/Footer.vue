@@ -42,7 +42,6 @@
 
 <style scoped lang="scss">
 footer {
-  margin-top: 300px;
   background-color: #212529;
   padding: 30px 0;
 

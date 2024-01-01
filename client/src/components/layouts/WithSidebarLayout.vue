@@ -31,19 +31,19 @@ body {
 
   main {
     padding: 0 15px;
-    margin: 100px auto 40px;
+    margin: 110px auto 50px;
   }
 
   @media only screen and (min-width: 768px) and (max-width: 1023px) {
     main {
+      padding: 0 40px;
       margin: 120px auto 60px;
     }
   }
 
   @media only screen and (min-width: 1024px) {
     main {
-      padding: 0;
-      max-width: 1200px;
+      max-width: 1100px;
       display: flex;
       gap: 30px;
       margin: 120px auto 60px;

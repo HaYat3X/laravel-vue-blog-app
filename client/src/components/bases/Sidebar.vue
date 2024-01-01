@@ -85,7 +85,7 @@
     }
 
     .advertising-area {
-      margin-top: 40px;
+      margin-top: 30px;
 
       img {
         width: 100%;
@@ -99,13 +99,13 @@
 
 @media only screen and (max-width: 767px) {
   .sidebar-area {
-    margin: 40px 0;
+    margin-top: 50px;
   }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1023px) {
   .sidebar-area {
-    margin: 40px 0;
+    margin-top: 60px; 
 
     .sidebar-container {
       .profile-area {

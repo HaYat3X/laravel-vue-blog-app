@@ -28,7 +28,7 @@ body {
 
   main {
     padding: 0 15px;
-    margin: 100px auto 40px;
+    margin: 105px auto 45px;
   }
 }
 </style>
