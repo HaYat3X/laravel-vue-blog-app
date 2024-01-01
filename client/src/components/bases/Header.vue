@@ -57,6 +57,7 @@ header {
         align-items: center;
 
         img {
+          width: 120px;
           height: auto;
         }
       }
@@ -87,36 +88,6 @@ header {
             }
           }
         }
-      }
-    }
-  }
-}
-
-@media only screen and (max-width: 767px) {
-  .header-logo {
-    a {
-      img {
-        width: 120px;
-      }
-    }
-  }
-}
-
-@media only screen and (min-width: 768px) and (max-width: 1023px) {
-  .header-logo {
-    a {
-      img {
-        width: 130px;
-      }
-    }
-  }
-}
-
-@media only screen and (min-width: 1024px) {
-  .header-logo {
-    a {
-      img {
-        width: 130px;
       }
     }
   }
