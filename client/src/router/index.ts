@@ -33,6 +33,16 @@ const router = createRouter({
       name: 'admin/article/edit',
       component: () => import('../views/ArticleEditingView.vue')
     },
+    {
+      path: '/:pathMatch(.*)*/',
+      name: 'NotFound',
+      component: () => import('../views/NotFound.vue')
+    },
+    {
+      path: '/error',
+      name: 'ServerError',
+      component: () => import('../views/ServerError.vue')
+    },
   ]
 })
 

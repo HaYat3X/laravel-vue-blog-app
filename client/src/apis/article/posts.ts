@@ -1,26 +1,25 @@
-// import { useRouter } from 'vue-router'
-// const router = useRouter();
-
 /**
- * 公開記事一覧を取得するためのAPIにリクエストを送信する
- * @param {number} page
- * @returns {Promise<Object>}  
-*/
+ * 公開記事一覧を取得するためのAPIにリクエストを送信します。
+ * @param {number} page - 取得するページ番号
+ * @returns {Promise<Object>} APIからのレスポンス
+ * @throws {Error} レスポンスが正常でない場合やAPIリクエスト中にエラーが発生した場合
+ */
 export async function getPublishedArticle(page: number) {
   try {
-    const response = await fetch(`http://127.0.0.1:8000/api/article/get_published_article?page=${page}`, {
+    const apiUrl = `http://127.0.0.1:8000/api/article/get_published_article?page=${page}`;
+
+    const response = await fetch(apiUrl, {
       headers: {
         'Content-Type': 'application/json',
       },
     });
 
     if (!response.ok) {
-      console.log('エラーが発生している。');
+      return { error: { message: `APIリクエストが失敗しました。 ${response}` } };
     }
 
     return await response.json();
   } catch (error) {
-    console.error(error);
-    console.log('エラーが発生している。');
+    return { error: { message: 'APIリクエスト中にエラーが発生しました。' } };
   }
 }

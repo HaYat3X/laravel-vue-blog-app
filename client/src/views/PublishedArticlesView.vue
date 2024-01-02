@@ -3,9 +3,11 @@ import WithSidebarLayout from '@/components/layouts/WithSidebarLayout.vue';
 import ArticleCard from '@/components/elements/ArticleCard.vue';
 import Pagination from '@/components/elements/Pagination.vue';
 import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { getPublishedArticle } from '@/apis/article/posts'
-import { Article } from "@/types/article";
+import type { Article } from "@/types/article";
 
+const router = useRouter();
 const articles = ref<Article[]>([]);
 const currentPage = ref(1);
 const lastPage = ref();
@@ -16,6 +18,13 @@ const lastPage = ref();
  */
 const fetchArticles = async (page: number) => {
   const response = await getPublishedArticle(page);
+
+  // サーバーエラーが発生した場合、500ページにリダイレクトする
+  if (response.error) {
+    console.log(response.error.message);
+    router.push('/error');
+  }
+
   articles.value = response.articles.data;
   currentPage.value = response.articles.current_page;
   lastPage.value = response.articles.last_page;
@@ -46,8 +55,7 @@ const changePage = (page: number) => {
           :-article-title="article.title" :-article-created-at="article.created_at.slice(0, 10)" />
       </div>
 
-      <Pagination v-if="articles.length" :current-page="currentPage" :last-page="lastPage"
-        @changePage="changePage" />
+      <Pagination v-if="articles.length" :current-page="currentPage" :last-page="lastPage" @changePage="changePage" />
     </div>
   </WithSidebarLayout>
 </template>
