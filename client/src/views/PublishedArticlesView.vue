@@ -2,6 +2,37 @@
 import WithSidebarLayout from '@/components/layouts/WithSidebarLayout.vue';
 import ArticleCard from '@/components/elements/ArticleCard.vue';
 import Pagination from '@/components/elements/Pagination.vue';
+import { onMounted, ref } from 'vue';
+import { getPublishedArticle } from '@/apis/article/posts'
+import { Article } from "@/types/article";
+
+const articles = ref<Article[]>([]);
+const currentPage = ref(1);
+const lastPage = ref();
+
+/**
+ * 指定されたページに基づいて公開記事一覧を取得する
+ * @param {number} page
+ */
+const fetchArticles = async (page: number) => {
+  const response = await getPublishedArticle(page);
+  articles.value = response.articles.data;
+  currentPage.value = response.articles.current_page;
+  lastPage.value = response.articles.last_page;
+};
+
+onMounted(() => {
+  // 最初のページのための初期取得（currentPage初期値1で取得）
+  fetchArticles(currentPage.value);
+});
+
+/**
+ * 現在のページを変更し、そのページに応じて記事を取得する
+ * @param {number} page 
+ */
+const changePage = (page: number) => {
+  fetchArticles(page);
+};
 </script>
 
 <template>
@@ -10,23 +41,13 @@ import Pagination from '@/components/elements/Pagination.vue';
       <h2>Articles</h2>
 
       <div class="article">
-        <ArticleCard -featured-imgae="/src/assets/img/exsample.png" -article-title="RailsとNuxtでブログアプリを作成してみた。あああああああああ"
-          -article-created-at="2024-01-01" />
-        <ArticleCard -featured-imgae="/src/assets/img/exsample.png" -article-title="RailsとNuxtでブログアプリを作成してみた。あああああああああ"
-          -article-created-at="2024-01-01" />
-        <ArticleCard -featured-imgae="/src/assets/img/exsample.png" -article-title="RailsとNuxtでブログアプリを作成してみた。あああああああああ"
-          -article-created-at="2024-01-01" />
-        <ArticleCard -featured-imgae="/src/assets/img/exsample.png" -article-title="RailsとNuxtでブログアプリを作成してみた。あああああああああ"
-          -article-created-at="2024-01-01" />
-        <ArticleCard -featured-imgae="/src/assets/img/exsample.png" -article-title="RailsとNuxtでブログアプリを作成してみた。あああああああああ"
-          -article-created-at="2024-01-01" />
-        <ArticleCard -featured-imgae="/src/assets/img/exsample.png" -article-title="RailsとNuxtでブログアプリを作成してみた。あああああああああ"
-          -article-created-at="2024-01-01" />
-        <ArticleCard -featured-imgae="/src/assets/img/exsample.png" -article-title="RailsとNuxtでブログアプリを作成してみた。あああああああああ"
-          -article-created-at="2024-01-01" />
+        <ArticleCard v-for="article in articles" :key="article.id"
+          :-featured-imgae="`http://127.0.0.1:8000/storage/featured_image/${article.featured_image}`"
+          :-article-title="article.title" :-article-created-at="article.created_at.slice(0, 10)" />
       </div>
 
-      <Pagination />
+      <Pagination v-if="articles.length" :current-page="currentPage" :last-page="lastPage"
+        @changePage="changePage" />
     </div>
   </WithSidebarLayout>
 </template>
@@ -67,4 +88,5 @@ import Pagination from '@/components/elements/Pagination.vue';
       column-gap: 20px;
     }
   }
-}</style>
+}
+</style>
