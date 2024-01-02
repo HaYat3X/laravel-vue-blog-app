@@ -11,6 +11,27 @@ use Illuminate\Support\Str;
 class posts_controller extends Controller
 {
     /**
+     * 公開された記事一覧を取得して表示する
+     * @access public
+     * @return Illuminate\Http\JsonResponse
+     * @throws Exception データベースクエリの実行中にエラーが発生した場合
+     */
+    public function getPublishedArticle()
+    {
+        try {
+            $articles = Article::where('public_status', 1)->latest('created_at')->paginate(12);
+
+            return response()->json([
+                'articles' => $articles
+            ], 200);
+        } catch (Exception) {
+            return response()->json([
+                'message' => 'サーバ内でエラーが発生しました。'
+            ], 500);
+        }
+    }
+
+    /**
      * 投稿された記事を取得して表示する
      * @access public
      * @return Json
