@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineEmits } from 'vue';
 const { currentPage, lastPage } = defineProps(['currentPage', 'lastPage']);
 const emit = defineEmits();
 

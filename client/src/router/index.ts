@@ -5,8 +5,13 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'Home',
+      name: 'PublishedArticles',
       component: () => import('../views/PublishedArticlesView.vue')
+    },
+    {
+      path: '/:slug',
+      name: 'ArticleDetail',
+      component: () => import('../views/ArticleDetailView.vue')
     },
     {
       path: '/session/create',
@@ -32,6 +37,16 @@ const router = createRouter({
       path: '/admin/article/edit/:article_id',
       name: 'admin/article/edit',
       component: () => import('../views/ArticleEditingView.vue')
+    },
+    {
+      path: '/:pathMatch(.*)*/',
+      name: 'NotFound',
+      component: () => import('../views/NotFound.vue')
+    },
+    {
+      path: '/error',
+      name: 'ServerError',
+      component: () => import('../views/ServerError.vue')
     },
   ]
 })
