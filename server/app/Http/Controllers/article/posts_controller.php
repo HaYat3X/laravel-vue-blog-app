@@ -32,6 +32,43 @@ class posts_controller extends Controller
     }
 
     /**
+     * 指定された記事(slug)データを取得する
+     * @access public
+     * @param String $slug
+     * @return Json
+     * @throws Exception データベースクエリの実行中にエラーが発生した場合
+     */
+    public function getArticle(string $slug)
+    {
+        try {
+            $article = Article::where('slug', $slug)->first();
+            $tags = $article->tags()->get();
+
+            if (!$article) {
+                return response()->json([
+                    'message' => '記事が見つかりません。',
+                ], 404);
+            }
+
+            // 記事が非公開の場合は403エラーを返す
+            if ($article->public_status === 0) {
+                return response()->json([
+                    'message' => 'この記事は非公開です。',
+                ], 403);
+            }
+
+            return response()->json([
+                'article' => $article,
+                'tags' => $tags,
+            ], 200);
+        } catch (Exception) {
+            return response()->json([
+                'message' => 'サーバー内でエラーが発生しました。',
+            ], 500);
+        }
+    }
+
+    /**
      * 投稿された記事を取得して表示する
      * @access public
      * @return Json

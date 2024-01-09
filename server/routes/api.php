@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\auth\sessionsController;
 use App\Http\Controllers\article\posts_controller;
@@ -24,7 +23,10 @@ Route::prefix('session')->group(function () {
 
 Route::prefix('article')->group(function () {
     Route::get('/index_all', [posts_controller::class, 'index_all'])->middleware('auth:sanctum');
+
     Route::get('/get_published_article', [posts_controller::class, 'getPublishedArticle']);
+    Route::get('/get_article/{slug}', [posts_controller::class, 'getArticle']);
+
     Route::delete('/', [posts_controller::class, 'destroy'])->middleware('auth:sanctum');
     Route::post('/', [posts_controller::class, 'store'])->middleware('auth:sanctum');
     Route::get('/{article_id}/edit', [posts_controller::class, 'edit'])->middleware('auth:sanctum');
