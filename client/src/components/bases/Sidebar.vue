@@ -85,7 +85,7 @@
     }
 
     .advertising-area {
-      margin-top: 30px;
+      margin-top: 20px;
 
       img {
         width: 100%;

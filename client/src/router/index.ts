@@ -5,8 +5,13 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'Home',
+      name: 'PublishedArticles',
       component: () => import('../views/PublishedArticlesView.vue')
+    },
+    {
+      path: '/:slug',
+      name: 'ArticleDetail',
+      component: () => import('../views/ArticleDetailView.vue')
     },
     {
       path: '/session/create',
