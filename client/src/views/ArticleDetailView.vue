@@ -2,111 +2,35 @@
 import WithSidebarLayout from '@/components/layouts/WithSidebarLayout.vue';
 import { marked } from "marked"
 import { onMounted, ref } from 'vue';
+import { getArticle } from '@/apis/article/posts'
+import type { Article } from "@/types/article";
+import type { Tag } from "@/types/tag";
+import { useRouter } from 'vue-router';
 
-const markdownContent = `
-  ## ターゲット
-
-  Neovim には Lua が組込まれており、設定ファイル(init.lua) やプラグインを Lua で書けます。
-  しかし Lua の言語機能はなかなか貧弱であり、LSP のサポートがないと体験は悪いです。
-  ですので sumneko 氏が開発しているこちらの Language server(以下 \`LuaLS\` と表記) を入れている方は多いでしょう。
-
-  https://github.com/LuaLS/lua-language-server
-
-  今回は LuaLS をちゃんと設定し、\`vim.api\` やプラグインの補完などをバリバリ効くようにして快適にしていきます。
-
-  この記事の目的は LuaLS をいい感じに設定することだけです。
-  nvim-lspconfig や mason.nvim などには触れません。
-
-  ## 参考元
-
-  公式のドキュメントはこちら。
-
-  https://luals.github.io/wiki/
-
-  ## 型の付け方
-
-  LuaLS に型情報を伝えるには Annotations と呼ばれるコメント記法を使います。
-  ここを見てください。
-
-  https://luals.github.io/wiki/annotations/
-
-  ## 設定方法
-
-  LuaLS の設定はここに一覧があります。
-  [リンクテキスト](https://luals.github.io/wiki/annotations/){:target="_blank"}
-
-  https://luals.github.io/wiki/settings/
-
-  StyLua を使うから LuaLS の formatter は無効にしたい、だとか semantic highlight 要らないから切りたい、などの設定ができます。
-
-  そして今回の肝になるのは \`workspace.library\` です。
-
-  ## lazy.nvim の場合
-
-  先にコードを載せます。
-
-  \`\`\`lua
-  local lspconfig = require("lspconfig")
-
-  -- 以降のコードは省略
-  \`\`\`
-
-  ## サンプルコード
-
-  TypeScriptでのサンプルコードを以下に追加します。
-  <p><a href="https://sample.com/" target="_blank">アンカーテキスト</a></p>
-
-  \`\`\`
-  # test.ts
-  /**
-   * 公開記事一覧を取得するためのAPIにリクエストを送信します。
-   * @param {number} page - 取得するページ番号
-   * @returns {Promise<Object>} APIからのレスポンス
-   * @throws {Error} レスポンスが正常でない場合やAPIリクエスト中にエラーが発生した場合
-   */
-  export async function getPublishedArticle(page: number) {
-    try {
-      const apiUrl = 'http://127.0.0.1:8000/api/article/get_published_article?page=$';
-
-      const response = await fetch(apiUrl, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (!response.ok) {
-        return { error: { message: 'APIリクエストが失敗しました。 $' } };
-      }
-
-      return await response.json();
-    } catch (error) {
-      return { error: { message: 'APIリクエスト中にエラーが発生しました。' } };
-    }
-  }
-  \`\`\`
-
-  get_plugin_paths()はプラグインマネージャーによって実装が変わります。
-  筆者は lazy.nvim を使っています。
-
-  ## テーブル
-  | 列1のヘッダ | 列2のヘッダ | 列3のヘッダ |
-|-------------|-------------|-------------|
-| データ1      | データ2      | データ3      |
-| データ4      | データ5      | データ6      |
-| データ7      | データ8      | データ9      |
-
-  ## 引用
-  > これは引用の例です。何か重要な情報や興味深い引用をここに書くことができます。
-  > 引用文は段落をまたいでも機能します
-
-  ## 画像
-  ![子猫の画像](https://user0514.cdnw.net/shared/img/thumb/shikun20220402_114719-2_TP_V.jpg)
-`;
-
-const markdown2 = marked(markdownContent);
+const router = useRouter();
+const article = ref<Article>();
+const markdownContent = ref();
+const tags = ref<Tag[]>();
 
 onMounted(async () => {
+  const slug = router.currentRoute.value.params.slug;
+  const response = await getArticle(slug);
 
+  // サーバーエラーが発生した場合、500ページにリダイレクトする
+  if (response.internalServerError) {
+    console.log(response.internalServerError.message);
+    router.push('/error');
+  }
+
+  // ページが見つからない場合は、404ページにリダイレクトする
+  if (response.notFoundError) {
+    console.log(response.notFoundError.message);
+    router.push({ name: 'NotFound' });
+  }
+
+  article.value = response.article;
+  tags.value = response.tags;
+  markdownContent.value = marked(article.value?.content);
 });
 </script>
 
@@ -114,36 +38,18 @@ onMounted(async () => {
   <WithSidebarLayout>
     <div class="content-container">
       <div class="thumbnail-area">
-        <h2>RustでWebバックエンドを書き始めてから1年くらい経った</h2>
-        <small>2022-03-22に公開</small>
+        <h2>{{ article?.title }}</h2>
+        <small>{{ article?.created_at.slice(0, 10) }}に公開</small>
       </div>
 
       <div class="article">
         <div class="tag">
-          <a href="/">
-            <label for=""># Laravel</label>
-          </a>
-          <a href="/">
-            <label for=""># Laravel</label>
-          </a>
-          <a href="/">
-            <label for=""># Laravel</label>
-          </a>
-
-          <a href="/">
-            <label for=""># Laravel</label>
-          </a>
-
-          <a href="/">
-            <label for=""># Laravel</label>
-          </a>
-
-          <a href="/">
-            <label for=""># Laravel</label>
+          <a href="/" v-for="tag in tags" :key="tag.id">
+            <label for="">{{ tag.tag }}</label>
           </a>
         </div>
 
-        <div class="content" v-html="markdown2"></div>
+        <div class="content" v-html="markdownContent"></div>
       </div>
     </div>
   </WithSidebarLayout>
@@ -217,6 +123,7 @@ onMounted(async () => {
       p {
         font-size: 16px;
         line-height: 1.5;
+        word-break: break-all;
       }
 
       ul {
