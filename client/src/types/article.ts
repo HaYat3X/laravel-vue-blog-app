@@ -2,7 +2,7 @@ export type Article = {
   id: number,
   admin_id: number,
   title: string,
-  content: string,
+  content: string | any,
   featured_image: string,
   slug: string,
   public_status: number,

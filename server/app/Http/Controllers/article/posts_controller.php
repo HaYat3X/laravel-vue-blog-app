@@ -42,13 +42,14 @@ class posts_controller extends Controller
     {
         try {
             $article = Article::where('slug', $slug)->first();
-            $tags = $article->tags()->get();
 
             if (!$article) {
                 return response()->json([
                     'message' => '記事が見つかりません。',
                 ], 404);
             }
+
+            $tags = $article->tags()->get();
 
             // 記事が非公開の場合は403エラーを返す
             if ($article->public_status === 0) {
