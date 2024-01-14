@@ -19,6 +19,11 @@ const router = createRouter({
       component: () => import('../views/ArticleSearchView.vue')
     },
     {
+      path: '/search_result',
+      name: 'ArticleSearchResults',
+      component: () => import('../views/ArticleSearchResultsView.vue')
+    },
+    {
       path: '/session/create',
       name: 'session/create',
       component: () => import('../views/auth/sessions/CreateView.vue')
