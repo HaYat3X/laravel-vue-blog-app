@@ -24,11 +24,6 @@ import Sidebar from '../bases/Sidebar.vue';
 body {
   background-color: #f0f7ff;
 
-  .wrapper {
-    min-height: 100%;
-    box-sizing: border-box;
-  }
-
   main {
     padding: 0 15px;
     margin: 110px auto 50px;
