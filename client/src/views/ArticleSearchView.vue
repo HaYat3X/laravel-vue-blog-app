@@ -1,22 +1,44 @@
 <script setup lang="ts">
 import NoSidebarLayout from '@/components/layouts/NoSidebarLayout.vue';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+
+const keyword = ref('');
+const router = useRouter();
+
+/**
+ * 検索されたキーワードを検索結果画面へ送信する
+ */
+const onsubmit = () => {
+  router.push({ path: '/search_result', query: { keyword: keyword.value } });
+}
+
+/**
+ * 検索されたタグを検索結果画面へ送信する
+ * @param {string} tag
+ */
+ const onclick = (tag: string) => {
+  router.push({ path: '/search_result', query: { tag: tag } });
+}
 </script>
 
 <template>
   <NoSidebarLayout>
     <div class="search-area">
-      <form class="search-form-6">
+      <form class="search-form-6" @submit.prevent="onsubmit">
         <label>
-          <input type="text" placeholder="キーワードを入力...">
+          <input type="text" v-model="keyword" placeholder="キーワードを入力..." required>
         </label>
       </form>
 
       <div class="search-tag">
         <h3>タグで検索</h3>
         <div class="tag">
+          <a @click="onclick('aaaa')">
+            <label for="">{{ '#aaaa' }}</label>
+          </a>
+
           <a href="/">
-            <label for="">{{ '#aaaa' }}</label>
-            <label for="">{{ '#aaaa' }}</label>
             <label for="">{{ '#aaaa' }}</label>
           </a>
         </div>
