@@ -30,5 +30,19 @@ body {
     padding: 0 15px;
     margin: 105px auto 45px;
   }
+
+  @media only screen and (min-width: 768px) and (max-width: 1023px) {
+    main {
+      padding: 0 40px;
+      margin: 120px auto 60px;
+    }
+  }
+
+  @media only screen and (min-width: 1024px) {
+    main {
+      max-width: 1100px;
+      margin: 120px auto 60px;
+    }
+  }
 }
 </style>
