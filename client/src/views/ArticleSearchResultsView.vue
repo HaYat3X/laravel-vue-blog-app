@@ -7,8 +7,8 @@ import { useRouter } from 'vue-router';
 import { getPublishedArticle } from '@/apis/article/posts'
 import type { Article } from "@/types/article";
 
-
 const router = useRouter();
+const searchResultTitle = ref();
 const articles = ref<Article[]>([]);
 const currentPage = ref(1);
 const lastPage = ref();
@@ -39,7 +39,9 @@ onMounted(() => {
     router.push('/search');
   } else if (keyword && !tag) {
     console.log(keyword)
+    searchResultTitle.value = `「${keyword}」の検索結果`;
   } else if (tag && !keyword) {
+    searchResultTitle.value = `「${tag}」の検索結果`;
     console.log(tag)
   }
 });
@@ -56,7 +58,7 @@ const changePage = (page: number) => {
 <template>
   <WithSidebarLayout>
     <div class="content-container">
-      <h2>Articles</h2>
+      <h2>{{ searchResultTitle }}</h2>
 
       <div class="article">
         <ArticleCard v-for="article in articles" :key="article.id"
@@ -73,7 +75,7 @@ const changePage = (page: number) => {
 .content-container {
   h2 {
     font-weight: bold;
-    font-size: 30px;
+    font-size: 28px;
     margin-bottom: 20px;
     color: #333333;
   }
@@ -82,7 +84,7 @@ const changePage = (page: number) => {
 @media only screen and (min-width: 768px) and (max-width: 1023px) {
   .content-container {
     h2 {
-      font-size: 32px;
+      font-size: 30px;
     }
 
     .article {
@@ -96,7 +98,7 @@ const changePage = (page: number) => {
 @media only screen and (min-width: 1024px) {
   .content-container {
     h2 {
-      font-size: 32px;
+      font-size: 30px;
     }
 
     .article {
