@@ -25,6 +25,7 @@ import Button from '@/components/elements/Button.vue';
 <style scoped lang="scss">
 .not-found {
   text-align: center;
+  margin: 0 auto;
 
   h2 {
     font-weight: bold;
