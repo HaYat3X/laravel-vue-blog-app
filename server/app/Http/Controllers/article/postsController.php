@@ -8,7 +8,7 @@ use App\Models\Article;
 use Exception;
 use Illuminate\Support\Str;
 
-class posts_controller extends Controller
+class postsController extends Controller
 {
     /**
      * 公開された記事一覧を取得して表示する

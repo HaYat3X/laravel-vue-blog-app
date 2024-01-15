@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\auth\sessionsController;
-use App\Http\Controllers\article\posts_controller;
+use App\Http\Controllers\article\postsController;
+use App\Http\Controllers\article\searchsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,13 +23,16 @@ Route::prefix('session')->group(function () {
 });
 
 Route::prefix('article')->group(function () {
-    Route::get('/index_all', [posts_controller::class, 'index_all'])->middleware('auth:sanctum');
+    Route::get('/index_all', [postsController::class, 'index_all'])->middleware('auth:sanctum');
 
-    Route::get('/get_published_article', [posts_controller::class, 'getPublishedArticle']);
-    Route::get('/get_article/{slug}', [posts_controller::class, 'getArticle']);
+    Route::get('/get_published_article', [postsController::class, 'getPublishedArticle']);
+    Route::get('/get_article/{slug}', [postsController::class, 'getArticle']);
+    Route::post('/get_article_search_result', [searchsController::class, 'getArticleSearchResult']);
 
-    Route::delete('/', [posts_controller::class, 'destroy'])->middleware('auth:sanctum');
-    Route::post('/', [posts_controller::class, 'store'])->middleware('auth:sanctum');
-    Route::get('/{article_id}/edit', [posts_controller::class, 'edit'])->middleware('auth:sanctum');
-    Route::put('/', [posts_controller::class, 'update'])->middleware('auth:sanctum');
+
+
+    Route::delete('/', [postsController::class, 'destroy'])->middleware('auth:sanctum');
+    Route::post('/', [postsController::class, 'store'])->middleware('auth:sanctum');
+    Route::get('/{article_id}/edit', [postsController::class, 'edit'])->middleware('auth:sanctum');
+    Route::put('/', [postsController::class, 'update'])->middleware('auth:sanctum');
 });
