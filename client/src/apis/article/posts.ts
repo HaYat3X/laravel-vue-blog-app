@@ -1,5 +1,5 @@
 /**
- * 公開記事一覧を取得するためのAPIにリクエストを送信します。
+ * 公開記事一覧を取得するためのAPIにリクエストを送信します
  * @param {number} page - 取得するページ番号
  * @returns {Promise<Object>} APIからのレスポンス
  * @throws {Error} レスポンスが正常でない場合やAPIリクエスト中にエラーが発生した場合
@@ -25,7 +25,7 @@ export async function getPublishedArticle(page: number) {
 }
 
 /**
- * 公開記事一覧を取得するためのAPIにリクエストを送信します。
+ * 公開記事一覧を取得するためのAPIにリクエストを送信します
  * @param {any} slug - 取得するページ番号
  * @returns {Promise<Object>} APIからのレスポンス
  * @throws {Error} レスポンスが正常でない場合やAPIリクエスト中にエラーが発生した場合

@@ -4,6 +4,7 @@ import ArticleCard from '@/components/elements/ArticleCard.vue';
 import Pagination from '@/components/elements/Pagination.vue';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { getPublishedArticleKeyword, getPublishedArticleTag } from '@/apis/article/search';
 import { getPublishedArticle } from '@/apis/article/posts'
 import type { Article } from "@/types/article";
 
@@ -12,7 +13,6 @@ const searchResultTitle = ref();
 const articles = ref<Article[]>([]);
 const currentPage = ref(1);
 const lastPage = ref();
-
 const tag = router.currentRoute.value.query.tag;
 const keyword = router.currentRoute.value.query.keyword;
 
@@ -34,15 +34,37 @@ const fetchArticles = async (page: number) => {
   lastPage.value = response.articles.last_page;
 };
 
-onMounted(() => {
+onMounted(async () => {
   if (!tag && !keyword) {
     router.push('/search');
   } else if (keyword && !tag) {
-    console.log(keyword)
-    searchResultTitle.value = `「${keyword}」の検索結果`;
+    const response = await getPublishedArticleKeyword(keyword);
+
+    // サーバーエラーが発生した場合、500ページにリダイレクトする
+    if (response.internalServerError) {
+      console.log(response.internalServerError.message);
+      router.push('/error');
+    }
+
+    console.log(response)
+
+    articles.value = response.articles.data;
+    currentPage.value = response.articles.current_page;
+    lastPage.value = response.articles.last_page;
+    searchResultTitle.value = `${keyword} の検索結果`;
   } else if (tag && !keyword) {
-    searchResultTitle.value = `「${tag}」の検索結果`;
-    console.log(tag)
+    const response = await getPublishedArticleTag(tag);
+
+    // サーバーエラーが発生した場合、500ページにリダイレクトする
+    if (response.internalServerError) {
+      console.log(response.internalServerError.message);
+      router.push('/error');
+    }
+
+    articles.value = response.articles.data;
+    currentPage.value = response.articles.current_page;
+    lastPage.value = response.articles.last_page;
+    searchResultTitle.value = `#${tag} の検索結果`;
   }
 });
 
@@ -60,7 +82,11 @@ const changePage = (page: number) => {
     <div class="content-container">
       <h2>{{ searchResultTitle }}</h2>
 
-      <div class="article">
+      <div v-if="articles.length === 0">
+        記事が見つかりませんでした。
+      </div>
+      
+      <div v-else class="article">
         <ArticleCard v-for="article in articles" :key="article.id"
           :-featured-imgae="`http://127.0.0.1:8000/storage/featured_image/${article.featured_image}`"
           :-article-title="article.title" :-article-created-at="article.created_at.slice(0, 10)" />
@@ -76,8 +102,11 @@ const changePage = (page: number) => {
   h2 {
     font-weight: bold;
     font-size: 28px;
-    margin-bottom: 20px;
     color: #333333;
+  }
+
+  .article {
+    margin-top: 20px;
   }
 }
 
