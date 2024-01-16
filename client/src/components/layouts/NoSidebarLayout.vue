@@ -27,7 +27,7 @@ body {
   }
 
   main {
-    padding: 0 15px;
+    padding: 0 20px;
     margin: 105px auto 45px;
   }
 

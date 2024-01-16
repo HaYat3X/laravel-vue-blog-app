@@ -25,7 +25,7 @@ body {
   background-color: #f0f7ff;
 
   main {
-    padding: 0 15px;
+    padding: 0 20px;
     margin: 110px auto 50px;
   }
 
