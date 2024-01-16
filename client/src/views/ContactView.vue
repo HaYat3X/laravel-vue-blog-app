@@ -1,8 +1,28 @@
 <script setup lang="ts">
-import NoSidebarLayout from '@/components/layouts/NoSidebarLayout.vue';
 import WithSidebarLayout from '@/components/layouts/WithSidebarLayout.vue';
-
 import Button from '@/components/elements/Button.vue';
+import { ref } from 'vue';
+import { submitContact } from '@/apis/contact/posts'
+import { useRouter } from 'vue-router';
+
+const name = ref('');
+const email = ref('');
+const category = ref('');
+const content = ref('');
+const router = useRouter();
+
+const onSubmit = async () => {
+  const response = await submitContact(name.value, email.value, category.value, content.value);
+
+  // サーバーエラーが発生した場合、500ページにリダイレクトする
+  if (response.internalServerError) {
+    console.log(response.internalServerError.message);
+    router.push('/error');
+  }
+
+  // 何もエラーがない場合は、お問い合わせ完了画面へ遷移する
+}
+
 </script>
 
 <template>
@@ -14,14 +34,14 @@ import Button from '@/components/elements/Button.vue';
         <span>*</span>がついているものは必須項目です。
       </p>
 
-      <form action="">
+      <form @submit.prevent="onSubmit" action="">
         <div class="form-control">
           <p>
             お名前
             <span>*</span>
           </p>
 
-          <input type="text" required>
+          <input type="text" v-model="name" required>
         </div>
 
         <div class="form-control">
@@ -30,7 +50,7 @@ import Button from '@/components/elements/Button.vue';
             <span>*</span>
           </p>
 
-          <input type="text" required>
+          <input type="email" v-model="email" required>
         </div>
 
         <div class="form-control">
@@ -40,11 +60,11 @@ import Button from '@/components/elements/Button.vue';
           </p>
 
           <label class="selectbox-3">
-            <select required>
-              <option value="" hidden>選択してください</option>
-              <option>optionの例1</option>
-              <option>optionの例2</option>
-              <option>optionの例3</option>
+            <select v-model="category" required>
+              <option disabled value="">選択してください</option>
+              <option>A</option>
+              <option>B</option>
+              <option>C</option>
             </select>
           </label>
         </div>
@@ -55,7 +75,7 @@ import Button from '@/components/elements/Button.vue';
             <span>*</span>
           </p>
 
-          <textarea required cols="30" rows="10"></textarea>
+          <textarea required cols="30" rows="10" v-model="content"></textarea>
         </div>
 
         <Button>送信する</Button>

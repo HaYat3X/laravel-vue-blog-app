@@ -31,7 +31,7 @@ class postsController extends Controller
             } else {
                 return response()->json([
                     'message' => 'お問い合わせに失敗しました。'
-                ], 409);
+                ], 500);
             }
         } catch (Exception) {
             return response()->json([
