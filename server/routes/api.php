@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\auth\sessionsController;
 use App\Http\Controllers\article\postsController;
 use App\Http\Controllers\article\searchsController;
+use App\Http\Controllers\contact\postsController as contactPostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,4 +36,8 @@ Route::prefix('article')->group(function () {
     Route::post('/', [postsController::class, 'store'])->middleware('auth:sanctum');
     Route::get('/{article_id}/edit', [postsController::class, 'edit'])->middleware('auth:sanctum');
     Route::put('/', [postsController::class, 'update'])->middleware('auth:sanctum');
+});
+
+Route::prefix('contact')->group(function () {
+    Route::post('/submit_contact', [contactPostController::class, 'submitContact']);
 });
