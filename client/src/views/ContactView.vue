@@ -21,6 +21,7 @@ const onSubmit = async () => {
   }
 
   // 何もエラーがない場合は、お問い合わせ完了画面へ遷移する
+  router.push('/contact_completion');
 }
 
 </script>
