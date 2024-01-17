@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+let contactCompleted = true;
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +28,11 @@ const router = createRouter({
       path: '/contact',
       name: 'Contact',
       component: () => import('../views/ContactView.vue')
+    },
+    {
+      path: '/contact_completion',
+      name: 'ContactCompletion',
+      component: () => import('../views/ContactCompletionView.vue')
     },
     {
       path: '/session/create',
