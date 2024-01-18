@@ -1,80 +1,74 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import { Field, Form, ErrorMessage } from 'vee-validate';
-import * as yup from 'yup';
+import { onMounted } from 'vue'
+import { Field, Form, ErrorMessage } from 'vee-validate'
+import * as yup from 'yup'
 import { RouterLink, useRouter } from 'vue-router'
+import NoSidebarLayout from '@/components/layouts/admin/NoSidebarLayout.vue'
 
-const router = useRouter();
+const router = useRouter()
 
 onMounted(async () => {
   try {
     const response = await fetch('http://127.0.0.1:8000/api/session', {
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`, 
-      },
-    });
+        Authorization: `Bearer ${localStorage.getItem('authToken')}`
+      }
+    })
 
     if (response.ok) {
-      const responseData = await response.json();
-      console.log('すでログインしている。', responseData.admin.name);
+      const responseData = await response.json()
+      console.log('すでログインしている。', responseData.admin.name)
       // ログインしている場合、ダッシュボードなどへリダイレクト
-      router.push('/dashboard');
+      router.push('/dashboard')
     }
   } catch (error) {
-    console.error('ログイン状態の判定エラー:', error);
+    console.error('ログイン状態の判定エラー:', error)
   }
-});
+})
 
 const schema = yup.object({
-  email: yup.string().email('Please enter a valid email address.').required('Please enter your email address.'),
-  password: yup.string().required('Please enter your password.'),
-});
+  email: yup
+    .string()
+    .email('Please enter a valid email address.')
+    .required('Please enter your email address.'),
+  password: yup.string().required('Please enter your password.')
+})
 
 const handleSubmit = async (values: any) => {
   try {
     const data = {
       email: values.email,
-      password: values.password,
-    };
+      password: values.password
+    }
 
     const response = await fetch('http://127.0.0.1:8000/api/session', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
-      body: JSON.stringify(data),
-    });
+      body: JSON.stringify(data)
+    })
 
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+      throw new Error(`HTTP error! Status: ${response.status}`)
     }
 
-    const responseData = await response.json();
-    localStorage.setItem('authToken', responseData.token);
-    router.push('/dashboard');
+    const responseData = await response.json()
+    localStorage.setItem('authToken', responseData.token)
+    router.push('/dashboard')
     // ローカルストレージにトークンを保存
-    console.log('POSTが成功しました。レスポンスデータ:', responseData.token);
+    console.log('POSTが成功しました。レスポンスデータ:', responseData.token)
   } catch (error) {
-    console.error('POSTリクエストエラー:', error);
+    console.error('POSTリクエストエラー:', error)
   }
-};
+}
 </script>
 
 <template>
-  <header>
-    <div className="header-container">
-      <div className="header-logo">
-        <router-link to="/session/create">
-          <img src="../../../assets/img/logoB.png" alt="">
-        </router-link>
-      </div>
-    </div>
-  </header>
-
-  <main>
-    <div className='login-area'>
-      <div className="login-container">
+  <NoSidebarLayout>
+    <div class="login-area">
+      <div class="login-container">
         <h2>Welcome to Your Dashboard</h2>
         <h5>Please sign in</h5>
 
@@ -99,115 +93,79 @@ const handleSubmit = async (values: any) => {
         </Form>
       </div>
     </div>
-  </main>
+  </NoSidebarLayout>
 </template>
 
-<style lang="scss">
-body {
-  background-color: #212529;
-}
+<style scoped lang="scss">
+.login-area {
+  width: 1200px;
+  margin: 0 auto;
+  background-color: #31373d;
+  height: 100vh;
 
-header {
-  background-color: #31373D;
-  position: fixed;
-  top: 0;
-  width: 100%;
+  .login-container {
+    padding: 50px 0;
 
-  .header-container {
-    max-width: 1200px;
-    height: 60px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: auto;
-
-    .header-logo {
-      a {
-        display: flex;
-        align-items: center;
-
-        img {
-          width: 130px;
-          height: auto;
-        }
-      }
+    h2 {
+      text-align: center;
+      color: #e4e7ed;
+      font-weight: 700;
+      font-size: 24px;
     }
-  }
-}
 
-main {
-  margin-top: 60px;
+    h5 {
+      text-align: center;
+      color: #e4e7edbf;
+      font-size: 18px;
+      margin-top: 5px;
+      font-weight: 400;
+    }
 
-  .login-area {
-    width: 1200px;
-    margin: 0 auto;
-    background-color: #31373D;
-    height: 100vh;
+    form {
+      width: 360px;
+      margin: 50px auto;
 
-    .login-container {
-      padding: 50px 0;
+      .form-group {
+        margin-bottom: 20px;
 
-      h2 {
-        text-align: center;
-        color: #E4E7ED;
-        font-weight: 700;
-        font-size: 24px;
-      }
+        input {
+          width: 100%;
+          padding: 17px 13px;
+          background-color: #212529;
+          border: none;
+          border-radius: 5px;
+          font-size: 16px;
+          color: #ffffff;
 
-      h5 {
-        text-align: center;
-        color: #E4E7EDBF;
-        font-size: 18px;
-        margin-top: 5px;
-        font-weight: 400;
-      }
-
-      form {
-        width: 360px;
-        margin: 50px auto;
-
-        .form-group {
-          margin-bottom: 20px;
-
-          input {
-            width: 100%;
-            padding: 17px 13px;
-            background-color: #212529;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            color: #FFFFFF;
-
-            &::placeholder {
-              color: #E4E7EDBF;
-            }
-
-            &:focus {
-              outline: none;
-              border: 1px solid #3ea8ff;
-            }
+          &::placeholder {
+            color: #e4e7edbf;
           }
 
-          .error-msg {
-            color: #E76868;
-            font-size: 14px;
+          &:focus {
+            outline: none;
+            border: 1px solid #3ea8ff;
           }
         }
 
-        button {
-          width: 100%;
-          padding: 15px 0;
-          font-size: 16px;
-          font-weight: 700;
-          border-radius: 5px;
-          cursor: pointer;
-          background-color: #3ea8ff;
-          border: none;
-          color: #FFFFFF;
+        .error-msg {
+          color: #e76868;
+          font-size: 14px;
+        }
+      }
 
-          &:hover {
-            background-color: #0f83fd;
-          }
+      button {
+        width: 100%;
+        padding: 15px 0;
+        font-size: 16px;
+        font-weight: 700;
+        border-radius: 5px;
+        cursor: pointer;
+        background-color: #3ea8ff;
+        border: none;
+        color: #ffffff;
+
+        &:hover {
+          background-color: #0f83fd;
         }
       }
     }
