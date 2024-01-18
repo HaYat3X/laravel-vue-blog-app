@@ -18,9 +18,9 @@ use App\Http\Controllers\contact\postsController as contactPostController;
 */
 
 Route::prefix('session')->group(function () {
-    Route::post('/', [sessionsController::class, 'store']);
-    Route::get('/', [sessionsController::class, 'show'])->middleware('auth:sanctum');
-    Route::delete('/', [sessionsController::class, 'destroy'])->middleware('auth:sanctum');
+    Route::post('/sign_in', [sessionsController::class, 'signIn']);
+    Route::get('/is_login', [sessionsController::class, 'isLogin'])->middleware('auth:sanctum');
+    Route::delete('/sign_out', [sessionsController::class, 'signOut'])->middleware('auth:sanctum');
 });
 
 Route::prefix('article')->group(function () {

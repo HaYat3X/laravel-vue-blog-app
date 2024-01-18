@@ -16,28 +16,22 @@ class sessionsController extends Controller
      * @return JSON
      * @throws Exception データベースクエリの実行中にエラーが発生した場合
      */
-    public function store(Request $request)
+    public function signIn(Request $request)
     {
-        try {
-            $email = $request->input('email');
-            $password = $request->input('password');
-            $user = Admin::where('email', $email)->first();
+        $email = $request->input('email');
+        $password = $request->input('password');
+        $user = Admin::where('email', $email)->first();
 
-            if ($user && Hash::check($password, $user->password)) {
-                $token = $user->createToken('AccessToken')->plainTextToken;
+        if ($user && Hash::check($password, $user->password)) {
+            $token = $user->createToken('AccessToken')->plainTextToken;
 
-                return response()->json([
-                    'token' => $token,
-                    'notice' => 'ログインに成功しました。'
-                ], 200);
-            } else {
-                return response()->json([
-                    'alert' => 'ログインに失敗しました。'
-                ], 401);
-            }
-        } catch (Exception) {
             return response()->json([
-                'alert' => 'サーバー内でエラーが発生しました。'
+                'token' => $token,
+                'message' => 'ログインに成功しました。'
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'ログインに失敗しました。'
             ], 500);
         }
     }
@@ -49,7 +43,7 @@ class sessionsController extends Controller
      * @return JSON
      * @throws Exception データベースクエリの実行中にエラーが発生した場合
      */
-    public function show(Request $request)
+    public function isLogin(Request $request)
     {
         return response()->json([
             'admin' => $request->user()
@@ -63,7 +57,7 @@ class sessionsController extends Controller
      * @return JSON
      * @throws Exception データベースクエリの実行中にエラーが発生した場合
      */
-    public function destroy(Request $request)
+    public function signOut(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
 

@@ -1,47 +1,20 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { RouterLink, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import WithSidebarLayout from '@/components/layouts/admin/WithSidebarLayout.vue'
+import { isLogin } from '@/apis/auth/session'
 
 const router = useRouter()
 
 onMounted(async () => {
-  // try {
-  //   const response = await fetch('http://127.0.0.1:8000/api/session', {
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-  //     },
-  //   });
-  //   if (!response.ok) {
-  //     router.push('/session/create');
-  //   }
-  // } catch (error) {
-  //   console.error('ログイン状態の判定エラー:', error);
-  //   router.push('/session/create');
-  // }
-})
+  const response = await isLogin()
 
-const handleClick = async () => {
-  try {
-    const response = await fetch('http://127.0.0.1:8000/api/session', {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('authToken')}`
-      }
-    })
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`)
-    }
-
-    router.push('/session/create')
-    console.log('ログアウトした。')
-  } catch (error) {
-    console.error('POSTリクエストエラー:', error)
+  // サーバーエラーが発生した場合、500ページにリダイレクトする
+  // ログインに失敗した場合も500ページに飛ばしているのはよくないので修正を！
+  if (response.internalServerError) {
+    router.push('/error')
   }
-}
+})
 </script>
 
 <template>

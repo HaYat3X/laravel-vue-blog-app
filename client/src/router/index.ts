@@ -35,14 +35,14 @@ const router = createRouter({
       component: () => import('../views/ContactCompletionView.vue')
     },
     {
-      path: '/session/create',
-      name: 'session/create',
-      component: () => import('../views/auth/sessions/CreateView.vue')
+      path: '/administrator-login',
+      name: 'AdministratorLogin',
+      component: () => import('../views/AdministratorLoginView.vue')
     },
     {
-      path: '/dashboard',
-      name: 'dashboard',
-      component: () => import('../views/admin/dashboards/ShowView.vue')
+      path: '/admin_dashboard',
+      name: 'AdminDashboard',
+      component: () => import('../views/AdminDashboardView.vue')
     },
     {
       path: '/admin/article',

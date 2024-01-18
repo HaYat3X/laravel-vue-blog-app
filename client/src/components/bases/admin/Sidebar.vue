@@ -1,27 +1,17 @@
 <script setup lang="ts">
 import { RouterLink, useRouter } from 'vue-router'
-
+import { signOut } from '@/apis/auth/session'
 const router = useRouter()
 
 const handleClick = async () => {
-  try {
-    const response = await fetch('http://127.0.0.1:8000/api/session', {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${localStorage.getItem('authToken')}`
-      }
-    })
+  const response = await signOut()
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`)
-    }
-
-    router.push('/session/create')
-    console.log('ログアウトした。')
-  } catch (error) {
-    console.error('POSTリクエストエラー:', error)
+  // サーバーエラーが発生した場合、500ページにリダイレクトする
+  if (response.internalServerError) {
+    router.push('/error')
   }
+
+  router.push('/')
 }
 </script>
 
