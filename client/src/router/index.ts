@@ -50,8 +50,8 @@ const router = createRouter({
       component: () => import('../views/PostArticleManagementView.vue')
     },
     {
-      path: '/admin/article/create',
-      name: 'admin/article/create',
+      path: '/article_submission',
+      name: 'ArticleSubmission',
       component: () => import('../views/ArticleSubmissionView.vue')
     },
     {

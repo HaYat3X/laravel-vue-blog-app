@@ -29,11 +29,12 @@ Route::prefix('article')->group(function () {
     Route::get('/get_published_article', [postsController::class, 'getPublishedArticle']);
     Route::get('/get_article/{slug}', [postsController::class, 'getArticle']);
     Route::post('/get_article_search_result', [searchsController::class, 'getArticleSearchResult']);
+    Route::post('/submit_article', [postsController::class, 'submitArticle'])->middleware('auth:sanctum');
 
 
 
     Route::delete('/', [postsController::class, 'destroy'])->middleware('auth:sanctum');
-    Route::post('/', [postsController::class, 'store'])->middleware('auth:sanctum');
+
     Route::get('/{article_id}/edit', [postsController::class, 'edit'])->middleware('auth:sanctum');
     Route::put('/', [postsController::class, 'update'])->middleware('auth:sanctum');
 });
