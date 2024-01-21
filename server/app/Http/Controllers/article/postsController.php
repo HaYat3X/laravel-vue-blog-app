@@ -75,52 +75,40 @@ class postsController extends Controller
      * @return Json
      * @throws Exception データベースクエリの実行中にエラーが発生した場合
      */
-    public function index_all()
+    public function getAllArticle()
     {
-        try {
-            $articles = Article::latest()->get();
-            return response()->json([
-                'messafe' => '記事を取得しました。',
-                'articles' => $articles
-            ], 200);
-        } catch (Exception) {
-            return response()->json([
-                'message' => '記事の取得に失敗しました。'
-            ], 500);
-        }
+        $articles = Article::latest('created_at')->paginate(12);
+
+        return response()->json([
+            'message' => '記事を取得しました。',
+            'articles' => $articles
+        ], 200);
     }
 
     /**
      * 指定された記事(blog_id)を削除する
      * @access public
-     * @param 
+     * @param Int $articleId
      * @return Illuminate\Contracts\View\View
      * @throws Exception データベースクエリの実行中にエラーが発生した場合
      */
-    public function destroy(Request $request)
+    public function removeArticle(Int $articleId)
     {
-        try {
-            $article_id = $request->input('articleId');
-            $article = Article::find($article_id);
+        $article = Article::find($articleId);
 
-            if (!$article) {
-                return response()->json([
-                    'message' => '記事が見つかりませんでした。'
-                ], 404);
-            }
-
-            if ($article->delete()) {
-                return response()->json([
-                    'message' => '記事の削除に成功しました。'
-                ], 200);
-            } else {
-                return response()->json([
-                    'message' => '削除に失敗しました。'
-                ], 409);
-            }
-        } catch (Exception) {
+        if (!$article) {
             return response()->json([
-                'message' => 'サーバ内でエラーでエラーが発生しました。'
+                'message' => '記事が見つかりませんでした。'
+            ], 500);
+        }
+
+        if ($article->delete()) {
+            return response()->json([
+                'message' => '記事の削除に成功しました。'
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => '記事の削除に失敗しました。'
             ], 500);
         }
     }

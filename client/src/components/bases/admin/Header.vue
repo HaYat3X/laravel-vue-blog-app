@@ -2,7 +2,7 @@
   <header>
     <div class="header-container">
       <div class="header-logo">
-        <router-link to="/session/create">
+        <router-link to="/">
           <img src="../../../assets/img/logoB.png" alt="" />
         </router-link>
       </div>
