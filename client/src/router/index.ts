@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-let contactCompleted = true
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -50,8 +49,8 @@ const router = createRouter({
       component: () => import('../views/PostedArticlesView.vue')
     },
     {
-      path: '/admin/article/create',
-      name: 'admin/article/create',
+      path: '/article_submission',
+      name: 'ArticleSubmission',
       component: () => import('../views/ArticleSubmissionView.vue')
     },
     {

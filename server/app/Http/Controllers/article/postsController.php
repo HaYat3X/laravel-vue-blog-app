@@ -114,42 +114,36 @@ class postsController extends Controller
     }
 
     /**
-     * 記事投稿フォームから送信されたデータをblogsテーブルに保存する
+     * 記事投稿フォームから送信されたデータを保存する
      * @access public
      * @param Illuminate\Http\Request $request
-     * @return Illuminate\Contracts\View\View
+     * @return Json
      * @throws Exception データベースクエリの実行中にエラーが発生した場合
      */
-    public function store(Request $request)
+    public function submitArticle(Request $request)
     {
-        try {
-            $image = $request->file('featuredImage');
-            $imageName = time() . '-' . $image->getClientOriginalName();
-            $image->move(storage_path('app/public/featured_image'), $imageName);
+        // 画像投稿処理
+        $image = $request->file('featuredImage');
+        $imageName = time() . '-' . $image->getClientOriginalName();
+        $image->move(storage_path('app/public/featured_image'), $imageName);
 
-            $blog = new Article();
-            $blog->admin_id = $request->input('adminId');
-            $blog->title = $request->input('title');
-            $blog->content = $request->input('content');
-            $blog->featured_image = $imageName;
-            $blog->meta_description = $request->input('metaDescription');
-            $blog->public_status = $request->input('publicStatus');
+        $article = new Article();
+        $article->admin_id = $request->input('adminId');
+        $article->title = $request->input('title');
+        $article->content = $request->input('content');
+        $article->featured_image = $imageName;
+        $article->meta_description = $request->input('metaDescription');
+        $article->public_status = $request->input('publicStatus');
+        $article->slug = Str::slug($request->input('title'));;
+        $article->meta_title = $request->input('title');
 
-            $blog->slug = Str::slug($request->input('title'));;
-            $blog->meta_title = $request->input('title');
-
-            if ($blog->save()) {
-                return response()->json([
-                    'message' => '投稿成功'
-                ], 200);
-            } else {
-                return response()->json([
-                    'message' => '投稿失敗'
-                ], 409);
-            }
-        } catch (Exception) {
+        if ($article->save()) {
             return response()->json([
-                'message' => Exception
+                'message' => '記事の投稿に成功しました。'
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => '投稿の投稿に失敗しました。'
             ], 500);
         }
     }

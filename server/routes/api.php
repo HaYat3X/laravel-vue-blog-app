@@ -29,9 +29,9 @@ Route::prefix('article')->group(function () {
     Route::post('/get_article_search_result', [searchsController::class, 'getArticleSearchResult']);
     Route::get('/get_all_article', [postsController::class, 'getAllArticle'])->middleware('auth:sanctum');
     Route::delete('/remove_article/{articleId}', [postsController::class, 'removeArticle'])->middleware('auth:sanctum');
+    Route::post('/submit_article', [postsController::class, 'submitArticle'])->middleware('auth:sanctum');
 
-    
-    Route::post('/', [postsController::class, 'store'])->middleware('auth:sanctum');
+
     Route::get('/{article_id}/edit', [postsController::class, 'edit'])->middleware('auth:sanctum');
     Route::put('/', [postsController::class, 'update'])->middleware('auth:sanctum');
 });
