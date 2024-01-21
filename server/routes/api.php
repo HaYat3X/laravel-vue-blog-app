@@ -24,15 +24,13 @@ Route::prefix('session')->group(function () {
 });
 
 Route::prefix('article')->group(function () {
-    Route::get('/index_all', [postsController::class, 'index_all'])->middleware('auth:sanctum');
-
     Route::get('/get_published_article', [postsController::class, 'getPublishedArticle']);
     Route::get('/get_article/{slug}', [postsController::class, 'getArticle']);
     Route::post('/get_article_search_result', [searchsController::class, 'getArticleSearchResult']);
+    Route::get('/get_all_article', [postsController::class, 'getAllArticle'])->middleware('auth:sanctum');
+    Route::delete('/remove_article/{articleId}', [postsController::class, 'removeArticle'])->middleware('auth:sanctum');
 
-
-
-    Route::delete('/', [postsController::class, 'destroy'])->middleware('auth:sanctum');
+    
     Route::post('/', [postsController::class, 'store'])->middleware('auth:sanctum');
     Route::get('/{article_id}/edit', [postsController::class, 'edit'])->middleware('auth:sanctum');
     Route::put('/', [postsController::class, 'update'])->middleware('auth:sanctum');
