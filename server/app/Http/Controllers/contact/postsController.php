@@ -9,6 +9,21 @@ use App\Models\Contact;
 class postsController extends Controller
 {
     /**
+     * お問い合わせされたデータの一覧を取得する
+     * @access public
+     * @return Json
+     * @throws Exception データベースクエリの実行中にエラーが発生した場合
+     */
+    public function getAllContact()
+    {
+        $contacts = Contact::latest('created_at')->paginate(12);
+
+        return response()->json([
+            'articles' => $contacts
+        ], 200);
+    }
+
+    /**
      * お問い合わせされたデータを保存する
      * @access public
      * @param Illuminate\Http\Request $request

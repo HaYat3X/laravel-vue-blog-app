@@ -35,5 +35,6 @@ Route::prefix('article')->group(function () {
 });
 
 Route::prefix('contact')->group(function () {
+    Route::get('/get_all_contact', [contactPostController::class, 'getAllContact']);
     Route::post('/submit_contact', [contactPostController::class, 'submitContact']);
 });
