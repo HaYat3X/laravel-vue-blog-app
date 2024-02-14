@@ -54,8 +54,8 @@ const router = createRouter({
       component: () => import('../views/ArticleSubmissionView.vue')
     },
     {
-      path: '/admin/article/edit/:article_id',
-      name: 'admin/article/edit',
+      path: '/article_editing/:article_id',
+      name: 'ArticleEditing',
       component: () => import('../views/ArticleEditingView.vue')
     },
     {

@@ -30,10 +30,8 @@ Route::prefix('article')->group(function () {
     Route::get('/get_all_article', [postsController::class, 'getAllArticle'])->middleware('auth:sanctum');
     Route::delete('/remove_article/{articleId}', [postsController::class, 'removeArticle'])->middleware('auth:sanctum');
     Route::post('/submit_article', [postsController::class, 'submitArticle'])->middleware('auth:sanctum');
-
-
-    Route::get('/{article_id}/edit', [postsController::class, 'edit'])->middleware('auth:sanctum');
-    Route::put('/', [postsController::class, 'update'])->middleware('auth:sanctum');
+    Route::get('/get_editing_article/{article_id}', [postsController::class, 'getEditingArticle'])->middleware('auth:sanctum');
+    Route::put('/article_editing/{article_id}', [postsController::class, 'updateArticle'])->middleware('auth:sanctum');
 });
 
 Route::prefix('contact')->group(function () {
