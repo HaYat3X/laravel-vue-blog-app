@@ -25,6 +25,31 @@ export async function getAllContact(page: number) {
 }
 
 /**
+ * お問い合わせを削除するためのAPIにリクエストを送信します
+ * @param {number} contactId - 削除するお問い合わせID
+ * @returns {Promise<Object>} APIからのレスポンス
+ * @throws {Error} レスポンスが正常でない場合やAPIリクエスト中にエラーが発生した場合
+ */
+export async function removeContact(contactId: number) {
+  const apiUrl = `http://127.0.0.1:8000/api/contact/remove_contact/${contactId}`
+
+  const response = await fetch(apiUrl, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('authToken')}`
+    }
+  })
+
+  const responseData = await response.json()
+
+  if (response.status === 500) {
+    return { internalServerError: { message: responseData.message } }
+  }
+
+  return await responseData
+}
+
+/**
  * お問い合わせを保存するためのAPIにリクエストを送信します
  * @param {string} name 送信する名前
  * @param {string} email 送信するメールアドレス
