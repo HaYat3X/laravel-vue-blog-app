@@ -155,64 +155,52 @@ class postsController extends Controller
      * @return Illuminate\Contracts\View\View
      * @throws Exception データベースクエリの実行中にエラーが発生した場合
      */
-    public function edit(Request $request)
+    public function getEditingArticle(Int $articleId)
     {
-        try {
-            $article = Article::where('id', $request->article_id)->first();
+        $article = Article::find($articleId);
 
-            if (!$article) {
-                return response()->json([
-                    'message' => '記事が見つからない。'
-                ], 404);
-            }
-
+        if (!$article) {
             return response()->json([
-                'article' => $article
-            ], 200);
-        } catch (Exception) {
-            return response()->json([
-                'message' => 'サーバ内でエラーが発生しました。'
+                'message' => '記事が見つからない。'
             ], 500);
         }
+
+        return response()->json([
+            'article' => $article
+        ], 200);
     }
 
     /**
-     * 記事投稿フォームから送信されたデータをblogsテーブルに保存する
+     * 記事を更新する
      * @access public
      * @param Illuminate\Http\Request $request
      * @return Illuminate\Contracts\View\View
      * @throws Exception データベースクエリの実行中にエラーが発生した場合
      */
-    public function update(Request $request)
+    public function updateArticle(Request $request, Int $articleId)
     {
-        try {
-            $image = $request->file('featuredImage');
-            $imageName = time() . '-' . $image->getClientOriginalName();
-            $image->move(storage_path('app/public/featured_image'), $imageName);
+        // 画像投稿処理
+        $image = $request->file('featuredImage');
+        $imageName = time() . '-' . $image->getClientOriginalName();
+        $image->move(storage_path('app/public/featured_image'), $imageName);
 
-            $blog = Article::where('id', 7)->first();
-            $blog->admin_id = $request->input('adminId');
-            $blog->title = $request->input('title');
-            $blog->content = $request->input('content');
-            $blog->featured_image = "aaa";
-            $blog->meta_description = $request->input('metaDescription');
-            $blog->public_status = $request->input('publicStatus');
+        $article = Article::find($articleId);
+        $article->admin_id = $request->input('adminId');
+        $article->title = $request->input('title');
+        $article->content = $request->input('content');
+        $article->featured_image = $imageName;
+        $article->meta_description = $request->input('metaDescription');
+        $article->public_status = $request->input('publicStatus');
+        $article->slug = Str::slug($request->input('title'));
+        $article->meta_title = $request->input('title');
 
-            $blog->slug = Str::slug($request->input('title'));;
-            $blog->meta_title = $request->input('title');
-
-            if ($blog->update()) {
-                return response()->json([
-                    'message' => '投稿成功'
-                ], 200);
-            } else {
-                return response()->json([
-                    'message' => '投稿失敗'
-                ], 409);
-            }
-        } catch (Exception) {
+        if ($article->update()) {
             return response()->json([
-                'message' => Exception
+                'message' => '記事の更新に成功しました。'
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => '投稿の更新に失敗しました。'
             ], 500);
         }
     }
