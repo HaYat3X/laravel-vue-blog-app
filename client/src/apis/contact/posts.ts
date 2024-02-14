@@ -10,7 +10,8 @@ export async function getAllContact(page: number) {
 
   const response = await fetch(apiUrl, {
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('authToken')}`
     }
   })
 
