@@ -19,7 +19,7 @@ class postsController extends Controller
         $contacts = Contact::latest('created_at')->paginate(12);
 
         return response()->json([
-            'articles' => $contacts
+            'contacts' => $contacts
         ], 200);
     }
 

@@ -1,4 +1,29 @@
 /**
+ * お問い合わせ一覧を取得するためのAPIにリクエストを送信します
+ * @param {number} page - 取得するページ番号
+ * @returns {Promise<Object>} APIからのレスポンス
+ * @throws {Error} レスポンスが正常でない場合やAPIリクエスト中にエラーが発生した場合
+ */
+export async function getAllContact(page: number) {
+
+  const apiUrl = `http://127.0.0.1:8000/api/contact/get_all_contact?page=${page}`
+
+  const response = await fetch(apiUrl, {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+
+  const responseData = await response.json();
+
+  if (response.status === 500) {
+    return { internalServerError: { message: responseData.message } }
+  }
+
+  return responseData;
+}
+
+/**
  * お問い合わせを保存するためのAPIにリクエストを送信します
  * @param {string} name 送信する名前
  * @param {string} email 送信するメールアドレス

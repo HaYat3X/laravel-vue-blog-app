@@ -3,28 +3,28 @@ import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 import WithSidebarLayout from '@/components/layouts/admin/WithSidebarLayout.vue'
-import type { Article } from '@/types/article'
+import type { Contact } from '@/types/contact'
 import { isLogin } from '@/apis/auth/session'
-import { getAllArticle, removeArticle } from '@/apis/article/posts'
+import { getAllContact } from '@/apis/contact/posts'
 import Pagination from '@/components/elements/Pagination.vue'
 
 const router = useRouter()
-const articles = ref<Article[]>([])
+const contacts = ref<Contact[]>([])
 const currentPage = ref(1)
 const lastPage = ref()
 
-const fetchArticles = async (page: number) => {
-  const getAllArticleResponse = await getAllArticle(page)
+const fetchContacts = async (page: number) => {
+  const getAllContactResponse = await getAllContact(page)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
   // ログインに失敗した場合も500ページに飛ばしているのはよくないので修正を！
-  if (getAllArticleResponse.internalServerError) {
+  if (getAllContactResponse.internalServerError) {
     router.push('/error')
   }
 
-  articles.value = getAllArticleResponse.articles.data
-  currentPage.value = getAllArticleResponse.articles.current_page
-  lastPage.value = getAllArticleResponse.articles.last_page
+  contacts.value = getAllContactResponse.contacts.data
+  currentPage.value = getAllContactResponse.contacts.current_page
+  lastPage.value = getAllContactResponse.contacts.last_page
 }
 
 onMounted(async () => {
@@ -36,23 +36,23 @@ onMounted(async () => {
     router.push('/error')
   }
 
-  fetchArticles(currentPage.value)
+  fetchContacts(currentPage.value)
 })
 
-const onClick = async (articleId: number) => {
-  const response = await removeArticle(articleId)
+// const onClick = async (articleId: number) => {
+//   const response = await removeArticle(articleId)
 
-  // サーバーエラーが発生した場合、500ページにリダイレクトする
-  // ログインに失敗した場合も500ページに飛ばしているのはよくないので修正を！
-  if (response.internalServerError) {
-    router.push('/error')
-  }
+//   // サーバーエラーが発生した場合、500ページにリダイレクトする
+//   // ログインに失敗した場合も500ページに飛ばしているのはよくないので修正を！
+//   if (response.internalServerError) {
+//     router.push('/error')
+//   }
 
-  location.reload()
-}
+//   location.reload()
+// }
 
 const changePage = (page: number) => {
-  fetchArticles(page)
+  fetchContacts(page)
 }
 </script>
 
@@ -77,51 +77,26 @@ const changePage = (page: number) => {
             </tr>
           </thead>
 
-          <tbody v-for="article in articles" :key="article.id">
+          <tbody v-for="contact in contacts" :key="contact.id">
             <tr>
-              <th class="number">{{ article.id }}</th>
-              <td>{{ article.title }}</td>
-              <td>
-                <label v-if="article.public_status == 1" class="public">Public</label>
-                <label v-else class="private">Private</label>
-              </td>
+              <th class="number">{{ contact.id }}</th>
+              <td>{{ contact.name }}</td>
+              <td>{{ contact.email }}</td>
+              <td>{{ contact.category }}</td>
+              <td>{{ contact.content }}</td>
               <td class="action">
-                <button>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="16"
-                    width="16"
-                    viewBox="0 0 512 512"
-                  >
+                <!-- <button @click="onClick(contact.id)"> -->
+                  <svg xmlns="http://www.w3.org/2000/svg" height="16" width="14" viewBox="0 0 448 512">
                     <path
-                      d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z"
-                    />
+                      d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z" />
                   </svg>
-                </button>
-
-                <button @click="onClick(article.id)">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    height="16"
-                    width="14"
-                    viewBox="0 0 448 512"
-                  >
-                    <path
-                      d="M135.2 17.7L128 32H32C14.3 32 0 46.3 0 64S14.3 96 32 96H416c17.7 0 32-14.3 32-32s-14.3-32-32-32H320l-7.2-14.3C307.4 6.8 296.3 0 284.2 0H163.8c-12.1 0-23.2 6.8-28.6 17.7zM416 128H32L53.2 467c1.6 25.3 22.6 45 47.9 45H346.9c25.3 0 46.3-19.7 47.9-45L416 128z"
-                    />
-                  </svg>
-                </button>
+                <!-- </button> -->
               </td>
             </tr>
           </tbody>
         </table>
 
-        <Pagination
-          v-if="articles.length"
-          :current-page="currentPage"
-          :last-page="lastPage"
-          @changePage="changePage"
-        />
+        <Pagination v-if="contacts.length" :current-page="currentPage" :last-page="lastPage" @changePage="changePage" />
       </div>
     </div>
   </WithSidebarLayout>
@@ -170,6 +145,7 @@ const changePage = (page: number) => {
         color: #e4e7edbf;
         padding: 13px 0;
         border-bottom: 1px solid #181b1e;
+        text-align: center;
       }
 
       thead {
@@ -178,7 +154,7 @@ const changePage = (page: number) => {
             border-bottom: 2px solid #181b1e;
             padding: 10px 0;
             font-weight: bold;
-            text-align: left;
+            text-align: center;
           }
         }
       }

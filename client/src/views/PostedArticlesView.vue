@@ -183,6 +183,7 @@ const changePage = (page: number) => {
         color: #e4e7edbf;
         padding: 13px 0;
         border-bottom: 1px solid #181b1e;
+        text-align: center;
       }
 
       thead {
@@ -191,7 +192,7 @@ const changePage = (page: number) => {
             border-bottom: 2px solid #181b1e;
             padding: 10px 0;
             font-weight: bold;
-            text-align: left;
+            text-align: center;
           }
         }
       }
