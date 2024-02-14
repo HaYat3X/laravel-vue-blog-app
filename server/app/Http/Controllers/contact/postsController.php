@@ -24,6 +24,33 @@ class postsController extends Controller
     }
 
     /**
+     * 対応が完了したお問い合わせを削除する
+     * @access public
+     * @return Json
+     * @throws Exception データベースクエリの実行中にエラーが発生した場合
+     */
+    public function removeContact(Int $contact_id)
+    {
+        $contact = Contact::find($contact_id);
+
+        if (!$contact) {
+            return response()->json([
+                'message' => 'お問い合わせが見つかりませんでした。'
+            ], 500);
+        }
+
+        if ($contact->delete()) {
+            return response()->json([
+                'message' => 'お問いあわせの削除に成功しました。'
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'お問い合わせの削除に失敗しました。'
+            ], 500);
+        }
+    }
+
+    /**
      * お問い合わせされたデータを保存する
      * @access public
      * @param Illuminate\Http\Request $request

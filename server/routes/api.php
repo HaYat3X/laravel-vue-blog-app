@@ -35,6 +35,7 @@ Route::prefix('article')->group(function () {
 });
 
 Route::prefix('contact')->group(function () {
-    Route::get('/get_all_contact', [contactPostController::class, 'getAllContact']);
+    Route::get('/get_all_contact', [contactPostController::class, 'getAllContact'])->middleware('auth:sanctum');
     Route::post('/submit_contact', [contactPostController::class, 'submitContact']);
+    Route::delete('/remove_contact/{contact_id}', [contactPostController::class, 'removeContact'])->middleware('auth:sanctum');
 });
