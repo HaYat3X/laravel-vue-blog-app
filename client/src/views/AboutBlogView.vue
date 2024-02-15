@@ -72,7 +72,7 @@ import NoSidebarLayout from '@/components/layouts/NoSidebarLayout.vue';
         </li>
       </ul>
 
-      <img src="../assets/img/exsample.png" alt="">
+      <img src="../assets/img/technical-specifications.png" alt="">
     </div>
   </NoSidebarLayout>
 </template>

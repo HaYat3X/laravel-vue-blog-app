@@ -43,12 +43,6 @@ onMounted(async () => {
       </div>
 
       <div class="article">
-        <div class="tag">
-          <a href="/" v-for="tag in tags" :key="tag.id">
-            <label for="">{{ tag.tag }}</label>
-          </a>
-        </div>
-
         <div class="content" v-html="markdownContent"></div>
       </div>
     </div>
@@ -83,26 +77,6 @@ onMounted(async () => {
 
     @media only screen and (min-width: 1024px) {
       padding: 40px;
-    }
-
-    .tag {
-      display: flex;
-      column-gap: 5px;
-      row-gap: 15px;
-      flex-wrap: wrap;
-
-      a {
-        text-decoration: none;
-      }
-
-      label {
-        background-color: #3ea8ff;
-        color: #ffffff;
-        font-size: 12px;
-        padding: 5px 10px;
-        border-radius: 50px;
-        cursor: pointer;
-      }
     }
 
     .content {

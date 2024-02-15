@@ -1,5 +1,6 @@
 <script setup lang="ts">
 defineProps({
+  ArticleSlug: String,
   FeaturedImgae: String,
   ArticleTitle: String,
   ArticleCreatedAt: String
@@ -8,7 +9,7 @@ defineProps({
 
 <template>
   <div class="card">
-    <a href="#">
+    <a :href="`/${ArticleSlug}`">
       <div class="card-img">
         <img :src="FeaturedImgae" alt="">
       </div>

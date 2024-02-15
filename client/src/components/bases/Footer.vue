@@ -2,32 +2,26 @@
   <footer>
     <ul>
       <li>
-        <a href="#">
+        <a href="/about_me">
           私について
         </a>
       </li>
 
       <li>
-        <a href="#">
+        <a href="/about_blog">
           ブログについて
         </a>
       </li>
 
       <li>
-        <a href="#">
+        <a href="/">
           ブログ
         </a>
       </li>
 
       <li>
-        <a href="#">
+        <a href="/contact">
           お問い合わせ
-        </a>
-      </li>
-
-      <li>
-        <a href="#">
-          プライバシーポリシー
         </a>
       </li>
     </ul>

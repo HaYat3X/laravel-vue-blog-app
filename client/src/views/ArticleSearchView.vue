@@ -1,24 +1,31 @@
 <script setup lang="ts">
 import NoSidebarLayout from '@/components/layouts/NoSidebarLayout.vue';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { getPublishedArticle } from '@/apis/article/posts'
+import type { Article } from '@/types/article'
 
 const keyword = ref('');
 const router = useRouter();
+const articles = ref<Article[]>([])
+
+onMounted(async () => {
+  const response = await getPublishedArticle(1)
+
+  // サーバーエラーが発生した場合、500ページにリダイレクトする
+  if (response.error) {
+    console.log(response.error.message)
+    router.push('/error')
+  }
+
+  articles.value = response.articles.data
+})
 
 /**
  * 検索されたキーワードを検索結果画面へ送信する
  */
 const onsubmit = () => {
   router.push({ path: '/search_result', query: { keyword: keyword.value } });
-}
-
-/**
- * 検索されたタグを検索結果画面へ送信する
- * @param {string} tag
- */
- const onclick = (tag: string) => {
-  router.push({ path: '/search_result', query: { tag: tag } });
 }
 </script>
 
@@ -30,16 +37,25 @@ const onsubmit = () => {
           <input type="text" v-model="keyword" placeholder="キーワードを入力..." required>
         </label>
       </form>
+    </div>
 
-      <div class="search-tag">
-        <h3>タグで検索</h3>
-        <div class="tag">
-          <a @click="onclick('aaaa')">
-            <label for="">{{ '#aaaa' }}</label>
-          </a>
+    <div class="recent-articles">
+      <h2>Recent Articles</h2>
 
-          <a href="/">
-            <label for="">{{ '#aaaa' }}</label>
+      <div class="articles">
+        <div class="card" v-for="(article, index) in articles.slice(0, 3)" :key="article.id">
+          <a :href="`/${article.slug}`">
+            <div class="card-img">
+              <img :src="`http://127.0.0.1:8000/storage/featured_image/${article.featured_image}`" alt="">
+            </div>
+
+            <p>
+              {{ article.title }}
+            </p>
+
+            <small>
+              {{ article.created_at.slice(0, 10) }}
+            </small>
           </a>
         </div>
       </div>
@@ -97,41 +113,62 @@ const onsubmit = () => {
       }
     }
   }
+}
 
-  .search-tag {
-    margin-top: 30px;
+.recent-articles {
+  margin-top: 50px;
 
-    h3 {
-      font-weight: bold;
-      font-size: 15px;
-      margin-bottom: 10px;
+  h2 {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+
+  .articles {
+    @media only screen and (min-width: 768px) and (max-width: 1023px) {
+      display: flex;
+      gap: 20px;
     }
 
-    .tag {
+    @media only screen and (min-width: 1024px) {
       display: flex;
-      column-gap: 5px;
-      row-gap: 15px;
-      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .card {
+      margin-bottom: 30px;
+
+      @media only screen and (min-width: 768px) and (max-width: 1023px) {
+        width: 33.33%;
+      }
+
+      @media only screen and (min-width: 1024px) {
+        width: 33.33%;
+      }
 
       a {
         text-decoration: none;
+        color: #222222;
       }
 
-      label {
-        background-color: #3ea8ff;
-        color: #ffffff;
-        font-size: 12px;
-        padding: 5px 10px;
-        border-radius: 50px;
-        cursor: pointer;
+      img {
+        width: 100%;
+        height: auto;
+        border-radius: 5px;
+        object-fit: cover;
+        transition: opacity 0.3s;
 
-        @media only screen and (min-width: 768px) and (max-width: 1023px) {
-          font-size: 14px;
+        &:hover {
+          opacity: 0.5;
         }
+      }
 
-        @media only screen and (min-width: 1024px) {
-          font-size: 14px;
-        }
+      p {
+        font-size: 16px;
+        font-weight: bold;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
   }
