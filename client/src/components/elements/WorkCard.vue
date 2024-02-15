@@ -19,7 +19,13 @@ defineProps({
 
 <style scoped lang="scss">
 .work-item {
-  width: 31.85%;
+  @media only screen and (min-width: 768px) and (max-width: 1023px) {
+    width: 31.85%;
+  }
+
+  @media only screen and (min-width: 1024px) {
+    width: 31.85%;
+  }
 
   a {
     text-decoration: none;
@@ -39,9 +45,9 @@ defineProps({
   p {
     text-align: center;
     color: #65717b;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: bold;
-    margin-top: 5px;
+    margin-bottom: 10px;
   }
 }
 </style>

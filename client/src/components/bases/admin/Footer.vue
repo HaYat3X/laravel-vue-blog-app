@@ -1,6 +1,6 @@
 <template>
   <footer>
-    <p>&copy; 2023 Hayate Takeda</p>
+    <p>&copy; 2023-2024 Hayate Takeda</p>
   </footer>
 </template>
 
