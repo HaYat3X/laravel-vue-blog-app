@@ -148,22 +148,57 @@ const options = {
 
 <style scoped lang="scss">
 section {
-  width: 900px;
-  margin: 0 auto;
-  padding: 60px 0;
+  @media only screen and (min-width: 768px) and (max-width: 1023px) {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  @media only screen and (min-width: 1024px) {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+}
+
+hr {
+  margin: 20px 0;
+
+  @media only screen and (min-width: 768px) and (max-width: 1023px) {
+    margin: 40px 0;
+  }
+
+  @media only screen and (min-width: 1024px) {
+    margin: 60px 0;
+  }
 }
 
 .about-me {
-  display: flex;
+  @media only screen and (min-width: 768px) and (max-width: 1023px) {
+    display: flex;
+  }
+
+  @media only screen and (min-width: 1024px) {
+    display: flex;
+  }
 
   .about {
-    flex: 1;
-    margin-right: 20px;
+    @media only screen and (min-width: 768px) and (max-width: 1023px) {
+      flex: 1;
+      margin-right: 10px;
+    }
+
+    @media only screen and (min-width: 1024px) {
+      flex: 1;
+      margin-right: 20px;
+    }
 
     h1 {
       font-weight: bold;
-      font-size: 46px;
-      margin: 30px 0;
+      font-size: 38px;
+      margin-bottom: 20px;
+
+      @media only screen and (min-width: 1024px) {
+        font-size: 46px;
+      }
     }
 
     p {
@@ -173,8 +208,15 @@ section {
   }
 
   .my-img {
-    flex: 1;
-    margin-left: 20px;
+    @media only screen and (min-width: 768px) and (max-width: 1023px) {
+      flex: 1;
+      margin-left: 10px;
+    }
+
+    @media only screen and (min-width: 1024px) {
+      flex: 1;
+      margin-left: 20px;
+    }
 
     img {
       width: 100%;
@@ -188,18 +230,31 @@ section {
 .my-works {
   h2 {
     text-align: center;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
+
+    @media only screen and (min-width: 768px) and (max-width: 1023px) {
+      font-size: 20px;
+    }
+
+    @media only screen and (min-width: 1024px) {
+      font-size: 20px;
+    }
   }
 
   .works {
     margin-top: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
 
-    .skill-item {
-      width: 31.85%;
+    @media only screen and (min-width: 768px) and (max-width: 1023px) {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    @media only screen and (min-width: 1024px) {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
     }
   }
 }
@@ -213,12 +268,27 @@ section {
 
   .skill {
     margin-top: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+
+    @media only screen and (min-width: 768px) and (max-width: 1023px) {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    @media only screen and (min-width: 1024px) {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
 
     .skill-item {
-      width: 31.85%;
+      @media only screen and (min-width: 768px) and (max-width: 1023px) {
+        width: 31.85%;
+      }
+
+      @media only screen and (min-width: 1024px) {
+        width: 31.85%;
+      }
     }
   }
 }
