@@ -72,7 +72,8 @@ export async function signOut() {
     const response = await fetch(apiUrl, {
       method: 'DELETE',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${localStorage.getItem('authToken')}`
       }
     })
 

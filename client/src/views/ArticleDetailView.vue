@@ -4,13 +4,11 @@ import { marked } from "marked"
 import { onMounted, ref } from 'vue';
 import { getArticle } from '@/apis/article/posts'
 import type { Article } from "@/types/article";
-import type { Tag } from "@/types/tag";
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const article = ref<Article>();
 const markdownContent = ref();
-const tags = ref<Tag[]>();
 
 onMounted(async () => {
   const slug = router.currentRoute.value.params.slug;
@@ -29,7 +27,6 @@ onMounted(async () => {
   }
 
   article.value = response.article;
-  tags.value = response.tags;
   markdownContent.value = marked(article.value?.content);
 });
 </script>

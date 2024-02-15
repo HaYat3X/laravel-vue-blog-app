@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class sessionsController extends Controller
 {
@@ -57,12 +58,16 @@ class sessionsController extends Controller
      * @return JSON
      * @throws Exception データベースクエリの実行中にエラーが発生した場合
      */
-    public function signOut(Request $request)
+    public function signOut()
     {
-        $request->user()->currentAccessToken()->delete();
-
-        return response()->json([
-            'notice' => 'ログアウトしました。'
-        ], 200);
+        if (DB::table('personal_access_tokens')->truncate()) {
+            return response()->json([
+                'message' => 'ログアウトしました。'
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'ログアウトに失敗しました。'
+            ], 500);
+        }
     }
 }

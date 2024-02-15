@@ -20,19 +20,7 @@ class searchsController extends Controller
     {
         try {
             $keyword = $request->input('keyword');
-            $tag = $request->input('tag');
-            $query = Article::query()->where('public_status', 1);
-
-            if ($keyword && !$tag) {
-                $query->where('title', 'like', '%' . $keyword . '%')->where('public_status', 1);
-            }
-
-            if ($tag && !$keyword) {
-                $post_ids = Tag::where('tag', $tag)->pluck('article_id')->toArray();
-                $query->where('public_status', 1)->whereIn('id', $post_ids);
-            }
-
-            $articles = $query->paginate(12);
+            $articles = Article::query()->where('public_status', 1)->where('title', 'like', '%' . $keyword . '%')->paginate(12);
 
             return response()->json([
                 'articles' => $articles

@@ -10,8 +10,8 @@ class Article extends Model
 {
     use HasFactory;
 
-    public function tags(): HasMany
+    public function admin()
     {
-        return $this->hasMany(Tag::class);
+        return $this->belongsTo(Admin::class);
     }
 }
