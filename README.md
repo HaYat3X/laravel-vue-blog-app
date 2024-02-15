@@ -1,6 +1,6 @@
 # Laravel × Vue.js Blog-app
 
-# client
+## client-side
 
 This template should help get you started developing with Vue 3 in Vite.
 
@@ -47,7 +47,7 @@ npm run build
 npm run lint
 ```
 
-# server
+## server-side
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 

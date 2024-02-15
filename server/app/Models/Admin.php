@@ -10,8 +10,8 @@ class Admin extends Model
 {
     use HasFactory, HasApiTokens;
 
-    public function blogs()
+    public function articles()
     {
-        return $this->hasMany(Blog::class);
+        return $this->hasMany(Article::class);
     }
 }

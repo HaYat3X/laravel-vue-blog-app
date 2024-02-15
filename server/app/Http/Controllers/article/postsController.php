@@ -49,8 +49,6 @@ class postsController extends Controller
                 ], 404);
             }
 
-            $tags = $article->tags()->get();
-
             // 記事が非公開の場合は403エラーを返す
             if ($article->public_status === 0) {
                 return response()->json([
@@ -60,7 +58,6 @@ class postsController extends Controller
 
             return response()->json([
                 'article' => $article,
-                'tags' => $tags,
             ], 200);
         } catch (Exception) {
             return response()->json([
