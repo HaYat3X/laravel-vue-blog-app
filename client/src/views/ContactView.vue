@@ -31,7 +31,7 @@ const onSubmit = async () => {
     <div class="contact-container">
       <h2>Contact</h2>
       <p class="contact-text">
-        竹田颯へのお問い合わせはこちらからお願いいたします。<br>
+        竹田 颯へのお問い合わせはこちらからお願いいたします。<br>
         <span>*</span>がついているものは必須項目です。
       </p>
 
@@ -63,9 +63,11 @@ const onSubmit = async () => {
           <label class="selectbox-3">
             <select v-model="category" required>
               <option disabled value="">選択してください</option>
-              <option>A</option>
-              <option>B</option>
-              <option>C</option>
+              <option>技術関連の質問</option>
+              <option>当ブログへのフィードバック</option>
+              <option>コラボレーションや提携のご依頼</option>
+              <option>エンジニアリングに関連する仕事やプロジェクトのご相談</option>
+              <option>その他のお問い合わせ</option>
             </select>
           </label>
         </div>

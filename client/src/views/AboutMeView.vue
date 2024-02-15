@@ -104,7 +104,7 @@ const options = {
       </div>
 
       <div class="my-img">
-        <img src="../assets/img/exsample.png" alt="">
+        <img src="../assets/img/about-me/thumbnail.png" alt="">
       </div>
     </section>
 
@@ -114,13 +114,27 @@ const options = {
       <h2>My works</h2>
 
       <div class="works">
-        <WorkCard -featured-imgae="/src/assets/img/exsample.png" -work-title="「MY CLOSET」" />
+        <WorkCard -featured-imgae="/src/assets/img/work/my-closet.png" -work-title="「MY CLOSET」" />
 
-        <WorkCard -featured-imgae="/src/assets/img/exsample.png" -work-title="「typyings」" />
+        <WorkCard -featured-imgae="/src/assets/img/work/real-intention.png" -work-title="「Real intentioN」" />
 
-        <WorkCard -featured-imgae="/src/assets/img/exsample.png" -work-title="「Real intntioN」" />
+        <WorkCard -featured-imgae="/src/assets/img/work/travelogue.png" -work-title="「travelogue」" />
 
-        <WorkCard -featured-imgae="/src/assets/img/exsample.png" -work-title="「Real intntioN」" />
+        <WorkCard -featured-imgae="/src/assets/img/work/a-word.png" -work-title="「a Word」" />
+
+        <WorkCard -featured-imgae="/src/assets/img/work/my-news.png" -work-title="「My News」" />
+
+        <WorkCard -featured-imgae="/src/assets/img/work/pack-cat.png" -work-title="「Pack Cat」" />
+
+        <WorkCard -featured-imgae="/src/assets/img/work/pokemon-quiz.png" -work-title="「Pokemon Quiz」" />
+
+        <WorkCard -featured-imgae="/src/assets/img/work/todo-app.png" -work-title="「Todo App」" />
+
+        <WorkCard -featured-imgae="/src/assets/img/work/typing.png" -work-title="「Typing」" />
+
+        <WorkCard -featured-imgae="/src/assets/img/work/youtube-clone.png" -work-title="「Youtube Clone」" />
+
+        <WorkCard -featured-imgae="/src/assets/img/work/hayate-tech-lab.png" -work-title="「Hayate Tech Lab」" />
       </div>
     </section>
 
@@ -174,20 +188,22 @@ hr {
 .about-me {
   @media only screen and (min-width: 768px) and (max-width: 1023px) {
     display: flex;
+    align-items: center;
   }
 
   @media only screen and (min-width: 1024px) {
     display: flex;
+    align-items: center;
   }
 
   .about {
     @media only screen and (min-width: 768px) and (max-width: 1023px) {
-      flex: 1;
+      flex: 1.1;
       margin-right: 10px;
     }
 
     @media only screen and (min-width: 1024px) {
-      flex: 1;
+      flex: 1.2;
       margin-right: 20px;
     }
 
@@ -204,17 +220,18 @@ hr {
     p {
       color: #65717b;
       font-size: 16px;
+      margin-bottom: 10px;
     }
   }
 
   .my-img {
     @media only screen and (min-width: 768px) and (max-width: 1023px) {
-      flex: 1;
+      flex: 0.9;
       margin-left: 10px;
     }
 
     @media only screen and (min-width: 1024px) {
-      flex: 1;
+      flex: 0.8;
       margin-left: 20px;
     }
 

@@ -10,7 +10,7 @@ import Button from '@/components/elements/Button.vue';
 
       <p>
         お問合せいただきありがとうございます。<br>
-        近日中にご連絡しますので、恐れ入りますがしばらくおまちください。
+        近日中にご連絡しますので、恐れ入りますがしばらくお待ちください。
       </p>
 
       <a href="/">

@@ -28,7 +28,7 @@ const onSubmit = async () => {
 
   // ローカルストレージにトークンを保存
   localStorage.setItem('authToken', response.token)
-  router.push('/admin_dashboard')
+  router.push('/posted_articles')
 }
 </script>
 
