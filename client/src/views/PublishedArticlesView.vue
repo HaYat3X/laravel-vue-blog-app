@@ -54,7 +54,7 @@ const changePage = (page: number) => {
           v-for="article in articles"
           :key="article.id"
           :-article-slug="article.slug"
-          :-featured-imgae="`http://127.0.0.1:8000/storage/featured_image/${article.featured_image}`"
+          :-featured-imgae="`https://rapid-tsukumi-6067.lolipop.io/storage/featured_image/${article.featured_image}`"
           :-article-title="article.title"
           :-article-created-at="article.created_at.slice(0, 10)"
         />
