@@ -6,7 +6,7 @@
  */
 export async function getPublishedArticle(page: number) {
   try {
-    const apiUrl = `http://127.0.0.1:8000/api/article/get_published_article?page=${page}`
+    const apiUrl = `http://13.231.254.240/api/article/get_published_article?page=${page}`
 
     const response = await fetch(apiUrl, {
       headers: {
@@ -32,7 +32,7 @@ export async function getPublishedArticle(page: number) {
  */
 export async function getArticle(slug: any) {
   try {
-    const apiUrl = `http://127.0.0.1:8000/api/article/get_article/${slug}`
+    const apiUrl = `http://13.231.254.240/api/article/get_article/${slug}`
 
     const response = await fetch(apiUrl, {
       headers: {
@@ -63,7 +63,7 @@ export async function getArticle(slug: any) {
  * @throws {Error} レスポンスが正常でない場合やAPIリクエスト中にエラーが発生した場合
  */
 export async function getAllArticle(page: number) {
-  const apiUrl = `http://127.0.0.1:8000/api/article/get_all_article?page=${page}`
+  const apiUrl = `http://13.231.254.240/api/article/get_all_article?page=${page}`
 
   const response = await fetch(apiUrl, {
     headers: {
@@ -88,7 +88,7 @@ export async function getAllArticle(page: number) {
  * @throws {Error} レスポンスが正常でない場合やAPIリクエスト中にエラーが発生した場合
  */
 export async function removeArticle(articleId: number) {
-  const apiUrl = `http://127.0.0.1:8000/api/article/remove_article/${articleId}`
+  const apiUrl = `http://13.231.254.240/api/article/remove_article/${articleId}`
 
   const response = await fetch(apiUrl, {
     method: 'DELETE',
@@ -119,7 +119,7 @@ export async function removeArticle(articleId: number) {
  */
 export async function submitArticle(adminId: string, title: string, content: string, featuredImage: File, metaDescription: string, publicStatus: boolean) {
   try {
-    const apiUrl = `http://127.0.0.1:8000/api/article/submit_article`;
+    const apiUrl = `http://13.231.254.240/api/article/submit_article`;
 
     const formData = new FormData();
     formData.append('adminId', adminId)
@@ -156,7 +156,7 @@ export async function submitArticle(adminId: string, title: string, content: str
  * @throws {Error} レスポンスが正常でない場合やAPIリクエスト中にエラーが発生した場合
  */
 export async function getEditingArticle(articleId: any) {
-  const apiUrl = `http://127.0.0.1:8000/api/article/get_editing_article/${articleId}`
+  const apiUrl = `http://13.231.254.240/api/article/get_editing_article/${articleId}`
 
   const response = await fetch(apiUrl, {
     method: 'GET',
@@ -188,7 +188,7 @@ export async function getEditingArticle(articleId: any) {
  */
 export async function updateArticle(articleId: any, adminId: string, title: string, content: string, featuredImage: File, metaDescription: string, publicStatus: boolean) {
   try {
-    const apiUrl = `http://127.0.0.1:8000/api/article/article_editing/${articleId}`;
+    const apiUrl = `http://13.231.254.240/api/article/article_editing/${articleId}`;
 
     const formData = new FormData()
     formData.append('adminId', adminId)

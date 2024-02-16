@@ -6,7 +6,7 @@
  */
 export async function getAllContact(page: number) {
 
-  const apiUrl = `http://127.0.0.1:8000/api/contact/get_all_contact?page=${page}`
+  const apiUrl = `http://13.231.254.240/api/contact/get_all_contact?page=${page}`
 
   const response = await fetch(apiUrl, {
     headers: {
@@ -31,7 +31,7 @@ export async function getAllContact(page: number) {
  * @throws {Error} レスポンスが正常でない場合やAPIリクエスト中にエラーが発生した場合
  */
 export async function removeContact(contactId: number) {
-  const apiUrl = `http://127.0.0.1:8000/api/contact/remove_contact/${contactId}`
+  const apiUrl = `http://13.231.254.240/api/contact/remove_contact/${contactId}`
 
   const response = await fetch(apiUrl, {
     method: 'DELETE',
@@ -60,7 +60,7 @@ export async function removeContact(contactId: number) {
  */
 export async function submitContact(name: string, email: string, category: string, content: string) {
   try {
-    const apiUrl = `http://127.0.0.1:8000/api/contact/submit_contact`;
+    const apiUrl = `http://13.231.254.240/api/contact/submit_contact`;
 
     const response = await fetch(apiUrl, {
       method: 'POST',
