@@ -5,7 +5,7 @@
  */
 export async function isLogin() {
   try {
-    const apiUrl = `http://13.231.254.240/api/session/is_login`
+    const apiUrl = `https://rapid-tsukumi-6067.lolipop.io/api/session/is_login`
 
     const response = await fetch(apiUrl, {
       headers: {
@@ -35,7 +35,7 @@ export async function isLogin() {
  */
 export async function signIn(email: string, password: string) {
   try {
-    const apiUrl = `http://13.231.254.240/api/session/sign_in`
+    const apiUrl = `https://rapid-tsukumi-6067.lolipop.io/api/session/sign_in`
 
     const response = await fetch(apiUrl, {
       method: 'POST',
@@ -67,7 +67,7 @@ export async function signIn(email: string, password: string) {
  */
 export async function signOut() {
   try {
-    const apiUrl = `http://13.231.254.240/api/session/sign_out`
+    const apiUrl = `https://rapid-tsukumi-6067.lolipop.io/api/session/sign_out`
 
     const response = await fetch(apiUrl, {
       method: 'DELETE',
