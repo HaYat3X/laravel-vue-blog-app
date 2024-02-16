@@ -6,7 +6,7 @@
  */
 export async function getPublishedArticleKeyword(keyword: any) {
   try {
-    const apiUrl = `http://13.231.254.240/api/article/get_article_search_result`;
+    const apiUrl = `https://rapid-tsukumi-6067.lolipop.io/api/article/get_article_search_result`;
     console.log(keyword);
     const formData = new FormData();
     const jsonKeyword = JSON.stringify(keyword);
@@ -43,7 +43,7 @@ export async function getPublishedArticleKeyword(keyword: any) {
  */
 export async function getPublishedArticleTag(tag: any) {
   try {
-    const apiUrl = `http://13.231.254.240/api/article/get_article_search_result`;
+    const apiUrl = `https://rapid-tsukumi-6067.lolipop.io/api/article/get_article_search_result`;
 
     const response = await fetch(apiUrl, {
       method: 'POST',
