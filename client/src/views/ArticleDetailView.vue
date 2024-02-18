@@ -2,9 +2,9 @@
 import WithSidebarLayout from '@/components/layouts/WithSidebarLayout.vue';
 import { marked } from "marked"
 import { onMounted, ref } from 'vue';
-import { getArticle } from '@/apis/article/posts'
 import type { Article } from "@/types/article";
 import { useRouter } from 'vue-router';
+import { getData } from '@/services/api';
 
 const router = useRouter();
 const article = ref<Article>();
@@ -12,21 +12,20 @@ const markdownContent = ref();
 
 onMounted(async () => {
   const slug = router.currentRoute.value.params.slug;
-  const response = await getArticle(slug);
+  const url = `api/article/get_article/${slug}`
+  const getArticle = await getData(url);
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
-  if (response.internalServerError) {
-    console.log(response.internalServerError.message);
+  if (getArticle.internalServerError) {
     router.push('/error');
   }
 
   // ページが見つからない場合は、404ページにリダイレクトする
-  if (response.notFoundError) {
-    console.log(response.notFoundError.message);
+  if (getArticle.notFoundError) {
     router.push({ name: 'NotFound' });
   }
 
-  article.value = response.article;
+  article.value = getArticle.article;
   markdownContent.value = marked(article.value?.content);
 });
 </script>

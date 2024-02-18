@@ -4,9 +4,8 @@ import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 import WithSidebarLayout from '@/components/layouts/admin/WithSidebarLayout.vue'
 import type { Article } from '@/types/article'
-import { isLogin } from '@/apis/auth/session'
-import { getAllArticle, removeArticle } from '@/apis/article/posts'
 import Pagination from '@/components/elements/Pagination.vue'
+import { getData, deleteData } from '@/services/api'
 
 const router = useRouter()
 const articles = ref<Article[]>([])
@@ -14,25 +13,25 @@ const currentPage = ref(1)
 const lastPage = ref()
 
 const fetchArticles = async (page: number) => {
-  const getAllArticleResponse = await getAllArticle(page)
+  const url = `api/article/get_all_article?page=${page}`
+  const getAllArticle = await getData(url)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
-  // ログインに失敗した場合も500ページに飛ばしているのはよくないので修正を！
-  if (getAllArticleResponse.internalServerError) {
+  if (getAllArticle.internalServerError) {
     router.push('/error')
   }
 
-  articles.value = getAllArticleResponse.articles.data
-  currentPage.value = getAllArticleResponse.articles.current_page
-  lastPage.value = getAllArticleResponse.articles.last_page
+  articles.value = getAllArticle.articles.data
+  currentPage.value = getAllArticle.articles.current_page
+  lastPage.value = getAllArticle.articles.last_page
 }
 
 onMounted(async () => {
-  const isLoginResponse = await isLogin()
+  const url = `api/session/is_login`
+  const isLogin = await getData(url)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
-  // ログインに失敗した場合も500ページに飛ばしているのはよくないので修正を！
-  if (isLoginResponse.internalServerError) {
+  if (isLogin.internalServerError) {
     router.push('/error')
   }
 
@@ -40,11 +39,11 @@ onMounted(async () => {
 })
 
 const onClick = async (articleId: number) => {
-  const response = await removeArticle(articleId)
+  const url = `api/article/remove_article/${articleId}`
+  const removeArticle = await deleteData(url)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
-  // ログインに失敗した場合も500ページに飛ばしているのはよくないので修正を！
-  if (response.internalServerError) {
+  if (removeArticle.internalServerError) {
     router.push('/error')
   }
 

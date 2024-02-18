@@ -1,25 +1,26 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { isLogin } from '@/apis/auth/session';
 import WithSidebarLayout from '@/components/layouts/admin/WithSidebarLayout.vue';
 import { submitArticle } from '@/apis/article/posts'
+import { getData, createData } from '@/services/api';
 
 const adminId = ref('');
 const title = ref('');
 const content = ref('');
-const featuredImage = ref<File | null>(null);
+const featuredImage: any = ref<File>();
 const metaDescription = ref('');
 const publicStatus = ref(false);
 const router = useRouter();
 
 onMounted(async () => {
-  const response = await isLogin()
-  adminId.value = response.admin.id
+  const url = `api/session/is_login`
+  const isLogin = await getData(url)
+
+  adminId.value = isLogin.admin.id
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
-  // ログインに失敗した場合も500ページに飛ばしているのはよくないので修正を！
-  if (response.internalServerError) {
+  if (isLogin.internalServerError) {
     router.push('/error')
   }
 });
@@ -33,17 +34,24 @@ const handleImageChange = (event: Event) => {
 };
 
 const onSubmit = async () => {
-  if (featuredImage.value) {
-    const response = await submitArticle(adminId.value, title.value, content.value, featuredImage.value, metaDescription.value, publicStatus.value)
+  const url = `api/article/submit_article`
+  const formData = new FormData
+  formData.append('adminId', adminId.value)
+  formData.append('title', title.value)
+  formData.append('content', content.value)
+  formData.append('featuredImage', featuredImage.value)
+  formData.append('metaDescription', metaDescription.value)
+  formData.append('publicStatus', publicStatus ? '1' : '0')
 
-    // サーバーエラーが発生した場合、500ページにリダイレクトする
-    if (response.internalServerError) {
-      console.log(response.internalServerError.message);
-      router.push('/error');
-    }
 
-    // エラーがない場合は投稿記事一覧画面へ遷移
+  const submitArticle = await createData(url, formData)
+
+  // サーバーエラーが発生した場合、500ページにリダイレクトする
+  if (submitArticle.internalServerError) {
+    router.push('/error');
   }
+
+  router.push('/posted_articles')
 }
 </script>
 

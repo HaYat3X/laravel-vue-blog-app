@@ -1,22 +1,22 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { getPublishedArticle } from '@/apis/article/posts'
 import type { Article } from '@/types/article'
+import { getData } from '@/services/api'
 
 const router = useRouter()
 const articles = ref<Article[]>([])
 
 onMounted(async () => {
-  const response = await getPublishedArticle(1)
+  const url = `api/article/get_published_article?page=${1}`
+  const getPublishedArticle = await getData(url)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
-  if (response.error) {
-    console.log(response.error.message)
+  if (getPublishedArticle.error) {
     router.push('/error')
   }
 
-  articles.value = response.articles.data
+  articles.value = getPublishedArticle.articles.data
 })
 </script>
 

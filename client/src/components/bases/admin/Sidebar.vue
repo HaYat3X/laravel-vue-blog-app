@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { RouterLink, useRouter } from 'vue-router'
 import { signOut } from '@/apis/auth/session'
+import { deleteData } from '@/services/api';
+
 const router = useRouter()
 
 const handleClick = async () => {
-  const response = await signOut()
+  const url = `api/session/sign_out`
+  const signOut = await deleteData(url)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
-  if (response.internalServerError) {
+  if (signOut.internalServerError) {
     router.push('/error')
   }
 
