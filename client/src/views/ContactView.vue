@@ -2,7 +2,6 @@
 import WithSidebarLayout from '@/components/layouts/WithSidebarLayout.vue';
 import Button from '@/components/elements/Button.vue';
 import { ref } from 'vue';
-import { submitContact } from '@/apis/contact/posts'
 import { useRouter } from 'vue-router';
 import { createData } from '@/services/api';
 

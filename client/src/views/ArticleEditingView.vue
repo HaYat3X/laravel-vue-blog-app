@@ -2,7 +2,6 @@
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
-import { updateArticle, getEditingArticle } from '@/apis/article/posts'
 import WithSidebarLayout from '@/components/layouts/admin/WithSidebarLayout.vue';
 import { getData, updateData } from '@/services/api';
 

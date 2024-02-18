@@ -2,7 +2,6 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import NoSidebarLayout from '@/components/layouts/admin/NoSidebarLayout.vue'
-import { signIn } from '@/apis/auth/session'
 import { createData } from '@/services/api'
 
 const router = useRouter()

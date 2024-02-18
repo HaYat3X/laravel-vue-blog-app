@@ -2,7 +2,6 @@
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import WithSidebarLayout from '@/components/layouts/admin/WithSidebarLayout.vue';
-import { submitArticle } from '@/apis/article/posts'
 import { getData, createData } from '@/services/api';
 
 const adminId = ref('');

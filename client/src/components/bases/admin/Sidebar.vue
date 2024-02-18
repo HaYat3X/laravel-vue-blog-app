@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { RouterLink, useRouter } from 'vue-router'
-import { signOut } from '@/apis/auth/session'
 import { deleteData } from '@/services/api';
 
 const router = useRouter()

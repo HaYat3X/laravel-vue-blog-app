@@ -4,7 +4,6 @@ import ArticleCard from '@/components/elements/ArticleCard.vue';
 import Pagination from '@/components/elements/Pagination.vue';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { getPublishedArticle } from '@/apis/article/posts'
 import type { Article } from "@/types/article";
 import { getData } from '@/services/api';
 
