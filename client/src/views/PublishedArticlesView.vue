@@ -4,8 +4,8 @@ import ArticleCard from '@/components/elements/ArticleCard.vue'
 import Pagination from '@/components/elements/Pagination.vue'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { getPublishedArticle } from '@/apis/article/posts'
 import type { Article } from '@/types/article'
+import { getData } from '@/services/api'
 
 const router = useRouter()
 const articles = ref<Article[]>([])
@@ -17,17 +17,17 @@ const lastPage = ref()
  * @param {number} page
  */
 const fetchArticles = async (page: number) => {
-  const response = await getPublishedArticle(page)
+  const url = `api/article/get_published_article?page=${page}`
+  const getPublishedArticle = await getData(url)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
-  if (response.error) {
-    console.log(response.error.message)
+  if (getPublishedArticle.error) {
     router.push('/error')
   }
 
-  articles.value = response.articles.data
-  currentPage.value = response.articles.current_page
-  lastPage.value = response.articles.last_page
+  articles.value = getPublishedArticle.articles.data
+  currentPage.value = getPublishedArticle.articles.current_page
+  lastPage.value = getPublishedArticle.articles.last_page
 }
 
 onMounted(() => {
@@ -50,22 +50,12 @@ const changePage = (page: number) => {
       <h2>Articles</h2>
 
       <div class="article">
-        <ArticleCard
-          v-for="article in articles"
-          :key="article.id"
-          :-article-slug="article.slug"
-          :-featured-imgae="`https://rapid-tsukumi-6067.lolipop.io/storage/featured_image/${article.featured_image}`"
-          :-article-title="article.title"
-          :-article-created-at="article.created_at.slice(0, 10)"
-        />
+        <ArticleCard v-for="article in articles" :key="article.id" :-article-slug="article.slug"
+          :-featured-imgae="`http://127.0.0.1:8000/storage/featured_image/${article.featured_image}`"
+          :-article-title="article.title" :-article-created-at="article.created_at.slice(0, 10)" />
       </div>
 
-      <Pagination
-        v-if="articles.length"
-        :current-page="currentPage"
-        :last-page="lastPage"
-        @changePage="changePage"
-      />
+      <Pagination v-if="articles.length" :current-page="currentPage" :last-page="lastPage" @changePage="changePage" />
     </div>
   </WithSidebarLayout>
 </template>

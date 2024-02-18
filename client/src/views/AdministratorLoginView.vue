@@ -2,32 +2,28 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import NoSidebarLayout from '@/components/layouts/admin/NoSidebarLayout.vue'
-import { signIn } from '@/apis/auth/session'
+import { createData } from '@/services/api'
 
 const router = useRouter()
 const email = ref('')
 const password = ref('')
 
 const onSubmit = async () => {
-  // こうしたらデータ送る変数一つでよくなる
-  // const data = {
-  //   email: values.email,
-  //   password: values.password
-  // }
-  console.log(email.value)
-  console.log(password.value)
+  const url = `api/session/sign_in`
+  const formData = new FormData
+  formData.append('email', email.value)
+  formData.append('password', password.value)
 
-  const response = await signIn(email.value, password.value)
+  const signIn = await createData(url, formData)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
   // ログイン失敗している場合も500ページに飛ばすのは良くないので、今後修正を！
-  if (response.internalServerError) {
-    console.log(response.internalServerError.message)
+  if (signIn.internalServerError) {
     router.push('/error')
   }
 
   // ローカルストレージにトークンを保存
-  localStorage.setItem('authToken', response.token)
+  localStorage.setItem('authToken', signIn.token)
   router.push('/posted_articles')
 }
 </script>

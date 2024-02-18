@@ -16,10 +16,9 @@ class searchsController extends Controller
      * @return Json
      * @throws Exception データベースから検索結果を取得する際にエラーが発生した場合
      */
-    public function getArticleSearchResult(Request $request)
+    public function getArticleSearchResult(string $keyword)
     {
         try {
-            $keyword = $request->input('keyword');
             $articles = Article::query()->where('public_status', 1)->where('title', 'like', '%' . $keyword . '%')->paginate(12);
 
             return response()->json([

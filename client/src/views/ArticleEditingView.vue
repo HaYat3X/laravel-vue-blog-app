@@ -2,41 +2,41 @@
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { ref } from 'vue';
-import { isLogin } from '@/apis/auth/session';
-import { updateArticle, getEditingArticle } from '@/apis/article/posts'
 import WithSidebarLayout from '@/components/layouts/admin/WithSidebarLayout.vue';
+import { getData, updateData } from '@/services/api';
 
 const adminId = ref('');
 const title = ref('');
 const content = ref('');
-const featuredImage = ref<File | null>(null);
+const featuredImage: any = ref<File>();
 const metaDescription = ref('');
 const publicStatus = ref(false);
-
 const router = useRouter();
 const articleId = router.currentRoute.value.params.article_id;
 
 onMounted(async () => {
-  const response = await isLogin()
-  adminId.value = response.admin.id
+  const url1 = `api/session/is_login`
+  const isLogin = await getData(url1)
+
+  adminId.value = isLogin.admin.id
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
-  // ログインに失敗した場合も500ページに飛ばしているのはよくないので修正を！
-  if (response.internalServerError) {
+  if (isLogin.internalServerError) {
     router.push('/error')
   }
 
   // 編集する記事を取得
-  const articleResponse = await getEditingArticle(articleId)
+  const url2 = `api/article/get_editing_article/${articleId}`
+  const getEditingArticle = await getData(url2)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
-  if (articleResponse.internalServerError) {
+  if (getEditingArticle.internalServerError) {
     router.push('/error')
   }
 
-  title.value = articleResponse.article.title
-  content.value = articleResponse.article.content
-  metaDescription.value = articleResponse.article.meta_description
+  title.value = getEditingArticle.article.title
+  content.value = getEditingArticle.article.content
+  metaDescription.value = getEditingArticle.article.meta_description
   publicStatus.value = publicStatus ? true : false
 });
 
@@ -49,17 +49,23 @@ const handleImageChange = (event: Event) => {
 };
 
 const onSubmit = async () => {
-  if (featuredImage.value) {
-    const response = await updateArticle(articleId, adminId.value, title.value, content.value, featuredImage.value, metaDescription.value, publicStatus.value)
+  const url = `api/article/article_editing/${articleId}`
+  const formData = new FormData()
+  formData.append('adminId', adminId.value)
+  formData.append('title', title.value)
+  formData.append('featuredImage', featuredImage.value)
+  formData.append('content', content.value)
+  formData.append('metaDescription', metaDescription.value)
+  formData.append('publicStatus', publicStatus ? '1' : '0')
 
-    // サーバーエラーが発生した場合、500ページにリダイレクトする
-    if (response.internalServerError) {
-      console.log(response.internalServerError.message);
-      router.push('/error');
-    }
+  const updateArticle = await updateData(url, formData)
 
-    // エラーがない場合は投稿記事一覧画面へ遷移
+  // サーバーエラーが発生した場合、500ページにリダイレクトする
+  if (updateArticle.internalServerError) {
+    router.push('/error');
   }
+
+  router.push('/posted_articles')
 }
 </script>
 

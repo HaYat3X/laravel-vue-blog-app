@@ -4,9 +4,8 @@ import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 import WithSidebarLayout from '@/components/layouts/admin/WithSidebarLayout.vue'
 import type { Contact } from '@/types/contact'
-import { isLogin } from '@/apis/auth/session'
-import { getAllContact, removeContact } from '@/apis/contact/posts'
 import Pagination from '@/components/elements/Pagination.vue'
+import { getData, deleteData } from '@/services/api'
 
 const router = useRouter()
 const contacts = ref<Contact[]>([])
@@ -14,25 +13,25 @@ const currentPage = ref(1)
 const lastPage = ref()
 
 const fetchContacts = async (page: number) => {
-  const getAllContactResponse = await getAllContact(page)
+  const url = `api/contact/get_all_contact?page=${page}`
+  const getAllContact = await getData(url)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
-  // ログインに失敗した場合も500ページに飛ばしているのはよくないので修正を！
-  if (getAllContactResponse.internalServerError) {
+  if (getAllContact.internalServerError) {
     router.push('/error')
   }
 
-  contacts.value = getAllContactResponse.contacts.data
-  currentPage.value = getAllContactResponse.contacts.current_page
-  lastPage.value = getAllContactResponse.contacts.last_page
+  contacts.value = getAllContact.contacts.data
+  currentPage.value = getAllContact.contacts.current_page
+  lastPage.value = getAllContact.contacts.last_page
 }
 
 onMounted(async () => {
-  const isLoginResponse = await isLogin()
+  const url = `api/session/is_login`
+  const isLogin = await getData(url)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
-  // ログインに失敗した場合も500ページに飛ばしているのはよくないので修正を！
-  if (isLoginResponse.internalServerError) {
+  if (isLogin.internalServerError) {
     router.push('/error')
   }
 
@@ -40,11 +39,11 @@ onMounted(async () => {
 })
 
 const onClick = async (contactId: number) => {
-  const response = await removeContact(contactId)
+  const url = `api/contact/remove_contact/${contactId}`
+  const removeContact = await deleteData(url)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
-  // ログインに失敗した場合も500ページに飛ばしているのはよくないので修正を！
-  if (response.internalServerError) {
+  if (removeContact.internalServerError) {
     router.push('/error')
   }
 

@@ -2,8 +2,8 @@
 import WithSidebarLayout from '@/components/layouts/WithSidebarLayout.vue';
 import Button from '@/components/elements/Button.vue';
 import { ref } from 'vue';
-import { submitContact } from '@/apis/contact/posts'
 import { useRouter } from 'vue-router';
+import { createData } from '@/services/api';
 
 const name = ref('');
 const email = ref('');
@@ -12,11 +12,17 @@ const content = ref('');
 const router = useRouter();
 
 const onSubmit = async () => {
-  const response = await submitContact(name.value, email.value, category.value, content.value);
+  const url = `api/contact/submit_contact`
+  const formData = new FormData()
+  formData.append('name', name.value)
+  formData.append('email', email.value)
+  formData.append('category', category.value)
+  formData.append('content', content.value)
+
+  const submitContact = await createData(url, formData)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
-  if (response.internalServerError) {
-    console.log(response.internalServerError.message);
+  if (submitContact.internalServerError) {
     router.push('/error');
   }
 

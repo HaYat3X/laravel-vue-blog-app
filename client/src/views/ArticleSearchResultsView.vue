@@ -4,16 +4,14 @@ import ArticleCard from '@/components/elements/ArticleCard.vue';
 import Pagination from '@/components/elements/Pagination.vue';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { getPublishedArticleKeyword, getPublishedArticleTag } from '@/apis/article/search';
-import { getPublishedArticle } from '@/apis/article/posts'
 import type { Article } from "@/types/article";
+import { getData } from '@/services/api';
 
 const router = useRouter();
 const searchResultTitle = ref();
 const articles = ref<Article[]>([]);
 const currentPage = ref(1);
 const lastPage = ref();
-const tag = router.currentRoute.value.query.tag;
 const keyword = router.currentRoute.value.query.keyword;
 
 /**
@@ -21,51 +19,26 @@ const keyword = router.currentRoute.value.query.keyword;
  * @param {number} page
  */
 const fetchArticles = async (page: number) => {
-  const response = await getPublishedArticle(page);
+  const url = `api/article/get_article_search_result/${keyword}`
+  const getArticleSearchResults = await getData(url)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
-  if (response.error) {
-    console.log(response.error.message);
-    router.push('/error');
+  if (getArticleSearchResults.error) {
+    router.push('/error')
   }
 
-  articles.value = response.articles.data;
-  currentPage.value = response.articles.current_page;
-  lastPage.value = response.articles.last_page;
+  articles.value = getArticleSearchResults.articles.data;
+  currentPage.value = getArticleSearchResults.articles.current_page;
+  lastPage.value = getArticleSearchResults.articles.last_page;
+  searchResultTitle.value = `${keyword} の検索結果`;
 };
 
 onMounted(async () => {
-  if (!tag && !keyword) {
+  if (!keyword) {
     router.push('/search');
-  } else if (keyword && !tag) {
-    const response = await getPublishedArticleKeyword(keyword);
-
-    // サーバーエラーが発生した場合、500ページにリダイレクトする
-    if (response.internalServerError) {
-      console.log(response.internalServerError.message);
-      router.push('/error');
-    }
-
-    console.log(response)
-
-    articles.value = response.articles.data;
-    currentPage.value = response.articles.current_page;
-    lastPage.value = response.articles.last_page;
-    searchResultTitle.value = `${keyword} の検索結果`;
-  } else if (tag && !keyword) {
-    const response = await getPublishedArticleTag(tag);
-
-    // サーバーエラーが発生した場合、500ページにリダイレクトする
-    if (response.internalServerError) {
-      console.log(response.internalServerError.message);
-      router.push('/error');
-    }
-
-    articles.value = response.articles.data;
-    currentPage.value = response.articles.current_page;
-    lastPage.value = response.articles.last_page;
-    searchResultTitle.value = `#${tag} の検索結果`;
   }
+
+  fetchArticles(currentPage.value)
 });
 
 /**
@@ -85,7 +58,7 @@ const changePage = (page: number) => {
       <div v-if="articles.length === 0">
         記事が見つかりませんでした。
       </div>
-      
+
       <div v-else class="article">
         <ArticleCard v-for="article in articles" :key="article.id"
           :-featured-imgae="`http://127.0.0.1:8000/storage/featured_image/${article.featured_image}`"
