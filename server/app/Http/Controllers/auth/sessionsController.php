@@ -14,8 +14,7 @@ class sessionsController extends Controller
      * ユーザ認証する
      * @access public
      * @param Illuminate\Http\Request $request
-     * @return JSON
-     * @throws Exception データベースクエリの実行中にエラーが発生した場合
+     * @return Illuminate\Http\JsonResponse
      */
     public function signIn(Request $request)
     {
@@ -41,8 +40,7 @@ class sessionsController extends Controller
      * ログインした管理者情報を取得する
      * @access public
      * @param Illuminate\Http\Request $request
-     * @return JSON
-     * @throws Exception データベースクエリの実行中にエラーが発生した場合
+     * @return Illuminate\Http\JsonResponse
      */
     public function isLogin(Request $request)
     {
@@ -52,11 +50,9 @@ class sessionsController extends Controller
     }
 
     /**
-     * ログイン時に発行したトークンを削除する
+     * ログアウトする
      * @access public
-     * @param Illuminate\Http\Request $request
-     * @return JSON
-     * @throws Exception データベースクエリの実行中にエラーが発生した場合
+     * @return Illuminate\Http\JsonResponse
      */
     public function signOut()
     {

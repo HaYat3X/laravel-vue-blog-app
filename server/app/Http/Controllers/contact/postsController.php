@@ -9,10 +9,9 @@ use App\Models\Contact;
 class postsController extends Controller
 {
     /**
-     * お問い合わせされたデータの一覧を取得する
+     * お問い合わせ一覧を取得する
      * @access public
-     * @return Json
-     * @throws Exception データベースクエリの実行中にエラーが発生した場合
+     * @return Illuminate\Http\JsonResponse
      */
     public function getAllContact()
     {
@@ -24,24 +23,18 @@ class postsController extends Controller
     }
 
     /**
-     * 対応が完了したお問い合わせを削除する
+     * お問い合わせを削除する
      * @access public
-     * @return Json
-     * @throws Exception データベースクエリの実行中にエラーが発生した場合
+     * @param $contactId 削除するお問い合わせID
+     * @return Illuminate\Http\JsonResponse
      */
-    public function removeContact(Int $contact_id)
+    public function removeContact($contactId)
     {
-        $contact = Contact::find($contact_id);
-
-        if (!$contact) {
-            return response()->json([
-                'message' => 'お問い合わせが見つかりませんでした。'
-            ], 500);
-        }
+        $contact = Contact::find($contactId);
 
         if ($contact->delete()) {
             return response()->json([
-                'message' => 'お問いあわせの削除に成功しました。'
+                'message' => 'お問い合わせの削除に成功しました。'
             ], 200);
         } else {
             return response()->json([
@@ -51,33 +44,26 @@ class postsController extends Controller
     }
 
     /**
-     * お問い合わせされたデータを保存する
+     * お問い合わせを保存する
      * @access public
      * @param Illuminate\Http\Request $request
-     * @return Json
-     * @throws Exception データベースクエリの実行中にエラーが発生した場合
+     * @return Illuminate\Http\JsonResponse
      */
     public function submitContact(Request $request)
     {
-        try {
-            $contact = new Contact();
-            $contact->name = $request->input('name');
-            $contact->email = $request->input('email');
-            $contact->category = $request->input('category');
-            $contact->content = $request->input('content');
+        $contact = new Contact();
+        $contact->name = $request->input('name');
+        $contact->email = $request->input('email');
+        $contact->category = $request->input('category');
+        $contact->content = $request->input('content');
 
-            if ($contact->save()) {
-                return response()->json([
-                    'message' => 'お問い合わせが完了しました。'
-                ], 200);
-            } else {
-                return response()->json([
-                    'message' => 'お問い合わせに失敗しました。'
-                ], 500);
-            }
-        } catch (Exception) {
+        if ($contact->save()) {
             return response()->json([
-                'message' => 'サーバー内でエラーが発生しました。'
+                'message' => 'お問い合わせが完了しました。'
+            ], 200);
+        } else {
+            return response()->json([
+                'message' => 'お問い合わせに失敗しました。'
             ], 500);
         }
     }
