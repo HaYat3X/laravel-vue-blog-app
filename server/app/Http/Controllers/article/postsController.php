@@ -5,89 +5,71 @@ namespace App\Http\Controllers\article;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Article;
-use Exception;
 use Illuminate\Support\Str;
 
 class postsController extends Controller
 {
     /**
-     * 公開された記事一覧を取得して表示する
+     * 公開された記事一覧を取得する
      * @access public
      * @return Illuminate\Http\JsonResponse
-     * @throws Exception データベースクエリの実行中にエラーが発生した場合
      */
     public function getPublishedArticle()
     {
-        try {
-            $articles = Article::where('public_status', 1)->latest('created_at')->paginate(12);
+        $articles = Article::where('public_status', 1)->latest('created_at')->paginate(12);
 
-            return response()->json([
-                'articles' => $articles
-            ], 200);
-        } catch (Exception) {
-            return response()->json([
-                'message' => 'サーバ内でエラーが発生しました。'
-            ], 500);
-        }
+        return response()->json([
+            'articles' => $articles
+        ], 200);
     }
 
     /**
-     * 指定された記事(slug)データを取得する
+     * 指定された記事を取得する
      * @access public
-     * @param String $slug
-     * @return Json
-     * @throws Exception データベースクエリの実行中にエラーが発生した場合
+     * @param $slug 取得する記事のslug
+     * @return Illuminate\Http\JsonResponse
      */
     public function getArticle(string $slug)
     {
-        try {
-            $article = Article::where('slug', $slug)->first();
+        $article = Article::where('slug', $slug)->first();
 
-            if (!$article) {
-                return response()->json([
-                    'message' => '記事が見つかりません。',
-                ], 404);
-            }
-
-            // 記事が非公開の場合は403エラーを返す
-            if ($article->public_status === 0) {
-                return response()->json([
-                    'message' => 'この記事は非公開です。',
-                ], 403);
-            }
-
+        if (!$article) {
             return response()->json([
-                'article' => $article,
-            ], 200);
-        } catch (Exception) {
-            return response()->json([
-                'message' => 'サーバー内でエラーが発生しました。',
-            ], 500);
+                'message' => '記事が見つかりません。',
+            ], 404);
         }
+
+        // 記事が非公開の場合は403エラーを返す
+        if ($article->public_status === 0) {
+            return response()->json([
+                'message' => 'この記事は非公開です。',
+            ], 403);
+        }
+
+        return response()->json([
+            'article' => $article,
+        ], 200);
     }
 
     /**
-     * 投稿された記事を取得して表示する
+     * 投稿された記事一覧を取得する
      * @access public
-     * @return Json
-     * @throws Exception データベースクエリの実行中にエラーが発生した場合
+     * @return Illuminate\Http\JsonResponse
      */
     public function getAllArticle()
     {
         $articles = Article::latest('created_at')->paginate(12);
 
         return response()->json([
-            'message' => '記事を取得しました。',
             'articles' => $articles
         ], 200);
     }
 
     /**
-     * 指定された記事(blog_id)を削除する
+     * 指定された記事を削除する
      * @access public
-     * @param Int $articleId
-     * @return Illuminate\Contracts\View\View
-     * @throws Exception データベースクエリの実行中にエラーが発生した場合
+     * @param $articleId 削除する記事ID
+     * @return Illuminate\Http\JsonResponse
      */
     public function removeArticle(Int $articleId)
     {
@@ -111,28 +93,16 @@ class postsController extends Controller
     }
 
     /**
-     * 記事投稿フォームから送信されたデータを保存する
+     * 記事を保存する
      * @access public
      * @param Illuminate\Http\Request $request
-     * @return Json
-     * @throws Exception データベースクエリの実行中にエラーが発生した場合
+     * @return Illuminate\Http\JsonResponse
      */
     public function submitArticle(Request $request)
     {
-        // 画像投稿処理
-        $image = $request->file('featuredImage');
-        $imageName = time() . '-' . $image->getClientOriginalName();
-        $image->move(storage_path('app/public/featured_image'), $imageName);
-
-        $article = new Article();
-        $article->admin_id = $request->input('adminId');
-        $article->title = $request->input('title');
-        $article->content = $request->input('content');
-        $article->featured_image = $imageName;
-        $article->meta_description = $request->input('metaDescription');
-        $article->public_status = $request->input('publicStatus');
-        $article->slug = Str::slug($request->input('title'));;
-        $article->meta_title = $request->input('title');
+        $imageName = $this->saveToStorage($request);
+        $articleData = new Article();
+        $article = $this->createArticleParams($request, $imageName, $articleData);
 
         if ($article->save()) {
             return response()->json([
@@ -149,16 +119,15 @@ class postsController extends Controller
      * 記事編集フォームを表示する
      * @access public
      * @param Illuminate\Http\Request $request
-     * @return Illuminate\Contracts\View\View
-     * @throws Exception データベースクエリの実行中にエラーが発生した場合
+     * @return Illuminate\Http\JsonResponse
      */
-    public function getEditingArticle(Int $articleId)
+    public function getEditingArticle($articleId)
     {
         $article = Article::find($articleId);
 
         if (!$article) {
             return response()->json([
-                'message' => '記事が見つからない。'
+                'message' => '記事が見つかりませんでした。'
             ], 500);
         }
 
@@ -171,25 +140,14 @@ class postsController extends Controller
      * 記事を更新する
      * @access public
      * @param Illuminate\Http\Request $request
-     * @return Illuminate\Contracts\View\View
-     * @throws Exception データベースクエリの実行中にエラーが発生した場合
+     * @param $articleId 更新する記事ID
+     * @return Illuminate\Http\JsonResponse
      */
-    public function updateArticle(Request $request, Int $articleId)
+    public function updateArticle(Request $request, $articleId)
     {
-        // 画像投稿処理
-        $image = $request->file('featuredImage');
-        $imageName = time() . '-' . $image->getClientOriginalName();
-        $image->move(storage_path('app/public/featured_image'), $imageName);
-
-        $article = Article::find($articleId);
-        $article->admin_id = $request->input('adminId');
-        $article->title = $request->input('title');
-        $article->content = $request->input('content');
-        $article->featured_image = $imageName;
-        $article->meta_description = $request->input('metaDescription');
-        $article->public_status = $request->input('publicStatus');
-        $article->slug = Str::slug($request->input('title'));
-        $article->meta_title = $request->input('title');
+        $imageName = $this->saveToStorage($request);
+        $articleData = Article::find($articleId);
+        $article = $this->createArticleParams($request, $imageName, $articleData);
 
         if ($article->update()) {
             return response()->json([
@@ -200,5 +158,74 @@ class postsController extends Controller
                 'message' => '投稿の更新に失敗しました。'
             ], 500);
         }
+    }
+
+    /**
+     * ストレージにサムネイル画像を保存する
+     * @access private
+     * @param $request
+     * @return $imageName
+     */
+    private function saveToStorage($request)
+    {
+        $image = $request->file('featuredImage');
+        $imageName = time() . '-' . $image->getClientOriginalName();
+        $image->move(storage_path('app/public/featured_image'), $imageName);
+
+        return $imageName;
+    }
+
+    /**
+     * 記事作成、更新時に使用するパラメータ
+     * @access private
+     * @param $request
+     * @param $imageName
+     * @param $articleData
+     * @return $article
+     */
+    private function createArticleParams($request, $imageName, $articleData)
+    {
+        $article = $articleData;
+        $article->admin_id = $request->input('adminId');
+        $article->title = $request->input('title');
+        $article->content = $request->input('content');
+        $article->featured_image = $imageName;
+        $article->meta_description = $request->input('metaDescription');
+        $article->public_status = $request->input('publicStatus');
+        $article->slug = $this->createSlug($request);
+        $article->meta_title = $request->input('title');
+
+        return $article;
+    }
+
+    /**
+     * 記事のslugを生成し、重複をチェックする
+     * @access private
+     * @param $request
+     * @return $slug 生成したslug
+     */
+    private function createSlug($request)
+    {
+        $slug = Str::slug($request->input('title'));
+
+        // slugが空の場合はデフォルトのslugを返す
+        if (empty($slug)) {
+            return 'page';
+        }
+
+        // 重複をチェックして重複があれば適切な修正を行う
+        $count = Article::where('slug', $slug)->count();
+
+        if ($count > 0) {
+            // 重複がある場合、数字を追加して一意のslugを生成する
+            $suffix = 2;
+
+            while (Article::where('slug', $slug)->exists()) {
+                $slug = Str::slug($request->input('title')) . '-' . $suffix;
+                $suffix++;
+            }
+        }
+
+        return $slug;
     }
 }
