@@ -114,7 +114,7 @@ const options = {
       <h2>My works</h2>
 
       <div class="works">
-        <WorkCard -featured-imgae="/assets/work/my-closet.png" -work-title="「MY CLOSET」" />
+        <WorkCard -featured-imgae="/img/test.png" -work-title="「MY CLOSET」" />
 
         <WorkCard -featured-imgae="/src/assets/img/work/real-intention.png" -work-title="「Real intentioN」" />
 
