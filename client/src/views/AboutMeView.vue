@@ -114,27 +114,27 @@ const options = {
       <h2>My works</h2>
 
       <div class="works">
-        <WorkCard -featured-imgae="/img/test.png" -work-title="「MY CLOSET」" />
+        <WorkCard -featured-imgae="/img/work/my-closet.png" -work-title="「MY CLOSET」" />
 
-        <WorkCard -featured-imgae="/src/assets/img/work/real-intention.png" -work-title="「Real intentioN」" />
+        <WorkCard -featured-imgae="/img/work/real-intention.png" -work-title="「Real intentioN」" />
 
-        <WorkCard -featured-imgae="/src/assets/img/work/travelogue.png" -work-title="「travelogue」" />
+        <WorkCard -featured-imgae="/img/work/travelogue.png" -work-title="「travelogue」" />
 
-        <WorkCard -featured-imgae="/src/assets/img/work/a-word.png" -work-title="「a Word」" />
+        <WorkCard -featured-imgae="/img/work/a-word.png" -work-title="「a Word」" />
 
-        <WorkCard -featured-imgae="/src/assets/img/work/my-news.png" -work-title="「My News」" />
+        <WorkCard -featured-imgae="/img/work/my-news.png" -work-title="「My News」" />
 
-        <WorkCard -featured-imgae="/src/assets/img/work/pack-cat.png" -work-title="「Pack Cat」" />
+        <WorkCard -featured-imgae="/img/work/pack-cat.png" -work-title="「Pack Cat」" />
 
-        <WorkCard -featured-imgae="/src/assets/img/work/pokemon-quiz.png" -work-title="「Pokemon Quiz」" />
+        <WorkCard -featured-imgae="/img/work/pokemon-quiz.png" -work-title="「Pokemon Quiz」" />
 
-        <WorkCard -featured-imgae="/src/assets/img/work/todo-app.png" -work-title="「Todo App」" />
+        <WorkCard -featured-imgae="/img/work/todo-app.png" -work-title="「Todo App」" />
 
-        <WorkCard -featured-imgae="/src/assets/img/work/typing.png" -work-title="「Typing」" />
+        <WorkCard -featured-imgae="/img/work/typing.png" -work-title="「Typing」" />
 
-        <WorkCard -featured-imgae="/src/assets/img/work/youtube-clone.png" -work-title="「Youtube Clone」" />
+        <WorkCard -featured-imgae="/img/work/youtube-clone.png" -work-title="「Youtube Clone」" />
 
-        <WorkCard -featured-imgae="/src/assets/img/work/hayate-tech-lab.png" -work-title="「Hayate Tech Lab」" />
+        <WorkCard -featured-imgae="/img/work/hayate-tech-lab.png" -work-title="「Hayate Tech Lab」" />
       </div>
     </section>
 
