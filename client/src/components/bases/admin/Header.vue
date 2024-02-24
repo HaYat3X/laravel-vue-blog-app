@@ -3,7 +3,7 @@
     <div class="header-container">
       <div class="header-logo">
         <router-link to="/">
-          <img src="../../../assets/img/logoB.png" alt="" />
+          <img src="../../../assets/img/logo.png" alt="" />
         </router-link>
       </div>
     </div>

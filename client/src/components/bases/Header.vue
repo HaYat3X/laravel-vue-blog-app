@@ -7,7 +7,7 @@ import Button from '../elements/Button.vue';
     <div class="header-container">
       <div class="header-logo">
         <a href="/">
-          <img src="../../assets/img/logoA.png" alt="">
+          <img src="../../assets/img/logo.png" alt="">
         </a>
       </div>
 
