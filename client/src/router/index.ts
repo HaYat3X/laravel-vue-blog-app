@@ -69,6 +69,11 @@ const router = createRouter({
       component: () => import('../views/AboutBlogView.vue')
     },
     {
+      path: '/privacy_policy',
+      name: 'PrivacyPolicy',
+      component: () => import('../views/PrivacyPolicyView.vue')
+    },
+    {
       path: '/:pathMatch(.*)*/',
       name: 'NotFound',
       component: () => import('../views/NotFound.vue')

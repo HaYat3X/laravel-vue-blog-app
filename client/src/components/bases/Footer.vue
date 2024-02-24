@@ -24,6 +24,12 @@
           お問い合わせ
         </a>
       </li>
+
+      <li>
+        <a href="/privacy_policy">
+          プライバシーポリシー
+        </a>
+      </li>
     </ul>
 
     <hr />
