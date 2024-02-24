@@ -56,7 +56,7 @@ const onSubmit = async () => {
   formData.append('featuredImage', featuredImage.value)
   formData.append('content', content.value)
   formData.append('metaDescription', metaDescription.value)
-  formData.append('publicStatus', publicStatus ? '1' : '0')
+  formData.append('publicStatus', publicStatus.value ? '1' : '0')
 
   const updateArticle = await updateData(url, formData)
 
