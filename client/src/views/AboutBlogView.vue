@@ -5,12 +5,14 @@ import NoSidebarLayout from '@/components/layouts/NoSidebarLayout.vue';
 <template>
   <NoSidebarLayout>
     <div class="about-blog">
+      <h2>1. ブログの概要</h2>
+
       <p class="mb">
         このブログは専門学校に通いながら、プライベートの時間で作成したブログです。
       </p>
 
       <p class="mb">
-        2024年の2月に公開しました。
+        2024年の3月に公開しました。
         <br>今後も定期的にメンテナンスを実施し、当ブログを運用していく予定です。
       </p>
 
@@ -18,7 +20,7 @@ import NoSidebarLayout from '@/components/layouts/NoSidebarLayout.vue';
         このページでは当サイトの目的と技術仕様についてまとめています。
       </p>
 
-      <h2>1. ブログの目的</h2>
+      <h2 class="h2-mb">2. ブログの目的</h2>
 
       <ul class="mb">
         <li>日々の学習記録</li>
@@ -26,17 +28,43 @@ import NoSidebarLayout from '@/components/layouts/NoSidebarLayout.vue';
       </ul>
 
       <p>
-        もともとは就職活動用のポートフォリオ兼ブログとして作成したものですが、その役割を終え、現在は日々学んだことの記録が主な目的です。
+        もともとは就職活動用のポートフォリオとして作成したものですが、その役割を終え、現在は日々学んだことの記録が主な目的です。
       </p>
 
-      <h2>2. 技術仕様</h2>
+      <h2 class="h2-mb">3. ドキュメント</h2>
+
+      <p class="mb">
+        当ブログはプログラミングだけでなく、要件定義、基本設計、詳細設計などの設計部分も実施しています。
+      </p>
+
+      <ul class="mb">
+        <li>
+          <a target="_blank" href="https://drive.google.com/drive/folders/1BHxJVzMoHS33fSvYP4z38tI7lflqTVMI">
+            要件定義関連のドキュメント
+          </a>
+        </li>
+
+        <li>
+          <a target="_blank" href="https://drive.google.com/drive/folders/1JwoBEoxcD2btSq9ksoTYolIzO04Ubgpy">
+            基本設計関連のドキュメント
+          </a>
+        </li>
+
+        <li>
+          <a target="_blank" href="https://drive.google.com/drive/folders/1_7UE0r_VSMDlDaYLww5pUKFtxkAxwKA7">
+            詳細設計関連のドキュメント
+          </a>
+        </li>
+      </ul>
+
+      <h2 class="h2-mb">4. 技術仕様</h2>
 
       <ul class="mb">
         <li>Webアプリ部分（クライアントサイド）
           <ul>
             <li>Vue.js</li>
             <li>HTML</li>
-            <li>SCSS</li>
+            <li>CSS</li>
             <li>TypeScript</li>
             <li>fetchAPI</li>
             <li>vue-router</li>
@@ -47,27 +75,28 @@ import NoSidebarLayout from '@/components/layouts/NoSidebarLayout.vue';
 
         <li>Webアプリ部分（サーバーサイド）
           <ul>
-            <li>Laravel10</li>
+            <li>Laravel</li>
             <li>MySQL</li>
             <li>PHP</li>
-            <li>sanctum（トークンベースの認証機能作成時に利用）</li>
+            <li>sanctum</li>
           </ul>
         </li>
 
         <li>CI/CD / インフラ部分
           <ul>
-            <li>Heroku</li>
-            <li>HerokuPostgres</li>
+            <li>ロリポップマネージドクラウド（VPSサーバーにLaravelをインストールし、運用しています。）</li>
             <li>Vercel</li>
           </ul>
         </li>
 
         <li>その他利用ツール
           <ul>
-            <li>MAMP（Laravel、MySQL、PHPの実行環境として利用）</li>
-            <li>Vite（Vue.jsの実行環境として利用）</li>
-            <li>postman（Laravelで作成したAPIのテストツールとして利用）</li>
-            <li>Git / GitHub（ソースコードの管理に利用）</li>
+            <li>MAMP / XAMPP</li>
+            <li>Vite</li>
+            <li>postman</li>
+            <li>Git / GitHub</li>
+            <li>canva</li>
+            <li>Excel / Word / diagrams.net</li>
           </ul>
         </li>
       </ul>
@@ -102,7 +131,11 @@ import NoSidebarLayout from '@/components/layouts/NoSidebarLayout.vue';
   h2 {
     font-size: 28px;
     font-weight: bold;
-    margin: 50px 0 10px;
+    margin-bottom: 10px;
+  }
+
+  .h2-mb {
+    margin-top: 50px;
   }
 
   li {
