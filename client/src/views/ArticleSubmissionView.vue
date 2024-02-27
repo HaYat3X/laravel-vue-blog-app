@@ -3,6 +3,7 @@ import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import WithSidebarLayout from '@/components/layouts/admin/WithSidebarLayout.vue';
 import { getData, createData } from '@/services/api';
+import { EditorInstance } from 'vue3-easymde'
 
 const adminId = ref('');
 const title = ref('');
@@ -11,6 +12,7 @@ const featuredImage: any = ref<File>();
 const metaDescription = ref('');
 const publicStatus = ref(false);
 const router = useRouter();
+const editorInstance = ref<EditorInstance | null>(null)
 
 onMounted(async () => {
   const url = `api/session/is_login`
@@ -70,7 +72,7 @@ const onSubmit = async () => {
 
           <div class="form-group">
             <p>Content</p>
-            <textarea v-model="content" required>Write in Content...</textarea>
+            <vue-easymde v-model="content" ref="editorInstance"/>
           </div>
 
           <div class="form-group">
