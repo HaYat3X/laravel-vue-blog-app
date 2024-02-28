@@ -33,12 +33,12 @@ onMounted(async () => {
 <template>
   <WithSidebarLayout>
     <div class="content-container">
-      <div class="thumbnail-area">
-        <h2>{{ article?.title }}</h2>
-      </div>
-
       <div class="article">
-        <small>{{ article?.created_at.slice(0, 10) }}に公開</small>
+        <div class="thumbnail-area">
+          <h1>{{ article?.title }}</h1>
+          <small>{{ article?.created_at.slice(0, 10) }}に公開</small>
+        </div>
+
         <div class="content" v-html="markdownContent"></div>
       </div>
     </div>
@@ -47,16 +47,6 @@ onMounted(async () => {
 
 <style lang="scss">
 .content-container {
-  .thumbnail-area {
-    text-align: center;
-    padding: 20px 40px 60px;
-
-    h2 {
-      font-size: 20px;
-      font-weight: bold;
-    }
-  }
-
   .article {
     background-color: #ffffff;
     border-radius: 5px;
@@ -70,12 +60,22 @@ onMounted(async () => {
       padding: 40px;
     }
 
-    small {
-      background-color: #3ea8ff;
-      border-radius: 50px;
-      padding: 2px 10px;
-      font-size: 13px;
-      color: #ffffff;
+    .thumbnail-area {
+      text-align: center;
+
+      h1 {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      small {
+        background-color: #3ea8ff;
+        border-radius: 50px;
+        padding: 2px 10px;
+        font-size: 13px;
+        color: #ffffff;
+      }
     }
 
     .content {

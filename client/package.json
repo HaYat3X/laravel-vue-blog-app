@@ -17,6 +17,7 @@
     "easymde": "^2.18.0",
     "highlight.js": "^11.9.0",
     "marked": "^11.1.1",
+    "mavon-editor": "^3.0.0-beta",
     "pinia": "^2.1.7",
     "vee-validate": "^4.12.3",
     "vue": "^3.3.11",

@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import WithSidebarLayout from '@/components/layouts/admin/WithSidebarLayout.vue'
 import { getData, updateData } from '@/services/api'
-import { EditorInstance } from 'vue3-easymde'
+import { marked } from 'marked'
 
 const adminId = ref('')
 const title = ref('')
@@ -14,7 +14,7 @@ const metaDescription = ref('')
 const publicStatus = ref(false)
 const router = useRouter()
 const articleId = router.currentRoute.value.params.article_id
-const editorInstance = ref<EditorInstance | null>(null)
+const markdownContent = ref()
 
 onMounted(async () => {
   const url1 = `api/session/is_login`
@@ -40,6 +40,11 @@ onMounted(async () => {
   content.value = getEditingArticle.article.content
   metaDescription.value = getEditingArticle.article.meta_description
   publicStatus.value = publicStatus ? true : false
+})
+
+// contentの変更を監視してmarkdownContentを更新
+watch(content, (newVal) => {
+  markdownContent.value = marked(newVal)
 })
 
 const handleImageChange = (event: Event) => {
@@ -88,7 +93,8 @@ const onSubmit = async () => {
 
           <div class="form-group">
             <p>Content</p>
-            <vue-easymde v-model="content" ref="editorInstance" />
+            <textarea v-model="content" required></textarea>
+            <div class="content" v-html="markdownContent"></div>
           </div>
 
           <div class="form-group">
@@ -116,7 +122,7 @@ const onSubmit = async () => {
   </WithSidebarLayout>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
 .content-area {
   width: calc(100% - 250px);
   padding: 0 40px;
@@ -282,6 +288,108 @@ const onSubmit = async () => {
           -webkit-transform: translateX(21px);
           -ms-transform: translateX(21px);
           transform: translateX(21px);
+        }
+      }
+
+      .content {
+        background-color: #ffffff;
+        border-radius: 5px;
+        padding: 25px;
+
+        h2 {
+          margin-top: 45px;
+          margin-bottom: 10px;
+          font-size: 22px;
+          font-weight: bold;
+        }
+
+        h3 {
+          margin-top: 30px;
+          margin-bottom: 10px;
+          font-size: 19px;
+          font-weight: bold;
+        }
+
+        p {
+          font-size: 16px;
+          line-height: 1.5;
+          word-break: break-all;
+          color: #000000;
+        }
+
+        ul {
+          list-style-type: none;
+          padding: 0;
+        }
+
+        li {
+          margin-bottom: 5px;
+          padding-left: 25px;
+          position: relative;
+        }
+
+        li::before {
+          content: '•';
+          color: gray;
+          font-size: 28px;
+          position: absolute;
+          left: 5px;
+          top: -10px;
+        }
+
+        pre {
+          margin: 10px 0;
+          padding: 15px;
+          border: solid 1px #eaedf2;
+          border-radius: 5px;
+          background: #f3f6fc;
+          color: #54687c;
+          border-radius: 5px;
+          overflow-x: auto;
+
+          code {
+            font-family: Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+            line-height: 1.6;
+          }
+        }
+
+        img {
+          width: 100%;
+          height: auto;
+          object-fit: cover;
+          border-radius: 5px;
+        }
+
+        blockquote {
+          border-left: 3px solid gray;
+          padding: 10px;
+        }
+
+        table {
+          border-collapse: collapse;
+          width: 100%;
+          border-radius: 5px;
+          overflow: hidden;
+        }
+
+        th,
+        td {
+          border: 1px solid #ddd;
+          padding: 8px;
+          text-align: left;
+        }
+
+        th {
+          background-color: #f7f7f7;
+        }
+
+        a {
+          color: #3ea8ff;
+          text-decoration: none;
+        }
+
+        a:hover {
+          text-decoration: underline;
         }
       }
     }
