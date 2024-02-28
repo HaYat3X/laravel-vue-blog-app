@@ -10,9 +10,8 @@ import PreviewMarkdown from '@/components/elements/PreviewMarkdown.vue'
 const adminId = ref('')
 const title = ref('')
 const content = ref('')
-const featuredImage: any = ref<File>()
 const metaDescription = ref('')
-const publicStatus = ref(false)
+const publicStatus = ref<Boolean>()
 const router = useRouter()
 const articleId = router.currentRoute.value.params.article_id
 const markdownContent = ref()
@@ -40,7 +39,7 @@ onMounted(async () => {
   title.value = getEditingArticle.article.title
   content.value = getEditingArticle.article.content
   metaDescription.value = getEditingArticle.article.meta_description
-  publicStatus.value = getEditingArticle.article.publicStatus ? true : false
+  publicStatus.value = getEditingArticle.article.public_status === 1;
 })
 
 // contentの変更を監視してmarkdownContentを更新

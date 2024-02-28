@@ -36,7 +36,7 @@ defineProps({
   }
 
   li {
-    margin-bottom: 5px;
+    margin: 10px 0;
     padding-left: 25px;
     position: relative;
   }
@@ -46,8 +46,8 @@ defineProps({
     color: gray;
     font-size: 28px;
     position: absolute;
-    left: 5px;
-    top: -10px;
+    left: 8px;
+    top: -7px;
   }
 
   pre {
@@ -103,6 +103,10 @@ defineProps({
 
   a:hover {
     text-decoration: underline;
+  }
+
+  strong {
+    font-weight: bold;
   }
 }
 </style>
