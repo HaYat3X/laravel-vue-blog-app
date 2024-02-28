@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import WithSidebarLayout from '@/components/layouts/admin/WithSidebarLayout.vue'
 import { getData, createData } from '@/services/api'
 import { marked } from 'marked'
+import PreviewMarkdown from '@/components/elements/PreviewMarkdown.vue'
 
 const adminId = ref('')
 const title = ref('')
@@ -78,7 +79,7 @@ const onSubmit = async () => {
           <div class="form-group">
             <p>Content</p>
             <textarea v-model="content" required>Write in Markdown...</textarea>
-            <div class="content" v-html="markdownContent"></div>
+            <PreviewMarkdown :markdown-content="markdownContent"/>
           </div>
 
           <div class="form-group">
