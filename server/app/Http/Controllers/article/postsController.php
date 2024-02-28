@@ -145,8 +145,8 @@ class postsController extends Controller
      */
     public function updateArticle(Request $request, $articleId)
     {
-        $imageName = $this->saveToStorage($request);
         $articleData = Article::find($articleId);
+        $imageName = $articleData->featured_image;
         $article = $this->createArticleParams($request, $imageName, $articleData);
 
         if ($article->update()) {

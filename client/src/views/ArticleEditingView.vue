@@ -5,6 +5,7 @@ import { ref, watch } from 'vue'
 import WithSidebarLayout from '@/components/layouts/admin/WithSidebarLayout.vue'
 import { getData, updateData } from '@/services/api'
 import { marked } from 'marked'
+import PreviewMarkdown from '@/components/elements/PreviewMarkdown.vue'
 
 const adminId = ref('')
 const title = ref('')
@@ -47,20 +48,11 @@ watch(content, (newVal) => {
   markdownContent.value = marked(newVal)
 })
 
-const handleImageChange = (event: Event) => {
-  const input = event.target as HTMLInputElement
-
-  if (input.files && input.files.length > 0) {
-    featuredImage.value = input.files[0]
-  }
-}
-
 const onSubmit = async () => {
   const url = `api/article/article_editing/${articleId}`
   const formData = new FormData()
   formData.append('adminId', adminId.value)
   formData.append('title', title.value)
-  formData.append('featuredImage', featuredImage.value)
   formData.append('content', content.value)
   formData.append('metaDescription', metaDescription.value)
   formData.append('publicStatus', publicStatus.value ? '1' : '0')
@@ -94,12 +86,7 @@ const onSubmit = async () => {
           <div class="form-group">
             <p>Content</p>
             <textarea v-model="content" required></textarea>
-            <div class="content" v-html="markdownContent"></div>
-          </div>
-
-          <div class="form-group">
-            <p>FeaturedImage</p>
-            <input type="file" @change="handleImageChange" required />
+            <PreviewMarkdown :markdown-content="markdownContent" />
           </div>
 
           <div class="form-group">
