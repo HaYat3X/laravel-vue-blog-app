@@ -40,7 +40,7 @@ onMounted(async () => {
   title.value = getEditingArticle.article.title
   content.value = getEditingArticle.article.content
   metaDescription.value = getEditingArticle.article.meta_description
-  publicStatus.value = publicStatus ? true : false
+  publicStatus.value = getEditingArticle.article.publicStatus ? true : false
 })
 
 // contentの変更を監視してmarkdownContentを更新
