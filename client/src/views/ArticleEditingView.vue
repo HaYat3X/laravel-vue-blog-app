@@ -1,18 +1,20 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-import { ref } from 'vue';
-import WithSidebarLayout from '@/components/layouts/admin/WithSidebarLayout.vue';
-import { getData, updateData } from '@/services/api';
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { ref, watch } from 'vue'
+import WithSidebarLayout from '@/components/layouts/admin/WithSidebarLayout.vue'
+import { getData, updateData } from '@/services/api'
+import { marked } from 'marked'
 
-const adminId = ref('');
-const title = ref('');
-const content = ref('');
-const featuredImage: any = ref<File>();
-const metaDescription = ref('');
-const publicStatus = ref(false);
-const router = useRouter();
-const articleId = router.currentRoute.value.params.article_id;
+const adminId = ref('')
+const title = ref('')
+const content = ref('')
+const featuredImage: any = ref<File>()
+const metaDescription = ref('')
+const publicStatus = ref(false)
+const router = useRouter()
+const articleId = router.currentRoute.value.params.article_id
+const markdownContent = ref()
 
 onMounted(async () => {
   const url1 = `api/session/is_login`
@@ -38,15 +40,20 @@ onMounted(async () => {
   content.value = getEditingArticle.article.content
   metaDescription.value = getEditingArticle.article.meta_description
   publicStatus.value = publicStatus ? true : false
-});
+})
+
+// contentの変更を監視してmarkdownContentを更新
+watch(content, (newVal) => {
+  markdownContent.value = marked(newVal)
+})
 
 const handleImageChange = (event: Event) => {
-  const input = event.target as HTMLInputElement;
+  const input = event.target as HTMLInputElement
 
   if (input.files && input.files.length > 0) {
-    featuredImage.value = input.files[0];
+    featuredImage.value = input.files[0]
   }
-};
+}
 
 const onSubmit = async () => {
   const url = `api/article/article_editing/${articleId}`
@@ -62,7 +69,7 @@ const onSubmit = async () => {
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
   if (updateArticle.internalServerError) {
-    router.push('/error');
+    router.push('/error')
   }
 
   router.push('/posted_articles')
@@ -86,7 +93,8 @@ const onSubmit = async () => {
 
           <div class="form-group">
             <p>Content</p>
-            <textarea v-model="content" required>Write in Content...</textarea>
+            <textarea v-model="content" required></textarea>
+            <div class="content" v-html="markdownContent"></div>
           </div>
 
           <div class="form-group">
@@ -101,7 +109,7 @@ const onSubmit = async () => {
 
           <div class="submit">
             <div class="iphone-switch">
-              <input type="checkbox" v-model="publicStatus" id="iphoneSwitch">
+              <input type="checkbox" v-model="publicStatus" id="iphoneSwitch" />
               <label class="iphone-slider" for="iphoneSwitch"></label>
             </div>
 
@@ -114,25 +122,25 @@ const onSubmit = async () => {
   </WithSidebarLayout>
 </template>
 
-<style scoped lang="scss">
+<style lang="scss">
 .content-area {
   width: calc(100% - 250px);
   padding: 0 40px;
 
   .content-container {
     .box {
-      background-color: #2B2F32;
+      background-color: #2b2f32;
       text-align: center;
       border-radius: 5px;
       padding: 30px;
 
       h2 {
-        color: #FFFFFF;
+        color: #ffffff;
         font-weight: bold;
       }
 
       p {
-        color: #E4E7EDBF;
+        color: #e4e7edbf;
         font-size: 14px;
       }
     }
@@ -148,24 +156,24 @@ const onSubmit = async () => {
     form {
       margin: 50px auto;
       padding: 50px;
-      background-color: #2B2F32;
+      background-color: #2b2f32;
 
       .form-group {
         margin-bottom: 20px;
 
         p {
-          color: #FFFFFF;
+          color: #ffffff;
           font-size: 16px;
           margin-bottom: 5px;
         }
 
-        input[type="text"] {
+        input[type='text'] {
           padding: 10px;
           background-color: #212529;
           border: none;
           border-radius: 5px;
           font-size: 16px;
-          color: #FFFFFF;
+          color: #ffffff;
 
           &:focus {
             outline: none;
@@ -173,13 +181,13 @@ const onSubmit = async () => {
           }
         }
 
-        input[type="file"] {
+        input[type='file'] {
           padding: 5px 0;
           background-color: #212529;
           border: none;
           border-radius: 5px;
           font-size: 16px;
-          color: #FFFFFF;
+          color: #ffffff;
 
           &:focus {
             outline: none;
@@ -194,7 +202,7 @@ const onSubmit = async () => {
           border: none;
           border-radius: 5px;
           font-size: 16px;
-          color: #FFFFFF;
+          color: #ffffff;
           height: 200px;
 
           &:focus {
@@ -204,7 +212,7 @@ const onSubmit = async () => {
         }
 
         .error-msg {
-          color: #E76868;
+          color: #e76868;
           font-size: 14px;
         }
       }
@@ -216,7 +224,7 @@ const onSubmit = async () => {
         cursor: pointer;
         background-color: #3ea8ff;
         border: none;
-        color: #FFFFFF;
+        color: #ffffff;
 
         &:hover {
           background-color: #0f83fd;
@@ -238,7 +246,7 @@ const onSubmit = async () => {
         span {
           font-size: 14px;
           font-weight: bold;
-          color: #FFFFFF;
+          color: #ffffff;
           margin-right: 15px;
         }
 
@@ -254,32 +262,134 @@ const onSubmit = async () => {
           right: 0;
           bottom: 0;
           background-color: #ccc;
-          -webkit-transition: .4s;
-          transition: .4s;
+          -webkit-transition: 0.4s;
+          transition: 0.4s;
           border-radius: 34px;
         }
 
         .iphone-slider:before {
           position: absolute;
-          content: "";
+          content: '';
           height: 20px;
           width: 20px;
           left: 2px;
           bottom: 2px;
           background-color: white;
-          -webkit-transition: .4s;
-          transition: .4s;
+          -webkit-transition: 0.4s;
+          transition: 0.4s;
           border-radius: 50%;
         }
 
-        input:checked+.iphone-slider {
-          background-color: #2196F3;
+        input:checked + .iphone-slider {
+          background-color: #2196f3;
         }
 
-        input:checked+.iphone-slider:before {
+        input:checked + .iphone-slider:before {
           -webkit-transform: translateX(21px);
           -ms-transform: translateX(21px);
           transform: translateX(21px);
+        }
+      }
+
+      .content {
+        background-color: #ffffff;
+        border-radius: 5px;
+        padding: 25px;
+
+        h2 {
+          margin-top: 45px;
+          margin-bottom: 10px;
+          font-size: 22px;
+          font-weight: bold;
+        }
+
+        h3 {
+          margin-top: 30px;
+          margin-bottom: 10px;
+          font-size: 19px;
+          font-weight: bold;
+        }
+
+        p {
+          font-size: 16px;
+          line-height: 1.5;
+          word-break: break-all;
+          color: #000000;
+        }
+
+        ul {
+          list-style-type: none;
+          padding: 0;
+        }
+
+        li {
+          margin-bottom: 5px;
+          padding-left: 25px;
+          position: relative;
+        }
+
+        li::before {
+          content: '•';
+          color: gray;
+          font-size: 28px;
+          position: absolute;
+          left: 5px;
+          top: -10px;
+        }
+
+        pre {
+          margin: 10px 0;
+          padding: 15px;
+          border: solid 1px #eaedf2;
+          border-radius: 5px;
+          background: #f3f6fc;
+          color: #54687c;
+          border-radius: 5px;
+          overflow-x: auto;
+
+          code {
+            font-family: Menlo, Consolas, 'DejaVu Sans Mono', monospace;
+            line-height: 1.6;
+          }
+        }
+
+        img {
+          width: 100%;
+          height: auto;
+          object-fit: cover;
+          border-radius: 5px;
+        }
+
+        blockquote {
+          border-left: 3px solid gray;
+          padding: 10px;
+        }
+
+        table {
+          border-collapse: collapse;
+          width: 100%;
+          border-radius: 5px;
+          overflow: hidden;
+        }
+
+        th,
+        td {
+          border: 1px solid #ddd;
+          padding: 8px;
+          text-align: left;
+        }
+
+        th {
+          background-color: #f7f7f7;
+        }
+
+        a {
+          color: #3ea8ff;
+          text-decoration: none;
+        }
+
+        a:hover {
+          text-decoration: underline;
         }
       }
     }

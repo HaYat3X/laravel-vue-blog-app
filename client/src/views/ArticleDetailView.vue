@@ -1,41 +1,43 @@
 <script setup lang="ts">
-import WithSidebarLayout from '@/components/layouts/WithSidebarLayout.vue';
-import { marked } from "marked"
-import { onMounted, ref } from 'vue';
-import type { Article } from "@/types/article";
-import { useRouter } from 'vue-router';
-import { getData } from '@/services/api';
+import WithSidebarLayout from '@/components/layouts/WithSidebarLayout.vue'
+import { marked } from 'marked'
+import { onMounted, ref } from 'vue'
+import type { Article } from '@/types/article'
+import { useRouter } from 'vue-router'
+import { getData } from '@/services/api'
 
-const router = useRouter();
-const article = ref<Article>();
-const markdownContent = ref();
+const router = useRouter()
+const article = ref<Article>()
+const markdownContent = ref()
 
 onMounted(async () => {
-  const slug = router.currentRoute.value.params.slug;
+  const slug = router.currentRoute.value.params.slug
   const url = `api/article/get_article/${slug}`
-  const getArticle = await getData(url);
+  const getArticle = await getData(url)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
   if (getArticle.internalServerError) {
-    router.push('/error');
+    router.push('/error')
   }
 
   // ページが見つからない場合は、404ページにリダイレクトする
   if (getArticle.notFoundError) {
-    router.push({ name: 'NotFound' });
+    router.push({ name: 'NotFound' })
   }
 
-  article.value = getArticle.article;
-  markdownContent.value = marked(article.value?.content);
-});
+  article.value = getArticle.article
+  markdownContent.value = marked(article.value?.content)
+})
 </script>
 
 <template>
   <WithSidebarLayout>
     <div class="content-container">
       <div class="article">
-        <h1>{{ article?.title }}</h1>
-        <small>{{ article?.created_at.slice(0, 10) }}に公開</small>
+        <div class="thumbnail-area">
+          <h1>{{ article?.title }}</h1>
+          <small>{{ article?.created_at.slice(0, 10) }}に公開</small>
+        </div>
 
         <div class="content" v-html="markdownContent"></div>
       </div>
@@ -58,13 +60,22 @@ onMounted(async () => {
       padding: 40px;
     }
 
-    h1 {
-      font-size: 26px;
-      font-weight: bold;
-    }
+    .thumbnail-area {
+      text-align: center;
 
-    small {
-      font-size: 14px;
+      h1 {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      small {
+        background-color: #3ea8ff;
+        border-radius: 50px;
+        padding: 2px 10px;
+        font-size: 13px;
+        color: #ffffff;
+      }
     }
 
     .content {
@@ -100,7 +111,7 @@ onMounted(async () => {
       }
 
       li::before {
-        content: "•";
+        content: '•';
         color: gray;
         font-size: 28px;
         position: absolute;
