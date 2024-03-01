@@ -12,7 +12,7 @@ const content = ref('');
 const router = useRouter();
 
 const onSubmit = async () => {
-  const url = `api/contact/submit_contact`
+  const url = `/contact`
   const formData = new FormData()
   formData.append('name', name.value)
   formData.append('email', email.value)

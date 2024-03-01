@@ -13,7 +13,7 @@ const currentPage = ref(1)
 const lastPage = ref()
 
 const fetchArticles = async (page: number) => {
-  const url = `api/article/get_all_article?page=${page}`
+  const url = `/article/post?page=${page}`
   const getAllArticle = await getData(url)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
@@ -27,11 +27,11 @@ const fetchArticles = async (page: number) => {
 }
 
 onMounted(async () => {
-  const url = `api/session/is_login`
-  const isLogin = await getData(url)
+  const url = `/session/user`
+  const user = await getData(url)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
-  if (isLogin.internalServerError) {
+  if (user.internalServerError) {
     router.push('/error')
   }
 
@@ -39,7 +39,7 @@ onMounted(async () => {
 })
 
 const onClick = async (articleId: number) => {
-  const url = `api/article/remove_article/${articleId}`
+  const url = `/article/post/${articleId}`
   const removeArticle = await deleteData(url)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする

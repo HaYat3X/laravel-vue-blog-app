@@ -17,25 +17,38 @@ use App\Http\Controllers\contact\postsController as contactPostController;
 |
 */
 
-Route::prefix('session')->group(function () {
-    Route::post('/sign_in', [sessionsController::class, 'signIn']);
-    Route::get('/is_login', [sessionsController::class, 'isLogin'])->middleware('auth:sanctum');
-    Route::delete('/sign_out', [sessionsController::class, 'signOut'])->middleware('auth:sanctum');
-});
+Route::prefix('v1')->group(function () {
+    Route::prefix('article/post')->group(function () {
+        Route::controller(postsController::class)->group(function () {
+            Route::get('', 'index')->middleware('auth:sanctum');
+            Route::get('public', 'public');
+            Route::delete('/{articleId}', 'destroy')->middleware('auth:sanctum');
+            Route::post('/', 'store')->middleware('auth:sanctum');
+            Route::get('/{articleId}/edit', 'edit')->middleware('auth:sanctum');
+            Route::put('/{articleId}', 'update')->middleware('auth:sanctum');
+            Route::get('/{slug}', 'show');
+        });
+    });
 
-Route::prefix('article')->group(function () {
-    Route::get('/get_published_article', [postsController::class, 'getPublishedArticle']);
-    Route::get('/get_article/{slug}', [postsController::class, 'getArticle']);
-    Route::get('/get_article_search_result/{keyword}', [searchsController::class, 'getArticleSearchResult']);
-    Route::get('/get_all_article', [postsController::class, 'getAllArticle'])->middleware('auth:sanctum');
-    Route::delete('/remove_article/{articleId}', [postsController::class, 'removeArticle'])->middleware('auth:sanctum');
-    Route::post('/submit_article', [postsController::class, 'submitArticle'])->middleware('auth:sanctum');
-    Route::get('/get_editing_article/{article_id}', [postsController::class, 'getEditingArticle'])->middleware('auth:sanctum');
-    Route::put('/article_editing/{article_id}', [postsController::class, 'updateArticle'])->middleware('auth:sanctum');
-});
+    Route::prefix('article/search')->group(function () {
+        Route::controller(searchsController::class)->group(function () {
+            Route::get('{keyword}', 'show');
+        });
+    });
 
-Route::prefix('contact')->group(function () {
-    Route::get('/get_all_contact', [contactPostController::class, 'getAllContact'])->middleware('auth:sanctum');
-    Route::post('/submit_contact', [contactPostController::class, 'submitContact']);
-    Route::delete('/remove_contact/{contactId}', [contactPostController::class, 'removeContact'])->middleware('auth:sanctum');
+    Route::prefix('session')->group(function () {
+        Route::controller(sessionsController::class)->group(function () {
+            Route::get('/user', 'user')->middleware('auth:sanctum');
+            Route::post('/login', 'login');
+            Route::delete('/logout', 'logout')->middleware('auth:sanctum');
+        });
+    });
+
+    Route::prefix('contact')->group(function () {
+        Route::controller(contactPostController::class)->group(function () {
+            Route::get('/', 'index')->middleware('auth:sanctum');
+            Route::delete('{contactId}', 'destroy')->middleware('auth:sanctum');
+            Route::post('', 'store');
+        });
+    });
 });

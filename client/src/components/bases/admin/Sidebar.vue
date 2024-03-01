@@ -5,11 +5,11 @@ import { deleteData } from '@/services/api';
 const router = useRouter()
 
 const handleClick = async () => {
-  const url = `api/session/sign_out`
-  const signOut = await deleteData(url)
+  const url = `/session/logout`
+  const logout = await deleteData(url)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
-  if (signOut.internalServerError) {
+  if (logout.internalServerError) {
     router.push('/error')
   }
 

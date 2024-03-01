@@ -13,7 +13,7 @@ const markdownContent = ref()
 
 onMounted(async () => {
   const slug = router.currentRoute.value.params.slug
-  const url = `api/article/get_article/${slug}`
+  const url = `/article/post/${slug}`
   const getArticle = await getData(url)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする

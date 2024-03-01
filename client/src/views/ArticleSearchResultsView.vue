@@ -19,7 +19,7 @@ const keyword = router.currentRoute.value.query.keyword;
  * @param {number} page
  */
 const fetchArticles = async (page: number) => {
-  const url = `api/article/get_article_search_result/${keyword}`
+  const url = `/article/search/${keyword}`
   const getArticleSearchResults = await getData(url)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする

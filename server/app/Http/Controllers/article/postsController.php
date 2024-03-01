@@ -10,13 +10,13 @@ use Illuminate\Support\Str;
 class postsController extends Controller
 {
     /**
-     * 公開された記事一覧を取得する
+     * 記事一覧を取得する
      * @access public
      * @return Illuminate\Http\JsonResponse
      */
-    public function getPublishedArticle()
+    public function index()
     {
-        $articles = Article::where('public_status', 1)->latest('created_at')->paginate(12);
+        $articles = Article::latest('created_at')->paginate(12);
 
         return response()->json([
             'articles' => $articles
@@ -24,41 +24,13 @@ class postsController extends Controller
     }
 
     /**
-     * 指定された記事を取得する
-     * @access public
-     * @param $slug 取得する記事のslug
-     * @return Illuminate\Http\JsonResponse
-     */
-    public function getArticle(string $slug)
-    {
-        $article = Article::where('slug', $slug)->first();
-
-        if (!$article) {
-            return response()->json([
-                'message' => '記事が見つかりません。',
-            ], 404);
-        }
-
-        // 記事が非公開の場合は403エラーを返す
-        if ($article->public_status === 0) {
-            return response()->json([
-                'message' => 'この記事は非公開です。',
-            ], 403);
-        }
-
-        return response()->json([
-            'article' => $article,
-        ], 200);
-    }
-
-    /**
-     * 投稿された記事一覧を取得する
+     * 公開された記事一覧を取得する
      * @access public
      * @return Illuminate\Http\JsonResponse
      */
-    public function getAllArticle()
+    public function public()
     {
-        $articles = Article::latest('created_at')->paginate(12);
+        $articles = Article::where('public_status', 1)->latest('created_at')->paginate(12);
 
         return response()->json([
             'articles' => $articles
@@ -71,7 +43,7 @@ class postsController extends Controller
      * @param $articleId 削除する記事ID
      * @return Illuminate\Http\JsonResponse
      */
-    public function removeArticle(Int $articleId)
+    public function destroy(Int $articleId)
     {
         $article = Article::find($articleId);
 
@@ -93,12 +65,12 @@ class postsController extends Controller
     }
 
     /**
-     * 記事を保存する
+     * 記事を投稿する
      * @access public
      * @param Illuminate\Http\Request $request
      * @return Illuminate\Http\JsonResponse
      */
-    public function submitArticle(Request $request)
+    public function store(Request $request)
     {
         $imageName = $this->saveToStorage($request);
         $articleData = new Article();
@@ -116,12 +88,12 @@ class postsController extends Controller
     }
 
     /**
-     * 記事編集フォームを表示する
+     * 更新記事を取得
      * @access public
      * @param Illuminate\Http\Request $request
      * @return Illuminate\Http\JsonResponse
      */
-    public function getEditingArticle($articleId)
+    public function edit($articleId)
     {
         $article = Article::find($articleId);
 
@@ -143,7 +115,7 @@ class postsController extends Controller
      * @param $articleId 更新する記事ID
      * @return Illuminate\Http\JsonResponse
      */
-    public function updateArticle(Request $request, $articleId)
+    public function update(Request $request, $articleId)
     {
         $articleData = Article::find($articleId);
         $imageName = $articleData->featured_image;
@@ -158,6 +130,34 @@ class postsController extends Controller
                 'message' => '投稿の更新に失敗しました。'
             ], 500);
         }
+    }
+
+    /**
+     * 指定された記事を取得する
+     * @access public
+     * @param $slug 取得する記事のslug
+     * @return Illuminate\Http\JsonResponse
+     */
+    public function show(string $slug)
+    {
+        $article = Article::where('slug', $slug)->first();
+
+        if (!$article) {
+            return response()->json([
+                'message' => '記事が見つかりません。',
+            ], 404);
+        }
+
+        // 記事が非公開の場合は403エラーを返す
+        if ($article->public_status === 0) {
+            return response()->json([
+                'message' => 'この記事は非公開です。',
+            ], 403);
+        }
+
+        return response()->json([
+            'article' => $article,
+        ], 200);
     }
 
     /**

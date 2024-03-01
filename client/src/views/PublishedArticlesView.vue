@@ -17,7 +17,7 @@ const lastPage = ref()
  * @param {number} page
  */
 const fetchArticles = async (page: number) => {
-  const url = `api/article/get_published_article?page=${page}`
+  const url = `/article/post/public?page=${page}`
   const getPublishedArticle = await getData(url)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする

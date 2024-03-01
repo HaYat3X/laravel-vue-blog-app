@@ -8,12 +8,12 @@ use App\Models\Article;
 class searchsController extends Controller
 {
     /**
-     * 記事を検索し、検索結果を取得する
+     * 指定されたキーワードで記事を検索し、検索結果を取得する
      * @access public
      * @param Illuminate\Http\Request $keyword
      * @return Illuminate\Http\JsonResponse
      */
-    public function getArticleSearchResult($keyword)
+    public function show($keyword)
     {
         $articles = Article::query()->where('public_status', 1)->where('title', 'like', '%' . $keyword . '%')->paginate(12);
 
