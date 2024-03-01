@@ -9,21 +9,21 @@ const email = ref('')
 const password = ref('')
 
 const onSubmit = async () => {
-  const url = `api/session/sign_in`
+  const url = `/session/login`
   const formData = new FormData
   formData.append('email', email.value)
   formData.append('password', password.value)
 
-  const signIn = await createData(url, formData)
+  const login = await createData(url, formData)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
   // ログイン失敗している場合も500ページに飛ばすのは良くないので、今後修正を！
-  if (signIn.internalServerError) {
+  if (login.internalServerError) {
     router.push('/error')
   }
 
   // ローカルストレージにトークンを保存
-  localStorage.setItem('authToken', signIn.token)
+  localStorage.setItem('authToken', login.token)
   router.push('/posted_articles')
 }
 </script>

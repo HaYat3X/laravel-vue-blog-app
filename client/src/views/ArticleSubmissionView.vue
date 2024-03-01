@@ -16,13 +16,13 @@ const router = useRouter()
 const markdownContent = ref()
 
 onMounted(async () => {
-  const url = `api/session/is_login`
-  const isLogin = await getData(url)
+  const url = `/session/user`
+  const user = await getData(url)
 
-  adminId.value = isLogin.admin.id
+  adminId.value = user.admin.id
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
-  if (isLogin.internalServerError) {
+  if (user.internalServerError) {
     router.push('/error')
   }
 })
@@ -41,7 +41,7 @@ const handleImageChange = (event: Event) => {
 }
 
 const onSubmit = async () => {
-  const url = `api/article/submit_article`
+  const url = `/article/post`
   const formData = new FormData()
   formData.append('adminId', adminId.value)
   formData.append('title', title.value)

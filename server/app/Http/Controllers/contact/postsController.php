@@ -13,7 +13,7 @@ class postsController extends Controller
      * @access public
      * @return Illuminate\Http\JsonResponse
      */
-    public function getAllContact()
+    public function index()
     {
         $contacts = Contact::latest('created_at')->paginate(12);
 
@@ -28,7 +28,7 @@ class postsController extends Controller
      * @param $contactId 削除するお問い合わせID
      * @return Illuminate\Http\JsonResponse
      */
-    public function removeContact($contactId)
+    public function destroy($contactId)
     {
         $contact = Contact::find($contactId);
 
@@ -49,7 +49,7 @@ class postsController extends Controller
      * @param Illuminate\Http\Request $request
      * @return Illuminate\Http\JsonResponse
      */
-    public function submitContact(Request $request)
+    public function store(Request $request)
     {
         $contact = new Contact();
         $contact->name = $request->input('name');

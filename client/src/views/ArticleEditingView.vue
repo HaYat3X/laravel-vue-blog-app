@@ -4,32 +4,31 @@ import { useRouter } from 'vue-router'
 import { ref, watch } from 'vue'
 import WithSidebarLayout from '@/components/layouts/admin/WithSidebarLayout.vue'
 import { getData, updateData } from '@/services/api'
-import { marked } from 'marked'
+import { marked, use } from 'marked'
 import PreviewMarkdown from '@/components/elements/PreviewMarkdown.vue'
 
 const adminId = ref('')
 const title = ref('')
 const content = ref('')
-const featuredImage: any = ref<File>()
 const metaDescription = ref('')
-const publicStatus = ref(false)
+const publicStatus = ref<Boolean>()
 const router = useRouter()
 const articleId = router.currentRoute.value.params.article_id
 const markdownContent = ref()
 
 onMounted(async () => {
-  const url1 = `api/session/is_login`
-  const isLogin = await getData(url1)
+  const url1 = `/session/user`
+  const user = await getData(url1)
 
-  adminId.value = isLogin.admin.id
+  adminId.value = user.admin.id
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
-  if (isLogin.internalServerError) {
+  if (user.internalServerError) {
     router.push('/error')
   }
 
   // 編集する記事を取得
-  const url2 = `api/article/get_editing_article/${articleId}`
+  const url2 = `/article/post/${articleId}/edit`
   const getEditingArticle = await getData(url2)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
@@ -40,7 +39,7 @@ onMounted(async () => {
   title.value = getEditingArticle.article.title
   content.value = getEditingArticle.article.content
   metaDescription.value = getEditingArticle.article.meta_description
-  publicStatus.value = getEditingArticle.article.publicStatus ? true : false
+  publicStatus.value = getEditingArticle.article.public_status === 1;
 })
 
 // contentの変更を監視してmarkdownContentを更新
@@ -49,7 +48,7 @@ watch(content, (newVal) => {
 })
 
 const onSubmit = async () => {
-  const url = `api/article/article_editing/${articleId}`
+  const url = `/article/post/${articleId}`
   const formData = new FormData()
   formData.append('adminId', adminId.value)
   formData.append('title', title.value)

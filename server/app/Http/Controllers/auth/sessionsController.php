@@ -11,12 +11,25 @@ use Illuminate\Support\Facades\DB;
 class sessionsController extends Controller
 {
     /**
-     * ユーザ認証する
+     * ログインした管理者情報を取得する
      * @access public
      * @param Illuminate\Http\Request $request
      * @return Illuminate\Http\JsonResponse
      */
-    public function signIn(Request $request)
+    public function user(Request $request)
+    {
+        return response()->json([
+            'admin' => $request->user()
+        ]);
+    }
+
+    /**
+     * ログインする
+     * @access public
+     * @param Illuminate\Http\Request $request
+     * @return Illuminate\Http\JsonResponse
+     */
+    public function login(Request $request)
     {
         $email = $request->input('email');
         $password = $request->input('password');
@@ -36,25 +49,13 @@ class sessionsController extends Controller
         }
     }
 
-    /**
-     * ログインした管理者情報を取得する
-     * @access public
-     * @param Illuminate\Http\Request $request
-     * @return Illuminate\Http\JsonResponse
-     */
-    public function isLogin(Request $request)
-    {
-        return response()->json([
-            'admin' => $request->user()
-        ]);
-    }
 
     /**
      * ログアウトする
      * @access public
      * @return Illuminate\Http\JsonResponse
      */
-    public function signOut()
+    public function logout()
     {
         if (DB::table('personal_access_tokens')->truncate()) {
             return response()->json([

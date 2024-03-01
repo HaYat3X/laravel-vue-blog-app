@@ -13,7 +13,7 @@ const currentPage = ref(1)
 const lastPage = ref()
 
 const fetchContacts = async (page: number) => {
-  const url = `api/contact/get_all_contact?page=${page}`
+  const url = `/contact?page=${page}`
   const getAllContact = await getData(url)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
@@ -27,11 +27,11 @@ const fetchContacts = async (page: number) => {
 }
 
 onMounted(async () => {
-  const url = `api/session/is_login`
-  const isLogin = await getData(url)
+  const url = `/session/user`
+  const user = await getData(url)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
-  if (isLogin.internalServerError) {
+  if (user.internalServerError) {
     router.push('/error')
   }
 
@@ -39,7 +39,7 @@ onMounted(async () => {
 })
 
 const onClick = async (contactId: number) => {
-  const url = `api/contact/remove_contact/${contactId}`
+  const url = `/contact/${contactId}`
   const removeContact = await deleteData(url)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
