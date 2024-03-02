@@ -5,72 +5,71 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'PublishedArticles',
-      component: () => import('../views/PublishedArticlesView.vue')
+      name: 'PublicArticle',
+      component: () => import('../views/articles/PublicList.vue')
     },
     {
       path: '/:slug',
-      name: 'ArticleDetail',
-      component: () => import('../views/ArticleDetailView.vue')
+      name: 'ShowArticle',
+      component: () => import('../views/articles/Show.vue')
     },
     {
       path: '/search',
-      name: 'ArticleSearch',
-      component: () => import('../views/ArticleSearchView.vue')
+      name: 'SearchArticle',
+      component: () => import('../views/articles/Search.vue')
     },
     {
-      path: '/search_result',
-      name: 'ArticleSearchResults',
-      component: () => import('../views/ArticleSearchResultsView.vue')
+      path: '/search/result',
+      name: 'SearchResultArticle',
+      component: () => import('../views/articles/SearchResults.vue')
+    },
+    {
+      path: '/contact/submit',
+      name: 'SubmitContact',
+      component: () => import('../views/contacts/Submit.vue')
+    },
+    {
+      path: '/contact/complete',
+      name: 'CompleteContact',
+      component: () => import('../views/contacts/Complete.vue')
+    },
+    {
+      path: '/admin/login',
+      name: 'AdminLogin',
+      component: () => import('../views/admins/Login.vue')
+    },
+    {
+      path: '/article',
+      name: 'Article',
+      component: () => import('../views/articles/List.vue')
+    },
+    {
+      path: '/article/submit',
+      name: 'SubmitArticle',
+      component: () => import('../views/articles/Submit.vue')
+    },
+    {
+      path: '/article/:articleId/edit',
+      name: 'ArticleEditing',
+      component: () => import('../views/articles/Edit.vue')
     },
     {
       path: '/contact',
       name: 'Contact',
-      component: () => import('../views/ContactView.vue')
+      component: () => import('../views/contacts/List.vue')
     },
     {
-      path: '/contact_completion',
-      name: 'ContactCompletion',
-      component: () => import('../views/ContactCompletionView.vue')
-    },
-    {
-      path: '/administrator-login',
-      name: 'AdministratorLogin',
-      component: () => import('../views/AdministratorLoginView.vue')
-    },
-    {
-      path: '/posted_articles',
-      name: 'PostedArticles',
-      component: () => import('../views/PostedArticlesView.vue')
-    },
-    {
-      path: '/article_submission',
-      name: 'ArticleSubmission',
-      component: () => import('../views/ArticleSubmissionView.vue')
-    },
-    {
-      path: '/article_editing/:article_id',
-      name: 'ArticleEditing',
-      component: () => import('../views/ArticleEditingView.vue')
-    },
-    {
-      path: '/contact_list',
-      name: 'ContactList',
-      component: () => import('../views/ContactListView.vue')
-    },
-    {
-      path: '/about_me',
+      path: '/about/me',
       name: 'AboutMe',
-      component: () => import('../views/AboutMeView.vue')
+      component: () => import('../views/abouts/Me.vue')
     },
     {
-      path: '/about_blog',
+      path: '/about/blog',
       name: 'AboutBlog',
-      meta: { title: 'About' },
-      component: () => import('../views/AboutBlogView.vue')
+      component: () => import('../views/abouts/Blog.vue')
     },
     {
-      path: '/privacy_policy',
+      path: '/privacy-policy',
       name: 'PrivacyPolicy',
       component: () => import('../views/PrivacyPolicyView.vue')
     },
@@ -80,7 +79,7 @@ const router = createRouter({
       component: () => import('../views/NotFound.vue')
     },
     {
-      path: '/error',
+      path: '/server-error',
       name: 'ServerError',
       component: () => import('../views/ServerError.vue')
     }

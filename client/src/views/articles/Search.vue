@@ -26,7 +26,7 @@ onMounted(async () => {
 
   // サーバー内でエラーが発生した場合、500ページにリダイレクトする
   if (getPublishedArticle.error) {
-    router.push('/error')
+    router.push('/server-error')
   }
 
   articles.value = getPublishedArticle.articles.data
@@ -36,7 +36,7 @@ onMounted(async () => {
  * 検索されたキーワードを検索結果画面へ送信する
  */
 const onsubmit = () => {
-  router.push({ path: '/search_result', query: { keyword: keyword.value } });
+  router.push({ path: '/search/result', query: { keyword: keyword.value } });
 }
 </script>
 

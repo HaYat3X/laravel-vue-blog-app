@@ -24,12 +24,12 @@ const onSubmit = async () => {
   // サーバーエラーが発生した場合、500ページにリダイレクトする
   // ログイン失敗している場合も500ページに飛ばすのは良くないので、今後修正を！
   if (login.internalServerError) {
-    router.push('/error')
+    router.push('/server-error')
   }
 
   // ローカルストレージにトークンを保存
   localStorage.setItem('authToken', login.token)
-  router.push('/posted_articles')
+  router.push('/article')
 }
 </script>
 

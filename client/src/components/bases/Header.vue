@@ -23,7 +23,7 @@ import Button from '../elements/Button.vue';
           </li>
 
           <li>
-            <a href="/contact">
+            <a href="/contact/submit">
               <Button>
                 Contact
               </Button>

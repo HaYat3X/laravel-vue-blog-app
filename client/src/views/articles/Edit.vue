@@ -18,7 +18,7 @@ const content = ref('')
 const metaDescription = ref('')
 const publicStatus = ref<Boolean>()
 const router = useRouter()
-const articleId = router.currentRoute.value.params.article_id
+const articleId = router.currentRoute.value.params.articleId
 const markdownContent = ref()
 
 onMounted(async () => {
@@ -29,7 +29,7 @@ onMounted(async () => {
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
   if (user.internalServerError) {
-    router.push('/error')
+    router.push('/server-error')
   }
 
   // 編集する記事を取得
@@ -38,7 +38,7 @@ onMounted(async () => {
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
   if (getEditingArticle.internalServerError) {
-    router.push('/error')
+    router.push('/server-error')
   }
 
   title.value = getEditingArticle.article.title
@@ -65,10 +65,10 @@ const onSubmit = async () => {
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
   if (updateArticle.internalServerError) {
-    router.push('/error')
+    router.push('/server-error')
   }
 
-  router.push('/posted_articles')
+  router.push('/article')
 }
 </script>
 

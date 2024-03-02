@@ -8,47 +8,42 @@ import type { Article } from '@/types/article'
 import { getData } from '@/services/api'
 import { useHead } from '@unhead/vue'
 
-const router = useRouter()
-const searchResultTitle = ref()
-const articles = ref<Article[]>([])
-const currentPage = ref(1)
-const lastPage = ref()
-const keyword = router.currentRoute.value.query.keyword
-
 useHead({
-  title: '「' + keyword + '」' + 'の検索結果',
+  title: 'Hayate Tech Lab',
   meta: [
     {
       name: 'discription',
-      content: '最新の記事や関連する情報を検索してみてください。様々なトピックに関する情報が見つかるかもしれません。'
+      content:
+        'Hayate Tech Hubへようこそ。Hayate Tech Hubでは、私がこれまで実装した技術や使用した技術の記録と共有しています。'
     }
   ]
 })
+
+const router = useRouter()
+const articles = ref<Article[]>([])
+const currentPage = ref(1)
+const lastPage = ref()
 
 /**
  * 指定されたページに基づいて公開記事一覧を取得する
  * @param {number} page
  */
 const fetchArticles = async (page: number) => {
-  const url = `/article/search/${keyword}`
-  const getArticleSearchResults = await getData(url)
+  const url = `/article/post/public?page=${page}`
+  const getPublishedArticle = await getData(url)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
-  if (getArticleSearchResults.error) {
-    router.push('/error')
+  if (getPublishedArticle.error) {
+    router.push('/server-error') 
   }
 
-  articles.value = getArticleSearchResults.articles.data
-  currentPage.value = getArticleSearchResults.articles.current_page
-  lastPage.value = getArticleSearchResults.articles.last_page
-  searchResultTitle.value = `${keyword} の検索結果`
+  articles.value = getPublishedArticle.articles.data
+  currentPage.value = getPublishedArticle.articles.current_page
+  lastPage.value = getPublishedArticle.articles.last_page
 }
 
-onMounted(async () => {
-  if (!keyword) {
-    router.push('/search')
-  }
-
+onMounted(() => {
+  // 最初のページのための初期取得（currentPage初期値1で取得）
   fetchArticles(currentPage.value)
 })
 
@@ -64,15 +59,18 @@ const changePage = (page: number) => {
 <template>
   <WithSidebarLayout>
     <div class="content-container">
-      <h2>{{ searchResultTitle }}</h2>
+      <h2>Articles</h2>
 
-      <div v-if="articles.length === 0">記事が見つかりませんでした。</div>
+      <div class="article">
+        <!-- <ArticleCard v-for="article in articles" :key="article.id" :-article-slug="article.slug"
+          :-featured-imgae="`http://127.0.0.1:8000/storage/featured_image/${article.featured_image}`"
+          :-article-title="article.title" :-article-created-at="article.created_at.slice(0, 10)" /> -->
 
-      <div v-else class="article">
         <ArticleCard
           v-for="article in articles"
           :key="article.id"
-          :-featured-imgae="`http://127.0.0.1:8000/storage/featured_image/${article.featured_image}`"
+          :-article-slug="article.slug"
+          :-featured-imgae="`https://x162-43-70-220.static.shin-vps.jp/storage/featured_image/${article.featured_image}`"
           :-article-title="article.title"
           :-article-created-at="article.created_at.slice(0, 10)"
         />
@@ -92,19 +90,16 @@ const changePage = (page: number) => {
 .content-container {
   h2 {
     font-weight: bold;
-    font-size: 28px;
+    font-size: 30px;
+    margin-bottom: 20px;
     color: #333333;
-  }
-
-  .article {
-    margin-top: 20px;
   }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1023px) {
   .content-container {
     h2 {
-      font-size: 30px;
+      font-size: 32px;
     }
 
     .article {
@@ -118,7 +113,7 @@ const changePage = (page: number) => {
 @media only screen and (min-width: 1024px) {
   .content-container {
     h2 {
-      font-size: 30px;
+      font-size: 32px;
     }
 
     .article {
