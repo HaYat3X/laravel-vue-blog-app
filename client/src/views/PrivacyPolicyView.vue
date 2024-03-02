@@ -1,5 +1,17 @@
 <script setup lang="ts">
 import NoSidebarLayout from '@/components/layouts/NoSidebarLayout.vue';
+import { useHead } from '@unhead/vue'
+
+useHead({
+  title: 'プライバシーポリシー',
+  meta: [
+    {
+      name: 'discription',
+      content:
+        '当サイトのプライバシーポリシーには、個人情報の収集・利用に関する情報が記載されています。ご利用前にお読みいただき、当サイトがどのように個人情報を取り扱っているかをご理解ください。'
+    }
+  ]
+})
 </script>
 
 <template>

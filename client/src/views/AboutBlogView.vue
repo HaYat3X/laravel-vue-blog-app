@@ -1,5 +1,16 @@
 <script setup lang="ts">
-import NoSidebarLayout from '@/components/layouts/NoSidebarLayout.vue';
+import NoSidebarLayout from '@/components/layouts/NoSidebarLayout.vue'
+import { useHead } from '@unhead/vue'
+
+useHead({
+  title: '「Hayate Tech Lab」について',
+  meta: [
+    {
+      name: 'discription',
+      content: '「Hayate Tech Lab」の開設に至った経緯や技術仕様をご紹介致します。'
+    }
+  ]
+})
 </script>
 
 <template>
@@ -7,18 +18,14 @@ import NoSidebarLayout from '@/components/layouts/NoSidebarLayout.vue';
     <div class="about-blog">
       <h2>1. ブログの概要</h2>
 
-      <p class="mb">
-        このブログは専門学校に通いながら、プライベートの時間で作成したブログです。
-      </p>
+      <p class="mb">このブログは専門学校に通いながら、プライベートの時間で作成したブログです。</p>
 
       <p class="mb">
         2024年の3月に公開しました。
-        <br>今後も定期的にメンテナンスを実施し、当ブログを運用していく予定です。
+        <br />今後も定期的にメンテナンスを実施し、当ブログを運用していく予定です。
       </p>
 
-      <p>
-        このページでは当サイトの目的と技術仕様についてまとめています。
-      </p>
+      <p>このページでは当サイトの目的と技術仕様についてまとめています。</p>
 
       <h2 class="h2-mb">2. ブログの目的</h2>
 
@@ -39,19 +46,28 @@ import NoSidebarLayout from '@/components/layouts/NoSidebarLayout.vue';
 
       <ul class="mb">
         <li>
-          <a target="_blank" href="https://drive.google.com/drive/folders/1BHxJVzMoHS33fSvYP4z38tI7lflqTVMI">
+          <a
+            target="_blank"
+            href="https://drive.google.com/drive/folders/1BHxJVzMoHS33fSvYP4z38tI7lflqTVMI"
+          >
             要件定義関連のドキュメント
           </a>
         </li>
 
         <li>
-          <a target="_blank" href="https://drive.google.com/drive/folders/1JwoBEoxcD2btSq9ksoTYolIzO04Ubgpy">
+          <a
+            target="_blank"
+            href="https://drive.google.com/drive/folders/1JwoBEoxcD2btSq9ksoTYolIzO04Ubgpy"
+          >
             基本設計関連のドキュメント
           </a>
         </li>
 
         <li>
-          <a target="_blank" href="https://drive.google.com/drive/folders/1_7UE0r_VSMDlDaYLww5pUKFtxkAxwKA7">
+          <a
+            target="_blank"
+            href="https://drive.google.com/drive/folders/1_7UE0r_VSMDlDaYLww5pUKFtxkAxwKA7"
+          >
             詳細設計関連のドキュメント
           </a>
         </li>
@@ -60,7 +76,8 @@ import NoSidebarLayout from '@/components/layouts/NoSidebarLayout.vue';
       <h2 class="h2-mb">4. 技術仕様</h2>
 
       <ul class="mb">
-        <li>Webアプリ部分（クライアントサイド）
+        <li>
+          Webアプリ部分（クライアントサイド）
           <ul>
             <li>Vue.js</li>
             <li>HTML</li>
@@ -73,7 +90,8 @@ import NoSidebarLayout from '@/components/layouts/NoSidebarLayout.vue';
           </ul>
         </li>
 
-        <li>Webアプリ部分（サーバーサイド）
+        <li>
+          Webアプリ部分（サーバーサイド）
           <ul>
             <li>Laravel</li>
             <li>MySQL</li>
@@ -82,14 +100,18 @@ import NoSidebarLayout from '@/components/layouts/NoSidebarLayout.vue';
           </ul>
         </li>
 
-        <li>CI/CD / インフラ部分
+        <li>
+          CI/CD / インフラ部分
           <ul>
-            <li>ロリポップマネージドクラウド（VPSサーバーにLaravelをインストールし、運用しています。）</li>
+            <li>
+              ロリポップマネージドクラウド（VPSサーバーにLaravelをインストールし、運用しています。）
+            </li>
             <li>Vercel</li>
           </ul>
         </li>
 
-        <li>その他利用ツール
+        <li>
+          その他利用ツール
           <ul>
             <li>MAMP / XAMPP</li>
             <li>Vite</li>
@@ -101,7 +123,7 @@ import NoSidebarLayout from '@/components/layouts/NoSidebarLayout.vue';
         </li>
       </ul>
 
-      <img src="../assets/img/technical-specifications.png" alt="">
+      <img src="../assets/img/technical-specifications.png" alt="" />
     </div>
   </NoSidebarLayout>
 </template>

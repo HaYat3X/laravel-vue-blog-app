@@ -6,6 +6,18 @@ import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import type { Article } from '@/types/article'
 import { getData } from '@/services/api'
+import { useHead } from '@unhead/vue'
+
+useHead({
+  title: 'Hayate Tech Lab',
+  meta: [
+    {
+      name: 'discription',
+      content:
+        'Hayate Tech Hubへようこそ。Hayate Tech Hubでは、私がこれまで実装した技術や使用した技術の記録と共有しています。'
+    }
+  ]
+})
 
 const router = useRouter()
 const articles = ref<Article[]>([])

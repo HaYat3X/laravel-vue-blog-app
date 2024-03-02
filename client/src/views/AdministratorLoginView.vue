@@ -3,6 +3,11 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import NoSidebarLayout from '@/components/layouts/admin/NoSidebarLayout.vue'
 import { createData } from '@/services/api'
+import { useHead } from '@unhead/vue'
+
+useHead({
+  title: 'Admin Login'
+})
 
 const router = useRouter()
 const email = ref('')

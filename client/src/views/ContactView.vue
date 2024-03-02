@@ -1,15 +1,27 @@
 <script setup lang="ts">
-import WithSidebarLayout from '@/components/layouts/WithSidebarLayout.vue';
-import Button from '@/components/elements/Button.vue';
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { createData } from '@/services/api';
+import WithSidebarLayout from '@/components/layouts/WithSidebarLayout.vue'
+import Button from '@/components/elements/Button.vue'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { createData } from '@/services/api'
+import { useHead } from '@unhead/vue'
 
-const name = ref('');
-const email = ref('');
-const category = ref('');
-const content = ref('');
-const router = useRouter();
+useHead({
+  title: 'お問い合わせ',
+  meta: [
+    {
+      name: 'discription',
+      content:
+        'お問い合わせフォームから、ご質問やご意見をお送りください。お客様のご意見をお聞かせいただき、より良いサービスを提供できるよう努めています。'
+    }
+  ]
+})
+
+const name = ref('')
+const email = ref('')
+const category = ref('')
+const content = ref('')
+const router = useRouter()
 
 const onSubmit = async () => {
   const url = `/contact`
@@ -23,13 +35,12 @@ const onSubmit = async () => {
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
   if (submitContact.internalServerError) {
-    router.push('/error');
+    router.push('/error')
   }
 
   // 何もエラーがない場合は、お問い合わせ完了画面へ遷移する
-  router.push('/contact_completion');
+  router.push('/contact_completion')
 }
-
 </script>
 
 <template>
@@ -37,7 +48,7 @@ const onSubmit = async () => {
     <div class="contact-container">
       <h2>Contact</h2>
       <p class="contact-text">
-        竹田 颯へのお問い合わせはこちらからお願いいたします。<br>
+        竹田 颯へのお問い合わせはこちらからお願いいたします。<br />
         <span>*</span>がついているものは必須項目です。
       </p>
 
@@ -48,7 +59,7 @@ const onSubmit = async () => {
             <span>*</span>
           </p>
 
-          <input type="text" v-model="name" required>
+          <input type="text" v-model="name" required />
         </div>
 
         <div class="form-control">
@@ -57,7 +68,7 @@ const onSubmit = async () => {
             <span>*</span>
           </p>
 
-          <input type="email" v-model="email" required>
+          <input type="email" v-model="email" required />
         </div>
 
         <div class="form-control">

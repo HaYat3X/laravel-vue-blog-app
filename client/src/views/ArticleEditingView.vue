@@ -4,8 +4,13 @@ import { useRouter } from 'vue-router'
 import { ref, watch } from 'vue'
 import WithSidebarLayout from '@/components/layouts/admin/WithSidebarLayout.vue'
 import { getData, updateData } from '@/services/api'
-import { marked, use } from 'marked'
+import { marked } from 'marked'
 import PreviewMarkdown from '@/components/elements/PreviewMarkdown.vue'
+import { useHead } from '@unhead/vue'
+
+useHead({
+  title: 'Edit Article'
+})
 
 const adminId = ref('')
 const title = ref('')

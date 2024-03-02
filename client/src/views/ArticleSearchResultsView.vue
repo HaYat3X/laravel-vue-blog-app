@@ -1,18 +1,29 @@
 <script setup lang="ts">
-import WithSidebarLayout from '@/components/layouts/WithSidebarLayout.vue';
-import ArticleCard from '@/components/elements/ArticleCard.vue';
-import Pagination from '@/components/elements/Pagination.vue';
-import { onMounted, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import type { Article } from "@/types/article";
-import { getData } from '@/services/api';
+import WithSidebarLayout from '@/components/layouts/WithSidebarLayout.vue'
+import ArticleCard from '@/components/elements/ArticleCard.vue'
+import Pagination from '@/components/elements/Pagination.vue'
+import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import type { Article } from '@/types/article'
+import { getData } from '@/services/api'
+import { useHead } from '@unhead/vue'
 
-const router = useRouter();
-const searchResultTitle = ref();
-const articles = ref<Article[]>([]);
-const currentPage = ref(1);
-const lastPage = ref();
-const keyword = router.currentRoute.value.query.keyword;
+const router = useRouter()
+const searchResultTitle = ref()
+const articles = ref<Article[]>([])
+const currentPage = ref(1)
+const lastPage = ref()
+const keyword = router.currentRoute.value.query.keyword
+
+useHead({
+  title: '「' + keyword + '」' + 'の検索結果',
+  meta: [
+    {
+      name: 'discription',
+      content: '最新の記事や関連する情報を検索してみてください。様々なトピックに関する情報が見つかるかもしれません。'
+    }
+  ]
+})
 
 /**
  * 指定されたページに基づいて公開記事一覧を取得する
@@ -27,27 +38,27 @@ const fetchArticles = async (page: number) => {
     router.push('/error')
   }
 
-  articles.value = getArticleSearchResults.articles.data;
-  currentPage.value = getArticleSearchResults.articles.current_page;
-  lastPage.value = getArticleSearchResults.articles.last_page;
-  searchResultTitle.value = `${keyword} の検索結果`;
-};
+  articles.value = getArticleSearchResults.articles.data
+  currentPage.value = getArticleSearchResults.articles.current_page
+  lastPage.value = getArticleSearchResults.articles.last_page
+  searchResultTitle.value = `${keyword} の検索結果`
+}
 
 onMounted(async () => {
   if (!keyword) {
-    router.push('/search');
+    router.push('/search')
   }
 
   fetchArticles(currentPage.value)
-});
+})
 
 /**
  * 現在のページを変更し、そのページに応じて記事を取得する
- * @param {number} page 
+ * @param {number} page
  */
 const changePage = (page: number) => {
-  fetchArticles(page);
-};
+  fetchArticles(page)
+}
 </script>
 
 <template>
@@ -55,17 +66,24 @@ const changePage = (page: number) => {
     <div class="content-container">
       <h2>{{ searchResultTitle }}</h2>
 
-      <div v-if="articles.length === 0">
-        記事が見つかりませんでした。
-      </div>
+      <div v-if="articles.length === 0">記事が見つかりませんでした。</div>
 
       <div v-else class="article">
-        <ArticleCard v-for="article in articles" :key="article.id"
+        <ArticleCard
+          v-for="article in articles"
+          :key="article.id"
           :-featured-imgae="`http://127.0.0.1:8000/storage/featured_image/${article.featured_image}`"
-          :-article-title="article.title" :-article-created-at="article.created_at.slice(0, 10)" />
+          :-article-title="article.title"
+          :-article-created-at="article.created_at.slice(0, 10)"
+        />
       </div>
 
-      <Pagination v-if="articles.length" :current-page="currentPage" :last-page="lastPage" @changePage="changePage" />
+      <Pagination
+        v-if="articles.length"
+        :current-page="currentPage"
+        :last-page="lastPage"
+        @changePage="changePage"
+      />
     </div>
   </WithSidebarLayout>
 </template>

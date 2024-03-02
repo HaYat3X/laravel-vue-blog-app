@@ -1,5 +1,16 @@
 <script setup lang="ts">
-import NoSidebarLayout from '@/components/layouts/NoSidebarLayout.vue';
+import NoSidebarLayout from '@/components/layouts/NoSidebarLayout.vue'
+import { useHead } from '@unhead/vue'
+
+useHead({
+  title: '問題が発生しました',
+  meta: [
+    {
+      name: 'discription',
+      content: '一時的にアクセスできない状態です。時間を置いて再度お試しください。'
+    }
+  ]
+})
 </script>
 
 <template>
@@ -9,7 +20,7 @@ import NoSidebarLayout from '@/components/layouts/NoSidebarLayout.vue';
       <h3>問題が発生しました。</h3>
 
       <p>
-        一時的にアクセスできない状態です。<br>
+        一時的にアクセスできない状態です。<br />
         時間を置いて再度お試しください。
       </p>
     </div>

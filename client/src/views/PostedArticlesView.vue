@@ -6,6 +6,11 @@ import WithSidebarLayout from '@/components/layouts/admin/WithSidebarLayout.vue'
 import type { Article } from '@/types/article'
 import Pagination from '@/components/elements/Pagination.vue'
 import { getData, deleteData } from '@/services/api'
+import { useHead } from '@unhead/vue'
+
+useHead({
+  title: 'Articles List',
+})
 
 const router = useRouter()
 const articles = ref<Article[]>([])

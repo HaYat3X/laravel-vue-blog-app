@@ -6,6 +6,11 @@ import WithSidebarLayout from '@/components/layouts/admin/WithSidebarLayout.vue'
 import type { Contact } from '@/types/contact'
 import Pagination from '@/components/elements/Pagination.vue'
 import { getData, deleteData } from '@/services/api'
+import { useHead } from '@unhead/vue'
+
+useHead({
+  title: 'Contacts List',
+})
 
 const router = useRouter()
 const contacts = ref<Contact[]>([])
