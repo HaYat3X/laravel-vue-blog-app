@@ -1,5 +1,6 @@
 // api通信先のエンドポイントを定義
-const baseURL = "http://127.0.0.1:8000/api/v1"
+// const baseURL = "http://127.0.0.1:8000/api/v1"
+const baseURL = "https://x162-43-70-220.static.shin-vps.jp/api/v1"
 
 /**
  * 全データを取得するAPIリクエストのテンプレート
