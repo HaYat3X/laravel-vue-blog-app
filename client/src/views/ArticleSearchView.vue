@@ -4,6 +4,17 @@ import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import type { Article } from '@/types/article'
 import { getData } from '@/services/api';
+import { useHead } from '@unhead/vue'
+
+useHead({
+  title: '記事を検索',
+  meta: [
+    {
+      name: 'discription',
+      content: '最新の記事や関連する情報を検索してみてください。様々なトピックに関する情報が見つかるかもしれません。'
+    }
+  ]
+})
 
 const keyword = ref('');
 const router = useRouter();

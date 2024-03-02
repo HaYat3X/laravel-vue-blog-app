@@ -16,6 +16,17 @@ import {
   LineElement
 } from 'chart.js/auto'
 import { Radar } from 'vue-chartjs'
+import { useHead } from '@unhead/vue'
+
+useHead({
+  title: '竹田 颯について',
+  meta: [
+    {
+      name: 'discription',
+      content: '鳥取県出身のエンジニア。専門学校でIT技術を学んだのち、20才でIT業界へ。時代に合わせた技術を追いかけつつ、クライアントに寄り添い、クライアントの悩みや課題を解決できる。 そんなエンジニアになりたいと考えています。'
+    }
+  ]
+})
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, RadialLinearScale, LineElement, Filler, Title, Tooltip, Legend)
 

@@ -1,6 +1,19 @@
 <script setup lang="ts">
 import NoSidebarLayout from '@/components/layouts/NoSidebarLayout.vue';
 import Button from '@/components/elements/Button.vue';
+
+import { useHead } from '@unhead/vue'
+
+useHead({
+  title: 'ページが見つかりません',
+  meta: [
+    {
+      name: 'discription',
+      content:
+        '指定されたページ（URL）が見つかりません。'
+    }
+  ]
+})
 </script>
 
 <template>

@@ -5,6 +5,11 @@ import WithSidebarLayout from '@/components/layouts/admin/WithSidebarLayout.vue'
 import { getData, createData } from '@/services/api'
 import { marked } from 'marked'
 import PreviewMarkdown from '@/components/elements/PreviewMarkdown.vue'
+import { useHead } from '@unhead/vue'
+
+useHead({
+  title: 'Submit Article',
+})
 
 const adminId = ref('')
 const title = ref('')

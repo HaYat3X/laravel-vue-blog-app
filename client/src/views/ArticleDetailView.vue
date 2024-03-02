@@ -6,6 +6,7 @@ import type { Article } from '@/types/article'
 import { useRouter } from 'vue-router'
 import { getData } from '@/services/api'
 import PreviewMarkdown from '@/components/elements/PreviewMarkdown.vue'
+import { useHead } from '@unhead/vue'
 
 const router = useRouter()
 const article = ref<Article>()
@@ -28,6 +29,16 @@ onMounted(async () => {
 
   article.value = getArticle.article
   markdownContent.value = marked(article.value?.content)
+
+  useHead({
+    title: getArticle.article.meta_title,
+    meta: [
+      {
+        name: 'discription',
+        content: getArticle.article.meta_description
+      }
+    ]
+  })
 })
 </script>
 
