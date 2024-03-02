@@ -54,12 +54,22 @@ const changePage = (page: number) => {
           :-featured-imgae="`http://127.0.0.1:8000/storage/featured_image/${article.featured_image}`"
           :-article-title="article.title" :-article-created-at="article.created_at.slice(0, 10)" /> -->
 
-          <ArticleCard v-for="article in articles" :key="article.id" :-article-slug="article.slug"
+        <ArticleCard
+          v-for="article in articles"
+          :key="article.id"
+          :-article-slug="article.slug"
           :-featured-imgae="`https://x162-43-70-220.static.shin-vps.jp/storage/featured_image/${article.featured_image}`"
-          :-article-title="article.title" :-article-created-at="article.created_at.slice(0, 10)" /> 
+          :-article-title="article.title"
+          :-article-created-at="article.created_at.slice(0, 10)"
+        />
       </div>
 
-      <Pagination v-if="articles.length" :current-page="currentPage" :last-page="lastPage" @changePage="changePage" />
+      <Pagination
+        v-if="articles.length"
+        :current-page="currentPage"
+        :last-page="lastPage"
+        @changePage="changePage"
+      />
     </div>
   </WithSidebarLayout>
 </template>

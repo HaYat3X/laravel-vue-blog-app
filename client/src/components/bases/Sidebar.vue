@@ -8,7 +8,7 @@ const router = useRouter()
 const articles = ref<Article[]>([])
 
 onMounted(async () => {
-  const url = `/article/public?page=${1}`
+  const url = `/article/post/public?page=${1}`
   const getPublishedArticle = await getData(url)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
