@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <!-- <header>
     <div class="header-container">
       <div class="header-logo">
         <router-link to="/">
@@ -7,34 +7,39 @@
         </router-link>
       </div>
     </div>
-  </header>
+  </header> -->
+
+  <q-header elevated>
+    <q-toolbar>
+      <q-toolbar-title>
+        <a href="/">
+          <q-avatar class="logo">
+            <img src="../../../assets/img/logo.png" />
+          </q-avatar>
+        </a>
+      </q-toolbar-title>
+    </q-toolbar>
+  </q-header>
 </template>
 
 <style scoped lang="scss">
-header {
-  background-color: #31373d;
-  position: fixed;
-  top: 0;
-  width: 100%;
+.q-header {
+  background-color: #ffffff;
+  padding: 5px 0;
 
-  .header-container {
-    max-width: 1200px;
-    height: 60px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: auto;
+  @media only screen and (min-width: 1024px) {
+    .q-toolbar {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+  }
 
-    .header-logo {
-      a {
-        display: flex;
-        align-items: center;
+  .logo {
+    width: 100px;
+    border-radius: 0%;
 
-        img {
-          width: 130px;
-          height: auto;
-        }
-      }
+    @media only screen and (min-width: 1024px) {
+      width: 110px;
     }
   }
 }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import WithSidebarLayout from '@/components/layouts/WithSidebarLayout.vue'
+import WithSidebarLayout from '@/components/layouts/user/WithSidebarLayout.vue'
 import { marked } from 'marked'
 import { onMounted, ref } from 'vue'
 import type { Article } from '@/types/article'

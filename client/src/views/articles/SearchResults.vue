@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import WithSidebarLayout from '@/components/layouts/WithSidebarLayout.vue'
+import WithSidebarLayout from '@/components/layouts/user/WithSidebarLayout.vue'
 import ArticleCard from '@/components/elements/ArticleCard.vue'
 import Pagination from '@/components/elements/Pagination.vue'
 import { onMounted, ref } from 'vue'

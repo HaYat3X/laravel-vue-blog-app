@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import WithSidebarLayout from '@/components/layouts/WithSidebarLayout.vue'
+import WithSidebarLayout from '@/components/layouts/user/WithSidebarLayout.vue'
 import Button from '@/components/elements/Button.vue'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'

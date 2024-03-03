@@ -58,8 +58,6 @@ const onSubmit = async () => {
 
 <style scoped lang="scss">
 .login-area {
-  width: 1200px;
-  margin: 0 auto;
   background-color: #31373d;
   height: 100vh;
 

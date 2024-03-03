@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import NoSidebarLayout from '@/components/layouts/NoSidebarLayout.vue';
+import NoSidebarLayout from '@/components/layouts/user/NoSidebarLayout.vue';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import type { Article } from '@/types/article'

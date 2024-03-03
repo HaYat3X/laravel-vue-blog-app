@@ -1,5 +1,5 @@
 <template>
-  <q-header elevated class="header">
+  <q-header elevated>
     <q-toolbar>
       <q-toolbar-title>
         <a href="/">
@@ -21,7 +21,7 @@
 </template>
 
 <style scoped lang="scss">
-.header {
+.q-header {
   background-color: #ffffff;
   padding: 5px 0;
 

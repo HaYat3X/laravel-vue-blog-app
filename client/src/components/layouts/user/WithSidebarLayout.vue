@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import Header from '../bases/user/Header.vue'
-import Footer from '../bases/user/Footer.vue'
+import Header from '../../bases/user/Header.vue'
+import Footer from '../../bases/user/Footer.vue'
+import Sidebar from '../../bases/user/Sidebar.vue'
 </script>
 
 <template>
@@ -9,7 +10,11 @@ import Footer from '../bases/user/Footer.vue'
 
     <q-page-container>
       <q-page>
-        <slot />
+        <div class="content-area">
+          <slot />
+        </div>
+
+        <Sidebar />
       </q-page>
     </q-page-container>
 
@@ -32,7 +37,13 @@ body {
 
     @media only screen and (min-width: 1024px) {
       max-width: 1100px;
+      display: flex;
+      gap: 30px;
       margin: 60px auto;
+
+      .content-area {
+        width: calc(100% - 300px);
+      }
     }
   }
 }

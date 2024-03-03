@@ -24,7 +24,7 @@
 
     <hr />
 
-    <p style="margin-bottom: 0">&copy; 2023-2024 Hayate Takeda</p>
+    <p>&copy; 2024 Hayate Takeda</p>
   </q-footer>
 </template>
 
@@ -64,6 +64,7 @@
     text-align: center;
     color: #ffffff;
     font-size: 14px;
+    margin-bottom: 0;
   }
 
   hr {
