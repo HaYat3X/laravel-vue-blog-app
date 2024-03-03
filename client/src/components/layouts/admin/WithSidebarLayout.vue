@@ -5,24 +5,12 @@ import Sidebar from '@/components/bases/admin/Sidebar.vue'
 </script>
 
 <template>
-  <!-- <div class="wrapper">
-    <Header />
-
-    <main>
-      <Sidebar />
-
-      <slot />
-    </main>
-
-    <Footer />
-  </div> -->
-
   <q-layout view="hHh lpR fff">
     <Header />
 
     <q-page-container>
       <Sidebar />
-      
+
       <q-page>
         <slot />
       </q-page>

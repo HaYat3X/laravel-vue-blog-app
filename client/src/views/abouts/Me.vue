@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import NoSidebarLayout from '@/components/layouts/NoSidebarLayout.vue';
+import NoSidebarLayout from '@/components/layouts/user/NoSidebarLayout.vue';
 import WorkCard from '@/components/elements/WorkCard.vue';
 import type { ChartData } from 'chart.js/auto';
 import {
