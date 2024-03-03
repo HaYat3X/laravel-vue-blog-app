@@ -1,47 +1,38 @@
 <script setup lang="ts">
-import Header from '../bases/Header.vue';
-import Footer from '../bases/Footer.vue';
+import Header from '../bases/user/Header.vue'
+import Footer from '../bases/user/Footer.vue'
 </script>
 
 <template>
-  <div class="wrapper">
+  <q-layout view="hHh lpR fff">
     <Header />
 
-    <main>
-      <slot />
-    </main>
+    <q-page-container>
+      <q-page>
+        <slot />
+      </q-page>
+    </q-page-container>
 
     <Footer />
-  </div>
+  </q-layout>
 </template>
 
 <style lang="scss">
 body {
   background-color: #f0f7ff;
 
-  .wrapper {
-    height: 100%;
-    min-height: calc(100vh - 100px);
-    position: relative;
-    box-sizing: border-box;
-  }
+  .q-page {
+    padding: 0 15px;
+    margin: 30px 0;
 
-  main {
-    padding: 0 20px;
-    margin: 105px auto 45px;
-  }
-
-  @media only screen and (min-width: 768px) and (max-width: 1023px) {
-    main {
-      padding: 0 40px;
-      margin: 120px auto 60px;
+    @media only screen and (min-width: 768px) and (max-width: 1023px) {
+      padding: 0 30px;
+      margin: 45px 0;
     }
-  }
 
-  @media only screen and (min-width: 1024px) {
-    main {
+    @media only screen and (min-width: 1024px) {
       max-width: 1100px;
-      margin: 120px auto 60px;
+      margin: 60px auto;
     }
   }
 }

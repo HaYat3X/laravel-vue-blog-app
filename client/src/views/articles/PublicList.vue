@@ -34,7 +34,7 @@ const fetchArticles = async (page: number) => {
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
   if (getPublishedArticle.error) {
-    router.push('/server-error') 
+    router.push('/server-error')
   }
 
   articles.value = getPublishedArticle.articles.data
@@ -62,18 +62,23 @@ const changePage = (page: number) => {
       <h2>Articles</h2>
 
       <div class="article">
-        <!-- <ArticleCard v-for="article in articles" :key="article.id" :-article-slug="article.slug"
-          :-featured-imgae="`http://127.0.0.1:8000/storage/featured_image/${article.featured_image}`"
-          :-article-title="article.title" :-article-created-at="article.created_at.slice(0, 10)" /> -->
-
         <ArticleCard
+          v-for="article in articles"
+          :key="article.id"
+          :-article-slug="article.slug"
+          :-featured-imgae="`http://127.0.0.1:8000/storage/featured_image/${article.featured_image}`"
+          :-article-title="article.title"
+          :-article-created-at="article.created_at.slice(0, 10)"
+        />
+
+        <!-- <ArticleCard
           v-for="article in articles"
           :key="article.id"
           :-article-slug="article.slug"
           :-featured-imgae="`https://x162-43-70-220.static.shin-vps.jp/storage/featured_image/${article.featured_image}`"
           :-article-title="article.title"
           :-article-created-at="article.created_at.slice(0, 10)"
-        />
+        /> -->
       </div>
 
       <Pagination
