@@ -35,11 +35,11 @@ const onSubmit = async () => {
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
   if (submitContact.internalServerError) {
-    router.push('/error')
+    router.push('/server-error')
   }
 
   // 何もエラーがない場合は、お問い合わせ完了画面へ遷移する
-  router.push('/contact_completion')
+  router.push('/contact/complete')
 }
 </script>
 

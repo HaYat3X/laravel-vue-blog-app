@@ -8,7 +8,7 @@ import PreviewMarkdown from '@/components/elements/PreviewMarkdown.vue'
 import { useHead } from '@unhead/vue'
 
 useHead({
-  title: 'Submit Article',
+  title: 'Submit Article'
 })
 
 const adminId = ref('')
@@ -28,7 +28,7 @@ onMounted(async () => {
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
   if (user.internalServerError) {
-    router.push('/error')
+    router.push('/server-error')
   }
 })
 
@@ -59,10 +59,10 @@ const onSubmit = async () => {
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
   if (submitArticle.internalServerError) {
-    router.push('/error')
+    router.push('/server-error')
   }
 
-  router.push('/posted_articles')
+  router.push('/article')
 }
 </script>
 
@@ -84,7 +84,7 @@ const onSubmit = async () => {
           <div class="form-group">
             <p>Content</p>
             <textarea v-model="content" required>Write in Markdown...</textarea>
-            <PreviewMarkdown :markdown-content="markdownContent"/>
+            <PreviewMarkdown :markdown-content="markdownContent" />
           </div>
 
           <div class="form-group">

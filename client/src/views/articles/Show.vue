@@ -19,7 +19,7 @@ onMounted(async () => {
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
   if (getArticle.internalServerError) {
-    router.push('/error')
+    router.push('/server-error')
   }
 
   // ページが見つからない場合は、404ページにリダイレクトする

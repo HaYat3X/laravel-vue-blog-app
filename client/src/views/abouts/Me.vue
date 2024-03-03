@@ -115,7 +115,7 @@ const options = {
       </div>
 
       <div class="my-img">
-        <img src="../assets/img/about-me/thumbnail.png" alt="">
+        <img src="../../assets/img/about-me/thumbnail.png" alt="">
       </div>
     </section>
 

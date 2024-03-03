@@ -2,13 +2,13 @@
   <footer>
     <ul>
       <li>
-        <a href="/about_me">
+        <a href="/about/me">
           私について
         </a>
       </li>
 
       <li>
-        <a href="/about_blog">
+        <a href="/about/blog">
           ブログについて
         </a>
       </li>
@@ -20,13 +20,13 @@
       </li>
 
       <li>
-        <a href="/contact">
+        <a href="/contact/submit">
           お問い合わせ
         </a>
       </li>
 
       <li>
-        <a href="/privacy_policy">
+        <a href="/privacy-policy">
           プライバシーポリシー
         </a>
       </li>
