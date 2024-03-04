@@ -20,5 +20,10 @@ import Footer from '../../bases/admin/Footer.vue'
 <style lang="scss">
 body {
   background-color: #f0f7ff;
+
+  .q-page {
+    max-width: 1200px;
+    margin: 60px auto;
+  }
 }
 </style>

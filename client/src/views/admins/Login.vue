@@ -12,10 +12,11 @@ useHead({
 const router = useRouter()
 const email = ref('')
 const password = ref('')
+const isPwd = ref(true)
 
 const onSubmit = async () => {
   const url = `/session/login`
-  const formData = new FormData
+  const formData = new FormData()
   formData.append('email', email.value)
   formData.append('password', password.value)
 
@@ -35,98 +36,80 @@ const onSubmit = async () => {
 
 <template>
   <NoSidebarLayout>
-    <div class="login-area">
-      <div class="login-container">
-        <h2>Welcome to Your Dashboard</h2>
-        <h5>Please sign in</h5>
+    <div class="container">
+      <h2>Welcome to Your Dashboard</h2>
+      <h5>Please sign in</h5>
 
-        <form @submit.prevent="onSubmit">
-          <div class="form-group">
-            <input type="email" v-model="email" required placeholder="Email" />
-          </div>
+      <q-form @submit="onSubmit" class="q-gutter-md">
+        <q-input
+          filled
+          v-model="email"
+          label="Email"
+          :rules="[
+            (val) => (val && val.length > 0) || 'Please enter your email address.',
+            (val) =>
+              /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(val) ||
+              'Please enter a valid email address.'
+          ]"
+          class="md-filled"
+        >
+          <template v-slot:prepend>
+            <q-icon name="email" />
+          </template>
+        </q-input>
 
-          <div class="form-group">
-            <input type="password" v-model="password" required placeholder="Password" />
-          </div>
+        <q-input
+          v-model="password"
+          filled
+          label="Password"
+          :type="isPwd ? 'password' : 'text'"
+          :rules="[(val) => (val && val.length > 0) || 'Please enter your password.']"
+        >
+          <template v-slot:append>
+            <q-icon
+              :name="isPwd ? 'visibility_off' : 'visibility'"
+              class="cursor-pointer"
+              @click="isPwd = !isPwd"
+            />
+          </template>
 
-          <button>Submit</button>
-        </form>
-      </div>
+          <template v-slot:prepend>
+            <q-icon name="lock" />
+          </template>
+        </q-input>
+
+        <q-btn label="login" type="submit" />
+      </q-form>
     </div>
   </NoSidebarLayout>
 </template>
 
 <style scoped lang="scss">
-.login-area {
-  background-color: #31373d;
-  height: 100vh;
+.container {
+  max-width: 400px;
+  margin: 0 auto;
 
-  .login-container {
-    padding: 50px 0;
+  h2 {
+    text-align: center;
+    color: #222222;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 1.3;
+  }
 
-    h2 {
-      text-align: center;
-      color: #e4e7ed;
-      font-weight: 700;
-      font-size: 24px;
-    }
+  h5 {
+    text-align: center;
+    color: #333333;
+    font-size: 18px;
+    margin-top: 5px;
+    font-weight: 400;
+    line-height: 1;
+    margin-bottom: 80px;
+  }
 
-    h5 {
-      text-align: center;
-      color: #e4e7edbf;
-      font-size: 18px;
-      margin-top: 5px;
-      font-weight: 400;
-    }
-
-    form {
-      width: 360px;
-      margin: 50px auto;
-
-      .form-group {
-        margin-bottom: 20px;
-
-        input {
-          width: 100%;
-          padding: 17px 13px;
-          background-color: #212529;
-          border: none;
-          border-radius: 5px;
-          font-size: 16px;
-          color: #ffffff;
-
-          &::placeholder {
-            color: #e4e7edbf;
-          }
-
-          &:focus {
-            outline: none;
-            border: 1px solid #3ea8ff;
-          }
-        }
-
-        .error-msg {
-          color: #e76868;
-          font-size: 14px;
-        }
-      }
-
-      button {
-        width: 100%;
-        padding: 15px 0;
-        font-size: 16px;
-        font-weight: 700;
-        border-radius: 5px;
-        cursor: pointer;
-        background-color: #3ea8ff;
-        border: none;
-        color: #ffffff;
-
-        &:hover {
-          background-color: #0f83fd;
-        }
-      }
-    }
+  .q-btn {
+    background-color: #3ea8ff;
+    color: #ffffff;
   }
 }
 </style>
