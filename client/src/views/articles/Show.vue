@@ -44,50 +44,47 @@ onMounted(async () => {
 
 <template>
   <WithSidebarLayout>
-    <div class="content-container">
-      <div class="article">
-        <div class="thumbnail-area">
-          <h1>{{ article?.title }}</h1>
-          <small>{{ article?.created_at.slice(0, 10) }}に公開</small>
-        </div>
-
-        <PreviewMarkdown :markdown-content="markdownContent" />
+    <div class="article">
+      <div class="thumbnail-area">
+        <h1>{{ article?.title }}</h1>
+        <small>{{ article?.created_at.slice(0, 10) }}に公開</small>
       </div>
+
+      <PreviewMarkdown :markdown-content="markdownContent" />
     </div>
   </WithSidebarLayout>
 </template>
 
 <style lang="scss">
-.content-container {
-  .article {
-    background-color: #ffffff;
-    border-radius: 5px;
-    padding: 25px;
+.article {
+  background-color: #ffffff;
+  border-radius: 5px;
+  padding: 20px 15px;
 
-    @media only screen and (min-width: 768px) and (max-width: 1023px) {
-      padding: 30px;
+  @media only screen and (min-width: 768px) and (max-width: 1023px) {
+    padding: 35px 30px;
+  }
+
+  @media only screen and (min-width: 1024px) {
+    padding: 45px 40px;
+  }
+
+  .thumbnail-area {
+    text-align: center;
+
+    h1 {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 5px;
+      line-height: 1.3;
     }
 
-    @media only screen and (min-width: 1024px) {
-      padding: 40px;
-    }
-
-    .thumbnail-area {
-      text-align: center;
-
-      h1 {
-        font-size: 24px;
-        font-weight: bold;
-        margin-bottom: 5px;
-      }
-
-      small {
-        background-color: #3ea8ff;
-        border-radius: 50px;
-        padding: 2px 10px;
-        font-size: 13px;
-        color: #ffffff;
-      }
+    small {
+      background-color: #3ea8ff;
+      border-radius: 50px;
+      padding: 2px 10px;
+      font-size: 13px;
+      color: #ffffff;
     }
   }
 }

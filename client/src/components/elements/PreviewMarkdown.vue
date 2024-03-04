@@ -13,6 +13,7 @@ defineProps({
   h2 {
     margin-top: 45px;
     margin-bottom: 10px;
+    line-height: 1.5;
     font-size: 22px;
     font-weight: bold;
   }
@@ -22,12 +23,14 @@ defineProps({
     margin-bottom: 10px;
     font-size: 19px;
     font-weight: bold;
+    line-height: 1.5;
   }
 
   p {
     font-size: 16px;
     line-height: 1.5;
     word-break: break-all;
+    margin-bottom: 0;
   }
 
   ul {
@@ -46,8 +49,8 @@ defineProps({
     color: gray;
     font-size: 28px;
     position: absolute;
-    left: 8px;
-    top: -7px;
+    left: 10px;
+    top: -10px;
   }
 
   pre {
@@ -107,6 +110,19 @@ defineProps({
 
   strong {
     font-weight: bold;
+  }
+
+  iframe {
+    width: 100%;
+    height: 200px;
+
+    @media only screen and (min-width: 768px) and (max-width: 1023px) {
+      height: 350px;
+    }
+
+    @media only screen and (min-width: 1024px) {
+      height: 450px; 
+    }
   }
 }
 </style>
