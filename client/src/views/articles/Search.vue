@@ -36,21 +36,40 @@ onMounted(async () => {
 /**
  * 検索されたキーワードを検索結果画面へ送信する
  */
-const onsubmit = () => {
-  router.push({ path: '/search/result', query: { keyword: keyword.value } })
+const onSubmit = () => {
+  if (keyword.value) {
+    router.push({ path: '/search/result', query: { keyword: keyword.value } })
+  }
 }
 </script>
 
 <template>
   <NoSidebarLayout>
     <div class="search-area">
-      <form @submit.prevent="onsubmit">
-        <q-input rounded outlined label="キーワードを入力" v-model="keyword">
+      <q-form @submit="onSubmit" class="q-gutter-md">
+        <q-input
+          filled
+          v-model="keyword"
+          label="キーワードを入力"
+          lazy-rules
+          :rules="[(val) => (val && val.length > 0) || 'キーワードを入力してください。']"
+        >
           <template v-slot:prepend>
             <q-icon name="search" />
           </template>
+
+          <template v-slot:append>
+            <q-icon
+              v-if="keyword !== ''"
+              name="close"
+              @click="keyword = ''"
+              class="cursor-pointer"
+            />
+          </template>
+
+          <template v-slot:hint> Enterキーで検索 </template>
         </q-input>
-      </form>
+      </q-form>
     </div>
 
     <div class="recent-articles">
@@ -84,12 +103,6 @@ const onsubmit = () => {
 </template>
 
 <style scoped lang="scss">
-.search-area {
-  .q-input {
-    background-color: #ffffff;
-  }
-}
-
 .recent-articles {
   margin-top: 30px;
 

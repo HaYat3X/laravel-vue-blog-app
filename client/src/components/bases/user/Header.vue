@@ -53,7 +53,6 @@
 
   .q-btn {
     background-color: #3ea8ff;
-    font-size: 14px;
   }
 }
 </style>
