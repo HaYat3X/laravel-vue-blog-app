@@ -22,6 +22,10 @@ import Sidebar from '@/components/bases/admin/Sidebar.vue'
 
 <style lang="scss">
 body {
-  background-color: #212529;
+  background-color: #f0f7ff;
+
+  .q-page {
+    margin: 30px;
+  }
 }
 </style>
