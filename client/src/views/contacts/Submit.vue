@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import WithSidebarLayout from '@/components/layouts/user/WithSidebarLayout.vue'
-import Button from '@/components/elements/Button.vue'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { createData } from '@/services/api'
@@ -22,6 +21,13 @@ const email = ref('')
 const category = ref('')
 const content = ref('')
 const router = useRouter()
+const options = [
+  '技術関連の質問',
+  '当ブログへのフィードバック',
+  'コラボレーションや提携のご依頼',
+  'エンジニアリングに関連する仕事やプロジェクトのご相談',
+  'その他のお問い合わせ'
+]
 
 const onSubmit = async () => {
   const url = `/contact`
@@ -45,172 +51,92 @@ const onSubmit = async () => {
 
 <template>
   <WithSidebarLayout>
-    <div class="contact-container">
-      <h2>Contact</h2>
-      <p class="contact-text">
-        竹田 颯へのお問い合わせはこちらからお願いいたします。<br />
-        <span>*</span>がついているものは必須項目です。
-      </p>
+    <h2>Contact</h2>
 
-      <form @submit.prevent="onSubmit" action="">
-        <div class="form-control">
-          <p>
-            お名前
-            <span>*</span>
-          </p>
+    <q-form @submit="onSubmit" class="q-gutter-md">
+      <p>竹田 颯へのお問い合わせはこちらからお願い致します。</p>
 
-          <input type="text" v-model="name" required />
-        </div>
+      <q-input
+        filled
+        v-model="name"
+        label="お名前"
+        :rules="[(val) => (val && val.length > 0) || '名前を入力してください。']"
+        class="md-filled"
+      >
+        <template v-slot:prepend>
+          <q-icon name="person" />
+        </template>
+      </q-input>
 
-        <div class="form-control">
-          <p>
-            メールアドレス
-            <span>*</span>
-          </p>
+      <q-input
+        filled
+        v-model="email"
+        label="メールアドレス"
+        :rules="[
+          (val) => (val && val.length > 0) || 'メールアドレスを入力してください。',
+          (val) =>
+            /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/.test(val) ||
+            '有効なメールアドレスを入力してください。'
+        ]"
+        class="md-filled"
+      >
+        <template v-slot:prepend>
+          <q-icon name="email" />
+        </template>
+      </q-input>
 
-          <input type="email" v-model="email" required />
-        </div>
+      <q-select
+        filled
+        v-model="category"
+        :options="options"
+        label="お問い合わせカテゴリー"
+        :rules="[
+          (val) =>
+            (val !== null && val !== undefined && val !== '') || 'カテゴリーを選択してください。'
+        ]"
+        class="md-filled"
+      >
+        <template v-slot:prepend>
+          <q-icon name="category" />
+        </template>
+      </q-select>
 
-        <div class="form-control">
-          <p>
-            お問い合わせカテゴリー
-            <span>*</span>
-          </p>
+      <q-input
+        v-model="content"
+        filled
+        type="textarea"
+        label="お問い合わせ内容"
+        :rules="[(val) => (val && val.length > 0) || 'お問い合わせ内容を入力してください。']"
+      >
+        <template v-slot:prepend>
+          <q-icon name="edit" />
+        </template>
+      </q-input>
 
-          <label class="selectbox-3">
-            <select v-model="category" required>
-              <option disabled value="">選択してください</option>
-              <option>技術関連の質問</option>
-              <option>当ブログへのフィードバック</option>
-              <option>コラボレーションや提携のご依頼</option>
-              <option>エンジニアリングに関連する仕事やプロジェクトのご相談</option>
-              <option>その他のお問い合わせ</option>
-            </select>
-          </label>
-        </div>
-
-        <div class="form-control">
-          <p>
-            お問い合わせ内容
-            <span>*</span>
-          </p>
-
-          <textarea required cols="30" rows="10" v-model="content"></textarea>
-        </div>
-
-        <Button>送信する</Button>
-      </form>
-    </div>
+      <q-btn label="送信する" type="submit" />
+    </q-form>
   </WithSidebarLayout>
 </template>
 
 <style scoped lang="scss">
-.contact-container {
-  h2 {
-    font-weight: bold;
-    font-size: 30px;
-    color: #333333;
-    margin-bottom: 10px;
+h2 {
+  font-weight: bold;
+  font-size: 30px;
+  color: #333333;
+
+  @media only screen and (min-width: 768px) {
+    font-size: 32px;
   }
+}
 
-  .contact-text {
-    margin-bottom: 20px;
+@media only screen and (min-width: 768px) {
+  .md-filled {
+    width: 50%;
   }
+}
 
-  span {
-    color: red;
-  }
-
-  form {
-    .form-control {
-      margin-bottom: 30px;
-
-      p {
-        font-weight: bold;
-        font-size: 14px;
-        margin-bottom: 5px;
-      }
-
-      input {
-        width: 100%;
-        height: 45px;
-        padding: 10px;
-        border-radius: 5px;
-        font-size: 16px;
-        border: 1px solid #333333;
-
-        @media only screen and (min-width: 768px) and (max-width: 1023px) {
-          width: 50%;
-        }
-
-        @media only screen and (min-width: 1024px) {
-          width: 50%;
-        }
-
-        &:focus {
-          box-shadow: 0 1px 6px rgb(32 33 36 / 28%);
-          border: 1px solid #3ea8ff;
-          outline: none;
-        }
-      }
-
-      .selectbox-3 {
-        display: inline-flex;
-        align-items: center;
-        position: relative;
-        width: 100%;
-
-        @media only screen and (min-width: 768px) and (max-width: 1023px) {
-          width: 50%;
-        }
-
-        @media only screen and (min-width: 1024px) {
-          width: 50%;
-        }
-
-        select {
-          appearance: none;
-          width: 100%;
-          height: 45px;
-          padding: 10px;
-          border: 1px solid #333333;
-          border-radius: 5px;
-          font-size: 16px;
-          cursor: pointer;
-
-          &:focus {
-            box-shadow: 0 1px 6px rgb(32 33 36 / 28%);
-            border: 1px solid #3ea8ff;
-            outline: none;
-          }
-        }
-      }
-
-      .selectbox-3::after {
-        position: absolute;
-        right: 15px;
-        width: 10px;
-        height: 7px;
-        background-color: #535353;
-        clip-path: polygon(0 0, 100% 0, 50% 100%);
-        content: '';
-        pointer-events: none;
-      }
-
-      textarea {
-        width: 100%;
-        resize: vertical;
-        border-radius: 5px;
-        padding: 10px;
-        font-size: 16px;
-
-        &:focus {
-          box-shadow: 0 1px 6px rgb(32 33 36 / 28%);
-          border: 1px solid #3ea8ff;
-          outline: none;
-        }
-      }
-    }
-  }
+.q-btn {
+  background-color: #3ea8ff;
+  color: #ffffff;
 }
 </style>

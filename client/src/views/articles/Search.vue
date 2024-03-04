@@ -46,6 +46,8 @@ const onSubmit = () => {
 <template>
   <NoSidebarLayout>
     <div class="search-area">
+      <h2>SearchArticle</h2>
+
       <q-form @submit="onSubmit" class="q-gutter-md">
         <q-input
           filled
@@ -103,6 +105,16 @@ const onSubmit = () => {
 </template>
 
 <style scoped lang="scss">
+h2 {
+  font-weight: bold;
+  font-size: 30px;
+  color: #333333;
+
+  @media only screen and (min-width: 768px) {
+    font-size: 32px;
+  }
+}
+
 .recent-articles {
   margin-top: 30px;
 
