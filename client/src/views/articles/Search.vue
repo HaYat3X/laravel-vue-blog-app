@@ -48,7 +48,7 @@ const onSubmit = () => {
     <div class="search-area">
       <h2>SearchArticle</h2>
 
-      <q-form @submit="onSubmit" class="q-gutter-md">
+      <q-form @submit="onSubmit">
         <q-input
           filled
           v-model="keyword"

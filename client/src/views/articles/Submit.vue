@@ -68,321 +68,137 @@ const onSubmit = async () => {
 
 <template>
   <WithSidebarLayout>
-    <div class="content-area">
-      <div class="content-container">
-        <div class="box">
-          <h2>NewArticle</h2>
-          <p>You can submit a new article.</p>
+    <div class="navigation">
+      <h2>SubmitArticle</h2>
+      <p>You can submit articles.</p>
+    </div>
+
+    <q-form @submit="onSubmit">
+      <q-input
+        filled
+        v-model="title"
+        label="Title"
+        :rules="[(val) => (val && val.length > 0) || 'Please enter your title.']"
+        class="md-filled"
+      >
+        <template v-slot:prepend>
+          <q-icon name="title" />
+        </template>
+      </q-input>
+
+      <q-input
+        v-model="content"
+        filled
+        autogrow
+        type="textarea"
+        label="Content"
+        :rules="[(val) => (val && val.length > 0) || 'Please enter your content.']"
+        style="margin-bottom: 15px"
+      >
+        <template v-slot:prepend>
+          <q-icon name="edit" />
+        </template>
+      </q-input>
+
+      <div class="preview">
+        <div class="thumbnail-area">
+          <h1>The article will be previewed.</h1>
         </div>
 
-        <form @submit.prevent="onSubmit" enctype="multipart/form-data">
-          <div class="form-group">
-            <p>Title</p>
-            <input class="col-6" type="text" v-model="title" required />
-          </div>
-
-          <div class="form-group">
-            <p>Content</p>
-            <textarea v-model="content" required>Write in Markdown...</textarea>
-            <PreviewMarkdown :markdown-content="markdownContent" />
-          </div>
-
-          <div class="form-group">
-            <p>FeaturedImage</p>
-            <input type="file" @change="handleImageChange" required />
-          </div>
-
-          <div class="form-group">
-            <p>MetaDescription</p>
-            <textarea v-model="metaDescription" required>Write in MetaDescription...</textarea>
-          </div>
-
-          <div class="submit">
-            <div class="iphone-switch">
-              <input type="checkbox" v-model="publicStatus" id="iphoneSwitch" />
-              <label class="iphone-slider" for="iphoneSwitch"></label>
-            </div>
-
-            <span>公開する</span>
-            <button type="submit">{{ publicStatus ? '公開する' : '下書き保存' }}</button>
-          </div>
-        </form>
+        <PreviewMarkdown :markdown-content="markdownContent" />
       </div>
-    </div>
+
+      <q-file
+        filled
+        bottom-slots
+        v-model="featuredImage"
+        label="FeaturedImage"
+        counter
+        @change="handleImageChange"
+        :rules="[(val) => (val !== null && val !== undefined) || 'Please enter your file.']"
+        class="md-filled"
+      >
+        <template v-slot:prepend>
+          <q-icon name="cloud_upload" @click.stop.prevent />
+        </template>
+      </q-file>
+
+      <q-input
+        v-model="metaDescription"
+        filled
+        autogrow
+        type="textarea"
+        label="MetaDescription"
+        :rules="[(val) => (val && val.length > 0) || 'Please enter your metaDescription.']"
+        style="margin-bottom: 15px"
+      >
+        <template v-slot:prepend>
+          <q-icon name="edit" />
+        </template>
+      </q-input>
+
+      <q-toggle v-model="publicStatus" label="公開する" />
+      <q-btn :label="publicStatus ? '公開する' : '下書き保存'" type="submit" />
+    </q-form>
   </WithSidebarLayout>
 </template>
 
 <style lang="scss">
-.content-area {
-  width: calc(100% - 250px);
-  padding: 0 40px;
+.navigation {
+  text-align: center;
+  padding: 30px;
+  background-color: #ffffff;
 
-  .content-container {
-    .box {
-      background-color: #2b2f32;
+  h2 {
+    color: #222222;
+    font-weight: bold;
+    font-size: 25px;
+    line-height: 1.5;
+  }
+
+  p {
+    color: #333333;
+    font-size: 14px;
+    margin-bottom: 0px;
+  }
+}
+
+.q-form {
+  margin: 30px 0;
+
+  .md-filled {
+    width: 50%;
+  }
+
+  .q-input {
+    margin-bottom: 15px;
+  }
+
+  .q-file {
+    margin-bottom: 15px;
+  }
+
+  .preview {
+    background-color: #ffffff;
+    padding: 45px 40px;
+    margin-bottom: 35px;
+
+    .thumbnail-area {
       text-align: center;
-      border-radius: 5px;
-      padding: 30px;
 
-      h2 {
-        color: #ffffff;
+      h1 {
+        font-size: 24px;
         font-weight: bold;
-      }
-
-      p {
-        color: #e4e7edbf;
-        font-size: 14px;
+        margin-bottom: 5px;
+        line-height: 1.3;
       }
     }
+  }
 
-    .col-6 {
-      width: 50%;
-    }
-
-    .col-12 {
-      width: 100%;
-    }
-
-    form {
-      margin: 50px auto;
-      padding: 50px;
-      background-color: #2b2f32;
-
-      .form-group {
-        margin-bottom: 20px;
-
-        p {
-          color: #ffffff;
-          font-size: 16px;
-          margin-bottom: 5px;
-        }
-
-        input[type='text'] {
-          padding: 10px;
-          background-color: #212529;
-          border: none;
-          border-radius: 5px;
-          font-size: 16px;
-          color: #ffffff;
-
-          &:focus {
-            outline: none;
-            border: 1px solid #3ea8ff;
-          }
-        }
-
-        input[type='file'] {
-          padding: 5px 0;
-          background-color: #212529;
-          border: none;
-          border-radius: 5px;
-          font-size: 16px;
-          color: #ffffff;
-
-          &:focus {
-            outline: none;
-            border: 1px solid #3ea8ff;
-          }
-        }
-
-        textarea {
-          width: 100%;
-          padding: 10px;
-          background-color: #212529;
-          border: none;
-          border-radius: 5px;
-          font-size: 16px;
-          color: #ffffff;
-          height: 200px;
-
-          &:focus {
-            outline: none;
-            border: 1px solid #3ea8ff;
-          }
-        }
-
-        .error-msg {
-          color: #e76868;
-          font-size: 14px;
-        }
-      }
-
-      button {
-        padding: 6px 12px;
-        font-size: 16px;
-        border-radius: 5px;
-        cursor: pointer;
-        background-color: #3ea8ff;
-        border: none;
-        color: #ffffff;
-
-        &:hover {
-          background-color: #0f83fd;
-        }
-      }
-
-      .submit {
-        display: flex;
-        align-items: center;
-
-        .iphone-switch {
-          position: relative;
-          display: inline-block;
-          width: 45px;
-          height: 24px;
-          margin-right: 5px;
-        }
-
-        span {
-          font-size: 14px;
-          font-weight: bold;
-          color: #ffffff;
-          margin-right: 15px;
-        }
-
-        .iphone-switch input {
-          display: none;
-        }
-
-        .iphone-slider {
-          position: absolute;
-          cursor: pointer;
-          top: 0;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          background-color: #ccc;
-          -webkit-transition: 0.4s;
-          transition: 0.4s;
-          border-radius: 34px;
-        }
-
-        .iphone-slider:before {
-          position: absolute;
-          content: '';
-          height: 20px;
-          width: 20px;
-          left: 2px;
-          bottom: 2px;
-          background-color: white;
-          -webkit-transition: 0.4s;
-          transition: 0.4s;
-          border-radius: 50%;
-        }
-
-        input:checked + .iphone-slider {
-          background-color: #2196f3;
-        }
-
-        input:checked + .iphone-slider:before {
-          -webkit-transform: translateX(21px);
-          -ms-transform: translateX(21px);
-          transform: translateX(21px);
-        }
-      }
-
-      .content {
-        background-color: #ffffff;
-        border-radius: 5px;
-        padding: 25px;
-
-        h2 {
-          margin-top: 45px;
-          margin-bottom: 10px;
-          font-size: 22px;
-          font-weight: bold;
-        }
-
-        h3 {
-          margin-top: 30px;
-          margin-bottom: 10px;
-          font-size: 19px;
-          font-weight: bold;
-        }
-
-        p {
-          font-size: 16px;
-          line-height: 1.5;
-          word-break: break-all;
-          color: #000000;
-        }
-
-        ul {
-          list-style-type: none;
-          padding: 0;
-        }
-
-        li {
-          margin-bottom: 5px;
-          padding-left: 25px;
-          position: relative;
-        }
-
-        li::before {
-          content: '•';
-          color: gray;
-          font-size: 28px;
-          position: absolute;
-          left: 5px;
-          top: -10px;
-        }
-
-        pre {
-          margin: 10px 0;
-          padding: 15px;
-          border: solid 1px #eaedf2;
-          border-radius: 5px;
-          background: #f3f6fc;
-          color: #54687c;
-          border-radius: 5px;
-          overflow-x: auto;
-
-          code {
-            font-family: Menlo, Consolas, 'DejaVu Sans Mono', monospace;
-            line-height: 1.6;
-          }
-        }
-
-        img {
-          width: 100%;
-          height: auto;
-          object-fit: cover;
-          border-radius: 5px;
-        }
-
-        blockquote {
-          border-left: 3px solid gray;
-          padding: 10px;
-        }
-
-        table {
-          border-collapse: collapse;
-          width: 100%;
-          border-radius: 5px;
-          overflow: hidden;
-        }
-
-        th,
-        td {
-          border: 1px solid #ddd;
-          padding: 8px;
-          text-align: left;
-        }
-
-        th {
-          background-color: #f7f7f7;
-        }
-
-        a {
-          color: #3ea8ff;
-          text-decoration: none;
-        }
-
-        a:hover {
-          text-decoration: underline;
-        }
-      }
-    }
+  .q-btn {
+    background-color: #3ea8ff;
+    color: #ffffff;
+    margin-left: 10px;
   }
 }
 </style>

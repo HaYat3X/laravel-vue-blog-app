@@ -16,7 +16,8 @@ const router = useRouter()
 const articles = ref<Article[]>([])
 const currentPage = ref(1)
 const lastPage = ref()
-const alert = ref(false)
+const confirm = ref(false)
+const articleId = ref()
 
 const fetchArticles = async (page: number) => {
   const url = `/article/post?page=${page}`
@@ -44,8 +45,14 @@ onMounted(async () => {
   fetchArticles(currentPage.value)
 })
 
-const onClick = async (articleId: number) => {
-  const url = `/article/post/${articleId}`
+// 削除する記事IDを取得する
+const onClick = async (id: number) => {
+  articleId.value = id
+}
+
+// 記事を削除する
+const deleteArticle = async () => {
+  const url = `/article/post/${articleId.value}`
   const removeArticle = await deleteData(url)
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
@@ -63,7 +70,7 @@ const changePage = (page: number) => {
 
 <template>
   <WithSidebarLayout>
-    <div class="box">
+    <div class="navigation-area">
       <h2>ArticleLists</h2>
       <p>Manage submitted articles.</p>
       <q-btn to="/article/submit" label="New Article" />
@@ -100,7 +107,29 @@ const changePage = (page: number) => {
               size="sm"
             />
 
-            <q-btn flat round color="red" icon="delete" size="sm" @click="onClick(article.id)" />
+            <q-btn
+              flat
+              round
+              color="red"
+              icon="delete"
+              size="sm"
+              @click="(confirm = true), onClick(article.id)"
+            />
+
+            <q-dialog v-model="confirm" persistent>
+              <q-card>
+                <q-card-section class="row items-center">
+                  <span class="q-ml-sm">
+                    I am trying to delete the article. Are you sure you want me to delete it?
+                  </span>
+                </q-card-section>
+
+                <q-card-actions align="right">
+                  <q-btn flat label="Cancel" color="red" v-close-popup />
+                  <q-btn flat label="Ok" color="primary" @click="deleteArticle" />
+                </q-card-actions>
+              </q-card>
+            </q-dialog>
           </td>
         </tr>
       </tbody>
@@ -116,7 +145,7 @@ const changePage = (page: number) => {
 </template>
 
 <style scoped lang="scss">
-.box {
+.navigation-area {
   text-align: center;
   padding: 30px;
   background-color: #ffffff;

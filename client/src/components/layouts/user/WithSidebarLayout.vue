@@ -40,6 +40,7 @@ body {
       display: flex;
       gap: 30px;
       margin: 60px auto;
+      padding: 0;
 
       .content-area {
         width: calc(100% - 300px);

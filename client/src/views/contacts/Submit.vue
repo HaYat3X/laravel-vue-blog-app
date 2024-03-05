@@ -53,7 +53,7 @@ const onSubmit = async () => {
   <WithSidebarLayout>
     <h2>Contact</h2>
 
-    <q-form @submit="onSubmit" class="q-gutter-md">
+    <q-form @submit="onSubmit" class="">
       <p>竹田 颯へのお問い合わせはこちらからお願い致します。</p>
 
       <q-input
@@ -107,6 +107,7 @@ const onSubmit = async () => {
         type="textarea"
         label="お問い合わせ内容"
         :rules="[(val) => (val && val.length > 0) || 'お問い合わせ内容を入力してください。']"
+        style="margin-bottom: 15px;"
       >
         <template v-slot:prepend>
           <q-icon name="edit" />
@@ -133,6 +134,14 @@ h2 {
   .md-filled {
     width: 50%;
   }
+}
+
+.q-input {
+  margin-bottom: 15px;
+}
+
+.q-select {
+  margin-bottom: 15px;
 }
 
 .q-btn {

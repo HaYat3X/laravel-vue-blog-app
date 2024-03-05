@@ -31,6 +31,7 @@ body {
     }
 
     @media only screen and (min-width: 1024px) {
+      padding: 0;
       max-width: 1100px;
       margin: 60px auto;
     }
