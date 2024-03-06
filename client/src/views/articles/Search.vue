@@ -56,9 +56,9 @@ const onSubmit = () => {
           lazy-rules
           :rules="[(val) => (val && val.length > 0) || 'キーワードを入力してください。']"
         >
-          <template v-slot:prepend>
+          <!-- <template v-slot:prepend>
             <q-icon name="search" />
-          </template>
+          </template> -->
 
           <template v-slot:append>
             <q-icon
