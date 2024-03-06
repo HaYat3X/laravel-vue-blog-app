@@ -1,14 +1,14 @@
 <script setup lang="ts">
 defineProps({
   FeaturedImgae: String,
-  WorkTitle: String,
+  WorkTitle: String
 })
 </script>
 
 <template>
   <div class="work-item">
     <a href="">
-      <img :src="FeaturedImgae" alt="">
+      <img :src="FeaturedImgae" alt="" />
 
       <p>
         {{ WorkTitle }}
@@ -20,7 +20,7 @@ defineProps({
 <style scoped lang="scss">
 .work-item {
   @media only screen and (min-width: 768px) and (max-width: 1023px) {
-    width: 31.85%;
+    width: 48.55%;
   }
 
   @media only screen and (min-width: 1024px) {
@@ -36,10 +36,7 @@ defineProps({
     height: auto;
     object-fit: cover;
     border-radius: 5px;
-
-    &:hover {
-      opacity: 0.5;
-    }
+    box-shadow: 7px 10px 15px -8px #949494;
   }
 
   p {
@@ -47,7 +44,6 @@ defineProps({
     color: #65717b;
     font-size: 14px;
     font-weight: bold;
-    margin-bottom: 10px;
   }
 }
 </style>

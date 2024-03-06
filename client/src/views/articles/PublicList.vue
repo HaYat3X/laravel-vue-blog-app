@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import WithSidebarLayout from '@/components/layouts/WithSidebarLayout.vue'
-import ArticleCard from '@/components/elements/ArticleCard.vue'
+import WithSidebarLayout from '@/components/layouts/user/WithSidebarLayout.vue'
 import Pagination from '@/components/elements/Pagination.vue'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -34,7 +33,7 @@ const fetchArticles = async (page: number) => {
 
   // サーバーエラーが発生した場合、500ページにリダイレクトする
   if (getPublishedArticle.error) {
-    router.push('/server-error') 
+    router.push('/server-error')
   }
 
   articles.value = getPublishedArticle.articles.data
@@ -58,68 +57,94 @@ const changePage = (page: number) => {
 
 <template>
   <WithSidebarLayout>
-    <div class="content-container">
-      <h2>Articles</h2>
+    <h2>Articles</h2>
 
-      <div class="article">
-        <!-- <ArticleCard v-for="article in articles" :key="article.id" :-article-slug="article.slug"
-          :-featured-imgae="`http://127.0.0.1:8000/storage/featured_image/${article.featured_image}`"
-          :-article-title="article.title" :-article-created-at="article.created_at.slice(0, 10)" /> -->
+    <div class="article">
+      <q-card class="my-card" v-for="article in articles" :key="article.id">
+        <a :href="`/${article.slug}`">
+          <!-- <img
+            :src="`http://127.0.0.1:8000/storage/featured_image/${article.featured_image}`"
+            alt=""
+          /> -->
 
-        <ArticleCard
-          v-for="article in articles"
-          :key="article.id"
-          :-article-slug="article.slug"
-          :-featured-imgae="`https://x162-43-70-220.static.shin-vps.jp/storage/featured_image/${article.featured_image}`"
-          :-article-title="article.title"
-          :-article-created-at="article.created_at.slice(0, 10)"
-        />
-      </div>
+          <img
+            :src="`https://x162-43-70-220.static.shin-vps.jp/storage/featured_image/${article.featured_image}`"
+            alt=""
+          />
 
-      <Pagination
-        v-if="articles.length"
-        :current-page="currentPage"
-        :last-page="lastPage"
-        @changePage="changePage"
-      />
+          <q-card-section class="q-pa-none">
+            <p class="card-title">
+              {{ article.title }}
+            </p>
+
+            <small> {{ article.created_at.slice(0, 10) }}に公開 </small>
+          </q-card-section>
+        </a>
+      </q-card>
     </div>
+
+    <Pagination
+      v-if="articles.length"
+      :current-page="currentPage"
+      :last-page="lastPage"
+      @changePage="changePage"
+    />
   </WithSidebarLayout>
 </template>
 
 <style scoped lang="scss">
-.content-container {
-  h2 {
-    font-weight: bold;
-    font-size: 30px;
+h2 {
+  font-weight: bold;
+  font-size: 30px;
+  color: #333333;
+  line-height: 1;
+  margin-bottom: 15px;
+
+  @media only screen and (min-width: 768px) {
+    font-size: 32px;
+  }
+}
+
+.article {
+  @media only screen and (min-width: 768px) {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 20px;
+  }
+
+  .my-card {
+    background-color: #f0f7ff;
     margin-bottom: 20px;
-    color: #333333;
-  }
-}
+    box-shadow: none;
 
-@media only screen and (min-width: 768px) and (max-width: 1023px) {
-  .content-container {
-    h2 {
-      font-size: 32px;
+    @media only screen and (min-width: 768px) {
+      width: 48.5%;
     }
 
-    .article {
-      display: flex;
-      flex-wrap: wrap;
-      column-gap: 20px;
-    }
-  }
-}
-
-@media only screen and (min-width: 1024px) {
-  .content-container {
-    h2 {
-      font-size: 32px;
+    a {
+      text-decoration: none;
+      color: #222222;
     }
 
-    .article {
-      display: flex;
-      flex-wrap: wrap;
-      column-gap: 20px;
+    img {
+      width: 100%;
+      height: auto;
+      border-radius: 5px;
+      object-fit: cover;
+      box-shadow: 7px 10px 15px -8px #949494;
+    }
+
+    .card-text {
+      font-size: 20px;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 0;
     }
   }
 }

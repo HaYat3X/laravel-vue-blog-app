@@ -1,7 +1,5 @@
 <script setup lang="ts">
-import NoSidebarLayout from '@/components/layouts/NoSidebarLayout.vue';
-import Button from '@/components/elements/Button.vue';
-
+import NoSidebarLayout from '@/components/layouts/user/NoSidebarLayout.vue'
 import { useHead } from '@unhead/vue'
 
 useHead({
@@ -9,8 +7,7 @@ useHead({
   meta: [
     {
       name: 'discription',
-      content:
-        '指定されたページ（URL）が見つかりません。'
+      content: '指定されたページ（URL）が見つかりません。'
     }
   ]
 })
@@ -18,43 +15,35 @@ useHead({
 
 <template>
   <NoSidebarLayout>
-    <div class="not-found">
+    <div class="container">
       <h2>404</h2>
-      <h3>ページが見つかりません。</h3>
+      <p>指定されたページ（URL）が見つかりません。</p>
 
-      <p>
-        指定されたページ（URL）が見つかりません。
-      </p>
-
-      <a href="/">
-        <Button>
-          トップページに戻る
-        </Button>
-      </a>
+      <q-btn to="/" label="トップページへ戻る" />
     </div>
   </NoSidebarLayout>
 </template>
 
 <style scoped lang="scss">
-.not-found {
+.container {
   text-align: center;
   margin: 0 auto;
 
   h2 {
     font-weight: bold;
-    font-size: 100px;
-    color: #545454;
-    margin-bottom: 20px;
-  }
-
-  h3 {
-    font-weight: bold;
-    font-size: 24px;
+    font-size: 30px;
     color: #333333;
+    line-height: 1;
+    margin-bottom: 15px;
+
+    @media only screen and (min-width: 768px) {
+      font-size: 32px;
+    }
   }
 
-  p {
-    margin: 10px 0;
+  .q-btn {
+    background-color: #3ea8ff;
+    color: #ffffff;
   }
 }
 </style>

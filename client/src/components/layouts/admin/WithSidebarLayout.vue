@@ -5,26 +5,27 @@ import Sidebar from '@/components/bases/admin/Sidebar.vue'
 </script>
 
 <template>
-  <div class="wrapper">
+  <q-layout view="hHh lpR fff">
     <Header />
 
-    <main>
+    <q-page-container>
       <Sidebar />
 
-      <slot />
-    </main>
+      <q-page>
+        <slot />
+      </q-page>
+    </q-page-container>
 
     <Footer />
-  </div>
+  </q-layout>
 </template>
 
 <style lang="scss">
 body {
-  background-color: #212529;
+  background-color: #f0f7ff;
 
-  main {
-    margin-top: 60px;
-    display: flex;
+  .q-page {
+    margin: 30px;
   }
 }
 </style>

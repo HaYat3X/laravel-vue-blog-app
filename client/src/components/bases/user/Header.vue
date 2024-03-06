@@ -1,14 +1,4 @@
 <template>
-  <!-- <header>
-    <div class="header-container">
-      <div class="header-logo">
-        <router-link to="/">
-          <img src="../../../assets/img/logo.png" alt="" />
-        </router-link>
-      </div>
-    </div>
-  </header> -->
-
   <q-header elevated>
     <q-toolbar>
       <q-toolbar-title>
@@ -18,6 +8,14 @@
           </q-avatar>
         </a>
       </q-toolbar-title>
+
+      <a href="/search" class="search-icon">
+        <q-icon name="search" color="dark" size="md" />
+      </a>
+
+      <a href="/contact/submit">
+        <q-btn label="contact" />
+      </a>
     </q-toolbar>
   </q-header>
 </template>
@@ -41,6 +39,20 @@
     @media only screen and (min-width: 1024px) {
       width: 110px;
     }
+  }
+
+  .search-icon {
+    margin-right: 10px;
+    margin-top: 3px;
+  }
+
+  a {
+    text-decoration: none;
+    color: #ffffff;
+  }
+
+  .q-btn {
+    background-color: #3ea8ff;
   }
 }
 </style>

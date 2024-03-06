@@ -15,7 +15,9 @@ class searchsController extends Controller
      */
     public function show($keyword)
     {
-        $articles = Article::query()->where('public_status', 1)->where('title', 'like', '%' . $keyword . '%')->paginate(12);
+        $articles = Article::query()->where('public_status', 1)->where(function ($query) use ($keyword) {
+            $query->where('title', 'like', '%' . $keyword . '%')->orWhere('content', 'like', '%' . $keyword . '%');
+        })->paginate(12);
 
         return response()->json([
             'articles' => $articles

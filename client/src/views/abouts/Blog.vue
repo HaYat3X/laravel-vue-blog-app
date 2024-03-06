@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import NoSidebarLayout from '@/components/layouts/NoSidebarLayout.vue'
+import NoSidebarLayout from '@/components/layouts/user/NoSidebarLayout.vue'
 import { useHead } from '@unhead/vue'
 
 useHead({
@@ -18,18 +18,18 @@ useHead({
     <div class="about-blog">
       <h2>1. ブログの概要</h2>
 
-      <p class="mb">このブログは専門学校に通いながら、プライベートの時間で作成したブログです。</p>
+      <p>[Hayate Tech Lab]（以下「当ブログ」とします）は専門学校に通いながら、プライベートの時間で作成したブログです。</p>
 
-      <p class="mb">
+      <p>
         2024年の3月に公開しました。
         <br />今後も定期的にメンテナンスを実施し、当ブログを運用していく予定です。
       </p>
 
       <p>このページでは当サイトの目的と技術仕様についてまとめています。</p>
 
-      <h2 class="h2-mb">2. ブログの目的</h2>
+      <h2>2. ブログの目的</h2>
 
-      <ul class="mb">
+      <ul>
         <li>日々の学習記録</li>
         <li>実装した技術や使用した技術の記録と共有</li>
       </ul>
@@ -38,13 +38,9 @@ useHead({
         もともとは就職活動用のポートフォリオとして作成したものですが、その役割を終え、現在は日々学んだことの記録が主な目的です。
       </p>
 
-      <h2 class="h2-mb">3. ドキュメント</h2>
+      <h2>3. ドキュメント</h2>
 
-      <p class="mb">
-        当ブログはプログラミングだけでなく、要件定義、基本設計、詳細設計などの設計部分も実施しています。
-      </p>
-
-      <ul class="mb">
+      <ul>
         <li>
           <a
             target="_blank"
@@ -73,9 +69,13 @@ useHead({
         </li>
       </ul>
 
-      <h2 class="h2-mb">4. 技術仕様</h2>
+      <p>
+        当ブログはプログラミングだけでなく、要件定義、基本設計、詳細設計などの設計部分もドキュメントを作成し、実施しています。よろしければご覧ください。
+      </p>
 
-      <ul class="mb">
+      <h2>4. 技術仕様</h2>
+
+      <ul>
         <li>
           Webアプリ部分（クライアントサイド）
           <ul>
@@ -134,34 +134,29 @@ useHead({
   padding: 20px;
   border-radius: 5px;
 
-  @media only screen and (min-width: 768px) and (max-width: 1023px) {
+  @media only screen and (min-width: 768px) {
     padding: 50px;
     max-width: 900px;
     margin: 0 auto;
-  }
-
-  @media only screen and (min-width: 1024px) {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 50px;
-  }
-
-  .mb {
-    margin-bottom: 20px;
   }
 
   h2 {
-    font-size: 28px;
+    font-size: 26px;
     font-weight: bold;
-    margin-bottom: 10px;
+    line-height: 1.5;
   }
 
-  .h2-mb {
-    margin-top: 50px;
+  ul {
+    margin-bottom: 15px;
   }
 
   li {
     padding: 5px;
+  }
+
+  p {
+    font-size: 15px;
+    margin-bottom: 30px;
   }
 
   img {
