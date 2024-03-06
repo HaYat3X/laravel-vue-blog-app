@@ -34,6 +34,8 @@ useHead({
     font-weight: bold;
     font-size: 30px;
     color: #333333;
+    line-height: 1;
+    margin-bottom: 15px;
 
     @media only screen and (min-width: 768px) {
       font-size: 32px;

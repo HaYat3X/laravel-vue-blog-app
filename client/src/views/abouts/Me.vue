@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import NoSidebarLayout from '@/components/layouts/user/NoSidebarLayout.vue';
-import WorkCard from '@/components/elements/WorkCard.vue';
-import type { ChartData } from 'chart.js/auto';
+import NoSidebarLayout from '@/components/layouts/user/NoSidebarLayout.vue'
+import WorkCard from '@/components/elements/WorkCard.vue'
+import type { ChartData } from 'chart.js/auto'
 import {
   Chart as ChartJS,
   Title,
@@ -23,21 +23,27 @@ useHead({
   meta: [
     {
       name: 'discription',
-      content: '鳥取県出身のエンジニア。専門学校でIT技術を学んだのち、20才でIT業界へ。時代に合わせた技術を追いかけつつ、クライアントに寄り添い、クライアントの悩みや課題を解決できる。 そんなエンジニアになりたいと考えています。'
+      content:
+        '鳥取県出身のエンジニア。専門学校でIT技術を学んだのち、20才でIT業界へ。時代に合わせた技術を追いかけつつ、クライアントに寄り添い、クライアントの悩みや課題を解決できる。 そんなエンジニアになりたいと考えています。'
     }
   ]
 })
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, PointElement, RadialLinearScale, LineElement, Filler, Title, Tooltip, Legend)
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  PointElement,
+  RadialLinearScale,
+  LineElement,
+  Filler,
+  Title,
+  Tooltip,
+  Legend
+)
 
 const frontendData: ChartData<'radar'> = {
-  labels: [
-    'HTML',
-    'CSS/SCSS',
-    'WordPress',
-    'JavaScript',
-    'jQuery',
-  ],
+  labels: ['HTML', 'CSS/SCSS', 'WordPress', 'JavaScript', 'jQuery'],
   datasets: [
     {
       label: 'Frontend',
@@ -45,18 +51,12 @@ const frontendData: ChartData<'radar'> = {
       borderColor: 'rgba(0, 128, 0, 0.2)',
       pointBackgroundColor: 'rgba(0, 128, 0, 0.2)',
       data: [4, 3, 3, 2, 2]
-    },
+    }
   ]
-};
+}
 
 const backendData: ChartData<'radar'> = {
-  labels: [
-    'PHP',
-    'Ruby',
-    'Java',
-    'Python',
-    'JavaScript',
-  ],
+  labels: ['PHP', 'Ruby', 'Java', 'Python', 'JavaScript'],
   datasets: [
     {
       label: 'backend',
@@ -64,18 +64,12 @@ const backendData: ChartData<'radar'> = {
       borderColor: 'rgba(255, 165, 0, 0.2)',
       pointBackgroundColor: 'rgba(255, 165, 0, 0.2)',
       data: [4, 4, 1, 3, 2]
-    },
+    }
   ]
-};
+}
 
 const devOpsData: ChartData<'radar'> = {
-  labels: [
-    'Docker',
-    'VirtualBox',
-    'AWS',
-    'Heroku',
-    'Git/GitHub',
-  ],
+  labels: ['Docker', 'VirtualBox', 'AWS', 'Heroku', 'Git/GitHub'],
   datasets: [
     {
       label: 'devOps',
@@ -83,9 +77,9 @@ const devOpsData: ChartData<'radar'> = {
       borderColor: 'rgba(255, 0, 0, 0.2)',
       pointBackgroundColor: 'rgba(255, 0, 0, 0.2)',
       data: [3, 2, 1, 4, 4]
-    },
+    }
   ]
-};
+}
 
 const options = {
   responsive: true,
@@ -103,23 +97,25 @@ const options = {
 <template>
   <NoSidebarLayout>
     <section class="about-me">
-      <div class="about">
-        <h1>Hayate Takeda.</h1>
+      <div class="row">
+        <div class="col-md-7">
+          <h1>Hayate Takeda.</h1>
 
-        <p>
-          鳥取県出身のエンジニア。<br>
-          専門学校でIT技術を学んだのち、20才でIT業界へ。<br>
-          時代に合わせた技術を追いかけつつ、クライアントに寄り添い、クライアントの悩みや課題を解決できる。
-          そんなエンジニアになりたいと考えています。
-        </p>
-      </div>
+          <p>
+            鳥取県出身のエンジニア。<br />
+            専門学校でIT技術を学んだのち、20才でIT業界へ。<br />
+            時代に合わせた技術を追いかけつつ、クライアントに寄り添い、クライアントの悩みや課題を解決できる。
+            そんなエンジニアになりたいと考えています。
+          </p>
+        </div>
 
-      <div class="my-img">
-        <img src="../../assets/img/about-me/thumbnail.png" alt="">
+        <div class="col-md-5">
+          <img src="../../assets/img/thumbnail.png" alt="" />
+        </div>
       </div>
     </section>
 
-    <hr>
+    <hr />
 
     <section class="my-works">
       <h2>My works</h2>
@@ -145,11 +141,14 @@ const options = {
 
         <WorkCard -featured-imgae="/img/work/youtube-clone.png" -work-title="「Youtube Clone」" />
 
-        <WorkCard -featured-imgae="/img/work/hayate-tech-lab.png" -work-title="「Hayate Tech Lab」" />
+        <WorkCard
+          -featured-imgae="/img/work/hayate-tech-lab.png"
+          -work-title="「Hayate Tech Lab」"
+        />
       </div>
     </section>
 
-    <hr>
+    <hr />
 
     <section class="my-skils">
       <h2>My skils</h2>
@@ -173,11 +172,6 @@ const options = {
 
 <style scoped lang="scss">
 section {
-  @media only screen and (min-width: 768px) and (max-width: 1023px) {
-    max-width: 900px;
-    margin: 0 auto;
-  }
-
   @media only screen and (min-width: 1024px) {
     max-width: 900px;
     margin: 0 auto;
@@ -185,10 +179,10 @@ section {
 }
 
 hr {
-  margin: 20px 0;
+  margin: 30px 0;
 
   @media only screen and (min-width: 768px) and (max-width: 1023px) {
-    margin: 40px 0;
+    margin: 45px 0;
   }
 
   @media only screen and (min-width: 1024px) {
@@ -197,60 +191,53 @@ hr {
 }
 
 .about-me {
-  @media only screen and (min-width: 768px) and (max-width: 1023px) {
-    display: flex;
-    align-items: center;
-  }
-
-  @media only screen and (min-width: 1024px) {
-    display: flex;
-    align-items: center;
-  }
-
-  .about {
+  .row {
     @media only screen and (min-width: 768px) and (max-width: 1023px) {
-      flex: 1.1;
-      margin-right: 10px;
-    }
-
-    @media only screen and (min-width: 1024px) {
-      flex: 1.2;
-      margin-right: 20px;
+      width: 500px;
+      margin: 0 auto;
     }
 
     h1 {
       font-weight: bold;
-      font-size: 38px;
-      margin-bottom: 20px;
+      font-size: 30px;
+      color: #333333;
+      line-height: 1;
+      margin-bottom: 30px;
 
-      @media only screen and (min-width: 1024px) {
-        font-size: 46px;
+      @media only screen and (max-width: 1023px) {
+        text-align: center;
+      }
+
+      @media only screen and (min-width: 768px) {
+        font-size: 32px;
+        margin-top: 35px;
       }
     }
 
     p {
-      color: #65717b;
-      font-size: 16px;
-      margin-bottom: 10px;
-    }
-  }
+      font-size: 15px;
 
-  .my-img {
-    @media only screen and (min-width: 768px) and (max-width: 1023px) {
-      flex: 0.9;
-      margin-left: 10px;
+      @media only screen and (min-width: 1024px) {
+        margin-right: 30px;
+      }
     }
 
-    @media only screen and (min-width: 1024px) {
-      flex: 0.8;
-      margin-left: 20px;
-    }
+    .col-md-5 {
+      @media only screen and (min-width: 768px) and (max-width: 1023px) {
+        width: 500px;
+        margin: 0 auto;
+      }
 
-    img {
-      width: 100%;
-      height: auto;
-      object-fit: cover;
-      border-radius: 5px;
+      img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        border-radius: 5px;
+
+        @media only screen and (max-width: 1023px) {
+          margin-top: 20px;
+        }
+      }
     }
   }
 }
@@ -258,7 +245,7 @@ hr {
 .my-works {
   h2 {
     text-align: center;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
 
     @media only screen and (min-width: 768px) and (max-width: 1023px) {
@@ -271,18 +258,10 @@ hr {
   }
 
   .works {
-    margin-top: 20px;
-
-    @media only screen and (min-width: 768px) and (max-width: 1023px) {
+    @media only screen and (min-width: 768px) {
       display: flex;
       flex-wrap: wrap;
-      gap: 20px;
-    }
-
-    @media only screen and (min-width: 1024px) {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
+      column-gap: 20px;
     }
   }
 }
@@ -290,20 +269,20 @@ hr {
 .my-skils {
   h2 {
     text-align: center;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
-  }
-
-  .skill {
-    margin-top: 20px;
 
     @media only screen and (min-width: 768px) and (max-width: 1023px) {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
+      font-size: 20px;
     }
 
     @media only screen and (min-width: 1024px) {
+      font-size: 20px;
+    }
+  }
+
+  .skill {
+    @media only screen and (min-width: 768px) {
       display: flex;
       flex-wrap: wrap;
       gap: 20px;
@@ -311,7 +290,7 @@ hr {
 
     .skill-item {
       @media only screen and (min-width: 768px) and (max-width: 1023px) {
-        width: 31.85%;
+        width: 48.55%;
       }
 
       @media only screen and (min-width: 1024px) {

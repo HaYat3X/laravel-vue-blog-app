@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import WithSidebarLayout from '@/components/layouts/user/WithSidebarLayout.vue'
-import ArticleCard from '@/components/elements/ArticleCard.vue'
 import Pagination from '@/components/elements/Pagination.vue'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -98,6 +97,8 @@ h2 {
   font-weight: bold;
   font-size: 30px;
   color: #333333;
+  line-height: 1;
+  margin-bottom: 15px;
 
   @media only screen and (min-width: 768px) {
     font-size: 32px;
@@ -130,6 +131,7 @@ h2 {
       height: auto;
       border-radius: 5px;
       object-fit: cover;
+      box-shadow: 7px 10px 15px -8px #949494;
     }
 
     .card-text {

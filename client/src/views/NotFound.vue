@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import NoSidebarLayout from '@/components/layouts/user/NoSidebarLayout.vue'
-import Button from '@/components/elements/Button.vue'
-
 import { useHead } from '@unhead/vue'
 
 useHead({
@@ -35,6 +33,8 @@ useHead({
     font-weight: bold;
     font-size: 30px;
     color: #333333;
+    line-height: 1;
+    margin-bottom: 15px;
 
     @media only screen and (min-width: 768px) {
       font-size: 32px;

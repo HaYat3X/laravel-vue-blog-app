@@ -23,17 +23,17 @@ body {
 
   .q-page {
     padding: 0 15px;
-    margin: 30px 0;
+    margin: 40px 0;
 
     @media only screen and (min-width: 768px) and (max-width: 1023px) {
       padding: 0 30px;
-      margin: 45px 0;
+      margin: 55px 0;
     }
 
     @media only screen and (min-width: 1024px) {
       padding: 0;
       max-width: 1100px;
-      margin: 60px auto;
+      margin: 70px auto;
     }
   }
 }

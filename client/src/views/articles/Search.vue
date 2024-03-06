@@ -109,6 +109,8 @@ h2 {
   font-weight: bold;
   font-size: 30px;
   color: #333333;
+  line-height: 1;
+  margin-bottom: 15px;
 
   @media only screen and (min-width: 768px) {
     font-size: 32px;
@@ -155,6 +157,7 @@ h2 {
       height: auto;
       border-radius: 5px;
       object-fit: cover;
+      box-shadow: 7px 10px 15px -8px #949494;
     }
 
     .card-text {

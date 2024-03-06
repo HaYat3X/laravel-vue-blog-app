@@ -116,17 +116,19 @@ const changePage = (page: number) => {
               @click="(confirm = true), onClick(article.id)"
             />
 
-            <q-dialog v-model="confirm" persistent>
+            <q-dialog v-model="confirm">
               <q-card>
-                <q-card-section class="row items-center">
-                  <span class="q-ml-sm">
-                    I am trying to delete the article. Are you sure you want me to delete it?
-                  </span>
+                <q-card-section>
+                  <div class="text-h6">May I run it?</div>
+                </q-card-section>
+
+                <q-card-section class="q-pt-none">
+                  I am trying to delete an article. May I run it?
                 </q-card-section>
 
                 <q-card-actions align="right">
-                  <q-btn flat label="Cancel" color="red" v-close-popup />
-                  <q-btn flat label="Ok" color="primary" @click="deleteArticle" />
+                  <q-btn flat label="cancel" color="red" v-close-popup />
+                  <q-btn flat label="OK" color="primary" @click="deleteArticle" />
                 </q-card-actions>
               </q-card>
             </q-dialog>

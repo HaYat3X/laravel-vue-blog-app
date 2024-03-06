@@ -152,6 +152,7 @@ onMounted(async () => {
         height: auto;
         border-radius: 5px;
         object-fit: cover;
+        box-shadow: 7px 10px 15px -8px #949494;
       }
 
       .card-text {

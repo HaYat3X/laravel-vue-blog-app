@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import WithSidebarLayout from '@/components/layouts/user/WithSidebarLayout.vue'
-import ArticleCard from '@/components/elements/ArticleCard.vue'
 import Pagination from '@/components/elements/Pagination.vue'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -68,10 +67,6 @@ const changePage = (page: number) => {
 
     <p v-if="articles.length === 0">記事が見つかりませんでした。</p>
 
-    <a href="/search">
-      <q-btn v-if="articles.length === 0" label="検索画面へ戻る" />
-    </a>
-
     <div class="article">
       <q-card class="my-card" v-for="article in articles" :key="article.id">
         <a :href="`/${article.slug}`">
@@ -110,6 +105,7 @@ h2 {
   font-weight: bold;
   font-size: 30px;
   color: #333333;
+  line-height: 1;
   margin-bottom: 15px;
 
   @media only screen and (min-width: 768px) {
@@ -125,10 +121,6 @@ p {
 a {
   text-decoration: none;
   color: #ffffff;
-
-  .q-btn {
-    background-color: #3ea8ff;
-  }
 }
 
 .article {
@@ -157,6 +149,7 @@ a {
       height: auto;
       border-radius: 5px;
       object-fit: cover;
+      box-shadow: 7px 10px 15px -8px #949494;
     }
 
     .card-text {
