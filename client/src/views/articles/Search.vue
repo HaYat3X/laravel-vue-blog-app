@@ -80,15 +80,15 @@ const onSubmit = () => {
       <div class="article">
         <q-card class="my-card" v-for="article in articles.slice(0, 3)" :key="article.id">
           <a :href="`/${article.slug}`">
-            <img
+            <!-- <img
               :src="`http://127.0.0.1:8000/storage/featured_image/${article.featured_image}`"
               alt=""
-            />
+            /> -->
 
-            <!-- <img
+            <img
               :src="`https://x162-43-70-220.static.shin-vps.jp/storage/featured_image/${article.featured_image}`"
               alt=""
-            /> -->
+            />
 
             <q-card-section class="q-pa-none">
               <p class="card-title">
