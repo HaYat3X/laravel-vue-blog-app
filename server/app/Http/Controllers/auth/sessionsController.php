@@ -45,7 +45,7 @@ class sessionsController extends Controller
         } else {
             return response()->json([
                 'message' => 'ログインに失敗しました。'
-            ], 500);
+            ], 401);
         }
     }
 
